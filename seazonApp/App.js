@@ -7,8 +7,10 @@ import awsconfig from './src/aws-exports'
 
 Amplify.configure(awsconfig);
 
-// Screns
+// Sign up/log in screens
 import SignInPage from "./src/screens/signInPage";
+import SignUpStack from "./src/routes/signUpStack";
+
 
 const Stack = createStackNavigator()
 
@@ -16,12 +18,9 @@ function App({ navigation }){
     return(
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{
-                    headerShown: false
-                }}>
-                <Stack.Screen
-                    name='Sign Up'
-                    component={SignInPage} />
+                screenOptions={{headerShown: false}}>
+                <Stack.Screen name='Sign In' component={SignInPage} />
+                <Stack.Screen name='Sign Up' component={SignUpStack} />
             </Stack.Navigator>
         </NavigationContainer>
     )

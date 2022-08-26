@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Image } from 'react-native';
-import globalStyle from '../utils/globalStyle';
 import signInTextField from '../components/signInTextField';
 
-const SignInPage = () => {
+const SignInPage = ({navigation}) => {
 
     const userData = {}
 
@@ -51,11 +50,13 @@ const SignInPage = () => {
                                 <Text style={{color: '#ffffff87', marginBottom: 5}}>
                                     Don't have an account yet?
                                 </Text>
-                                <Text style={{marginLeft: 5, color: '#ffffff87', color: '#E32828', fontWeight: 'medium'}}>
+                                <Text 
+                                    style={{marginLeft: 5, color: '#ffffff87', color: '#E32828', fontWeight: '400'}}
+                                    onPress={() => navigation.navigate('Sign Up')}>
                                     Sign Up
                                 </Text>
                             </View>
-                            <Text style={{color: '#E32828', fontWeight: 'medium'}}>
+                            <Text style={{color: '#E32828', fontWeight: '400'}}>
                                 Forgotten password?
                             </Text>
                         </View>
