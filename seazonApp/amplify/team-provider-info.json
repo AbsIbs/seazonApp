@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-seazonmobileapp-staging-110111-authRole",
+      "UnauthRoleArn": "arn:aws:iam::334124122841:role/amplify-seazonmobileapp-staging-110111-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::334124122841:role/amplify-seazonmobileapp-staging-110111-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-seazonmobileapp-staging-110111-deployment",
+      "UnauthRoleName": "amplify-seazonmobileapp-staging-110111-unauthRole",
+      "StackName": "amplify-seazonmobileapp-staging-110111",
+      "StackId": "arn:aws:cloudformation:eu-west-2:334124122841:stack/amplify-seazonmobileapp-staging-110111/65a5a030-252e-11ed-993f-02ad1c0f80a4",
+      "AmplifyAppId": "dfcfse4125ewi"
+    }
+  }
+}
