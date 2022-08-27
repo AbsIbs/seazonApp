@@ -53,7 +53,9 @@ export default StyleSheet.create({
         fontWeight: '400'
     },
 
-    Container: {
-        flex: 1
+    signUpContainer: {
+        flex: 1,
+        backgroundColor: '#121212',
+        alignItems: 'center'
     }
 });

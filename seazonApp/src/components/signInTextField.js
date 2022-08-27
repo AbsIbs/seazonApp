@@ -2,7 +2,7 @@ import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
-function signInTextField(iconName, color, placeholder, secure, obj) {
+function signInTextField(iconName, placeholder, secure, obj) {
 
     const textHandler = (obj, placeholder, userInput) => {
         obj[placeholder] = userInput.nativeEvent.text
@@ -13,7 +13,7 @@ function signInTextField(iconName, color, placeholder, secure, obj) {
         <View style = {{alignItems: 'center', flex: 2}} >
           <FontAwesome5
             name={iconName}
-            color = {color}
+            color = '#555'
             size = {25}
             />
         </View>

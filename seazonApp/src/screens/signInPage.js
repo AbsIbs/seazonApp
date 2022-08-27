@@ -25,8 +25,8 @@ const SignInPage = ({navigation}) => {
                             </Text>
                         </View>
                         <View style={styles.inputContainer}>
-                            {signInTextField('envelope', '#555', 'Username', false, userData)}
-                            {signInTextField('lock', '#555', 'Password', true, userData)}
+                            {signInTextField('envelope', 'Username', false, userData)}
+                            {signInTextField('lock', 'Password', true, userData)}
                             <TouchableOpacity style={styles.signInButton}>
                                 <Text style={{color: '#ffffff', fontWeight: 'bold'}}>
                                     Sign in

@@ -1,16 +1,20 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator} from "@react-navigation/stack";
+import { CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
 
 import SignUpPage1 from "../screens/signUpPage1";
+import SignUpPage2 from "../screens/signUpPage2";
 
 const Stack = createStackNavigator()
 
 function SignUpStack() {
     return(
         <Stack.Navigator
-            screenOptions={{headerShown: false}}>
+            screenOptions={{
+                headerShown: false,
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}}>
                 <Stack.Screen name='Sign Up Page 1' component={SignUpPage1} />
+                <Stack.Screen name='Sign Up Page 2' component={SignUpPage2}/>
         </Stack.Navigator>
     )
 };
