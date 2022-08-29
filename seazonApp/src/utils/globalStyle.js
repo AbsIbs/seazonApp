@@ -32,6 +32,11 @@ export default StyleSheet.create({
         fontWeight: '500'
     },
 
+    title3: {
+        fontFamily: fontFamilySelector(Platform.OS),
+        fontSize: 16,
+        fontWeight: '500' 
+    },
     // Info paragraphs
     Headline: {
         fontFamily: fontFamilySelector(Platform.OS),

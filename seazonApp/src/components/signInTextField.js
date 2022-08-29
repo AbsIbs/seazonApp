@@ -26,7 +26,7 @@ function signInTextField(iconName, placeholder, secure, obj) {
         />
       </View>
     )
-  };
+  }; 
 
   const styles = StyleSheet.create({
     inputContainer: {

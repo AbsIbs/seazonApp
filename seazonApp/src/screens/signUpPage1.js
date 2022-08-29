@@ -26,12 +26,11 @@ const SignUpPage1 = ({ navigation }) => {
                     <View style={styles.imageContainer}>
                         <Image
                             style={{width: 80, height: 80}}
-                            source={require('../../assets/img/cameraAdd.png')}
-                        />
+                            source={require('../../assets/img/cameraAdd.png')}/>
                     </View>
                 </View>
                 {signInTextField('envelope', 'Email', false, data)}
-                {signInTextField('lock', 'Username', false, data)}
+                {signInTextField('user', 'Username', false, data)}
                 {signInTextField('lock', 'Password', true, data)}
                 <TouchableOpacity 
                     style={{justifyContent: 'flex-end', flexDirection: 'row', marginBottom: 20}}
