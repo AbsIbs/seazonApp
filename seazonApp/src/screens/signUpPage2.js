@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, KeyboardAvoidingView } from 'react-native';
-import signInTextField from '../components/signInTextField';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import SignUpBanner from '../components/signUpBanner';
 import globalStyle from '../utils/globalStyle';
 
@@ -8,39 +7,44 @@ import globalStyle from '../utils/globalStyle';
 import pleaseNote from '../components/pleaseNote';
 import genderList from '../components/genderList';
 import ageList from '../components/ageList';
+import signUpBackButton from '../components/signUpBackButton';
 
 const genderMessage = 'Please note that we will NOT be sharing this with other users'
 
 const SignUpPage2 = ({ navigation }) => {
     return(
-        <View style={globalStyle.signUpContainer}>
-            {SignUpBanner('Please tell us about yourself', navigation)}
-            <View style={styles.contentContainer}>
-                <View style={styles.container}>
-                    {pleaseNote(genderMessage)} 
-                </View>
-                <View style={styles.container}>
-                    <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
-                </View>
-                <View style={styles.genderContainer}>
-                    {genderList()}
-                </View>
-                <View style={styles.container}>
-                    <Text style={styles.title}>Age<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
-                </View>
-                <View>
-                   {ageList()} 
+        <ScrollView style={{backgroundColor: '#121212'}}>
+            <View style={globalStyle.signUpContainer}>
+                {SignUpBanner('Please tell us about yourself', navigation)}
+                <View style={styles.contentContainer}>
+                    <View style={styles.container}>
+                        {pleaseNote(genderMessage)} 
+                    </View>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
+                    </View>
+                    <View style={styles.genderContainer}>
+                        {genderList()}
+                    </View>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>Age<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
+                    </View>
+                    <View>
+                    {ageList()} 
+                    </View>
+                    <View style={{paddingTop: 20}}>
+                        {signUpBackButton(navigation, 'Sign Up Page 3')}
+                    </View>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 };
 
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
-        width: '90%',
-        paddingBottom: 20
+        width: '90%'
     },
     container: {
         paddingTop: 20
