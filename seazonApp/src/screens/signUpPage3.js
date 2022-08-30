@@ -1,17 +1,63 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import SignUpBanner from '../components/signUpBanner';
+import globalStyle from '../utils/globalStyle';
 
-const SignUpPage3 = (navigation) => {
+//components
+import pleaseNote from '../components/pleaseNote';
+import cookingLevelList from '../components/cookingLevelList';
+import cookingOften from '../components/cookingOften';
+import signUpNextButton from '../components/signUpNextButton';
+
+const message = 'Please note that we will NOT be sharing this with other users'
+
+const SignUpPage3 = ({navigation}) => {
     return(
-        <View>
-            <Text>hello world</Text>
-        </View>
+        <ScrollView style={{backgroundColor: '#121212'}}>
+            <View style={globalStyle.signUpContainer}>
+                {SignUpBanner('What are your cooking habits?', navigation)}
+                <View style={styles.contentContainer}>
+                    <View style={styles.container}>
+                        {pleaseNote(message)} 
+                    </View>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>What is your cooking level?</Text>
+                    </View>
+                    <View style={styles.formContainer}>
+                        {cookingLevelList()}
+                    </View>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>How often do you cook?</Text>
+                    </View>
+                    <View style={styles.formContainer}>
+                        {cookingOften()}
+                    </View>
+                    <View style={{paddingTop: 20}}>
+                        {signUpNextButton(navigation, 'Sign Up Page 4')}
+                    </View>
+                </View>
+            </View>
+                
+        </ScrollView>
     )
 };
 
 const styles = StyleSheet.create({
+    contentContainer: {
+        flex: 1,
+        width: '90%'
+    },
     container: {
-        flex: 1
+        paddingTop: 20
+    },
+    title: {
+        fontWeight: 'bold',
+        color: '#ffffff',
+        fontSize: 16
+    },
+    formContainer: {
+        flex: 1,
+        paddingTop: 10
     }
 });
 

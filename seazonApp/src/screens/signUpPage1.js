@@ -4,6 +4,8 @@ import signInTextField from '../components/signInTextField';
 import SignUpBanner from '../components/signUpBanner';
 import globalStyle from '../utils/globalStyle';
 
+import signUpNextButton from '../components/signUpNextButton';
+
 const SignUpPage1 = ({ navigation }) => {
 
     const data = {}
@@ -29,16 +31,12 @@ const SignUpPage1 = ({ navigation }) => {
                             source={require('../../assets/img/cameraAdd.png')}/>
                     </View>
                 </View>
-                {signInTextField('envelope', 'Email', false, data)}
-                {signInTextField('user', 'Username', false, data)}
-                {signInTextField('lock', 'Password', true, data)}
-                <TouchableOpacity 
-                    style={{justifyContent: 'flex-end', flexDirection: 'row', marginBottom: 20}}
-                    onPress={() => navigation.navigate('Sign Up Page 2')}>
-                    <Image
-                        style={{width: 50, height: 50}} 
-                        source={require('../../assets/img/iconNext.png')}/>
-                </TouchableOpacity>
+                <View style={styles.formContainer}>
+                    {signInTextField('envelope', 'Email', false, data)}
+                    {signInTextField('user', 'Username', false, data)}
+                    {signInTextField('lock', 'Password', true, data)}
+                </View>
+                {signUpNextButton(navigation, 'Sign Up Page 2')}
             </View>
         </KeyboardAvoidingView>
     )
@@ -50,8 +48,11 @@ const styles = StyleSheet.create({
         width: '90%'
     },
     uploadContainer: {
-        flex: 1, 
+        paddingTop: 40,
         flexDirection: 'row'
+    },
+    formContainer: {
+        paddingTop: 40
     },
     textContainer: {
         flex: 9,

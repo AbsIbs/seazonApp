@@ -7,9 +7,9 @@ import globalStyle from '../utils/globalStyle';
 import pleaseNote from '../components/pleaseNote';
 import genderList from '../components/genderList';
 import ageList from '../components/ageList';
-import signUpBackButton from '../components/signUpBackButton';
+import signUpNextButton from '../components/signUpNextButton';
 
-const genderMessage = 'Please note that we will NOT be sharing this with other users'
+const message = 'Please note that we will NOT be sharing this with other users'
 
 const SignUpPage2 = ({ navigation }) => {
     return(
@@ -18,7 +18,7 @@ const SignUpPage2 = ({ navigation }) => {
                 {SignUpBanner('Please tell us about yourself', navigation)}
                 <View style={styles.contentContainer}>
                     <View style={styles.container}>
-                        {pleaseNote(genderMessage)} 
+                        {pleaseNote(message)} 
                     </View>
                     <View style={styles.container}>
                         <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
@@ -33,7 +33,7 @@ const SignUpPage2 = ({ navigation }) => {
                     {ageList()} 
                     </View>
                     <View style={{paddingTop: 20}}>
-                        {signUpBackButton(navigation, 'Sign Up Page 3')}
+                        {signUpNextButton(navigation, 'Sign Up Page 3')}
                     </View>
                 </View>
             </View>
