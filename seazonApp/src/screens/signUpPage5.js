@@ -67,7 +67,7 @@ const SignUpPage5 = ({ navigation }) => {
                             </View>
                         </View>
                         <View style={styles().container}>
-                            {signUpNextButton(navigation, 'Sign Up Page 5')}
+                            {signUpNextButton(navigation, 'Sign Up Complete')}
                         </View>
                     </View>
                 </View>
