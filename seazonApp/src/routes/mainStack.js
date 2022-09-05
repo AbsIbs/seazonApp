@@ -1,9 +1,8 @@
 import React, {useRef} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet, Image, Text, TouchableOpacity, Animated, Dimensions } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Explore from "../screens/explore";
 import FoodFeed from "../screens/foodFeed";
@@ -11,10 +10,11 @@ import UploadRecipe from "../screens/uploadRecipe"
 import MealPlan from "../screens/mealPlan";
 import ShoppingPlan from "../screens/shoppingList";
 
+import DockHeader from "../components/dockHeader";
 
 const Tab = createBottomTabNavigator()
 
-const dockLabels = (focused, iconName, dockName) => {
+const dockLabels = (focused, iconName) => {
   return(
     <View style={styles().container}>
       <FontAwesome5
@@ -33,7 +33,6 @@ function MainStack() {
      independent={true}>
       <Tab.Navigator
       screenOptions={{
-        headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: '#181818',
@@ -47,15 +46,18 @@ function MainStack() {
       }}> 
         <Tab.Screen 
           name="Explore" 
-          component={Explore} 
+          component={Explore}
+          headerShown = {true} 
           options={{
-          tabBarIcon: ({focused}) => dockLabels(focused, 'home', 'Explore') 
+            tabBarIcon: ({focused}) => dockLabels(focused, 'home', 'Explore'),
+            header: () => <DockHeader title={'Explore'} />
           }}/>
         <Tab.Screen 
         name="FoodFeed" 
         component={FoodFeed}
         options={{
-          tabBarIcon: ({focused}) => dockLabels(focused, 'search', 'Food Feed') 
+          tabBarIcon: ({focused}) => dockLabels(focused, 'search', 'Food Feed'),
+          header: () => <DockHeader title={'Food Feed'} /> 
           }}/>
         <Tab.Screen 
         name="Upload Recipe" 
@@ -77,13 +79,15 @@ function MainStack() {
         name="Meal Plan" 
         component={MealPlan} 
         options={{
-          tabBarIcon: ({focused}) => dockLabels(focused, 'calendar-check', 'Meal Plan') 
+          tabBarIcon: ({focused}) => dockLabels(focused, 'calendar-check', 'Meal Plan'),
+          header: () => <DockHeader title={'Meal Plan'} />  
           }}/>
         <Tab.Screen 
         name="Shopping Plan" 
         component={ShoppingPlan} 
         options={{
-          tabBarIcon: ({focused}) => dockLabels(focused, 'list-alt', 'Shopping List') 
+          tabBarIcon: ({focused}) => dockLabels(focused, 'list-alt', 'Shopping List'),
+          header: () => <DockHeader title={'Shopping List'} />  
           }}/>
       </Tab.Navigator>
     </NavigationContainer>

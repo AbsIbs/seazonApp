@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import DockHeader from "../components/dockHeader";
 
 const Explore = () => {
     return(
         <View style={styles.container}>
-            <Text style={styles.text}>Hello world</Text>
+            <Text>Explore</Text>
         </View>
     )
 };
