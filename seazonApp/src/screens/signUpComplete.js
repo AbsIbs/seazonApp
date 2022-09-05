@@ -24,8 +24,8 @@ const SignUpComplete = ({navigation}) => {
                 <Text style={styles().desc}>You can now log into the app.</Text>
             </View>
             <View style={styles().descSection}>
-                <Text style={styles().desc}>A confirmation email has ben sent.</Text>
-                <Text style={styles().desc}>Please check your email.</Text>
+                <Text style={styles().desc}>We've also sent a confirmation email to your address.</Text>
+                <Text style={styles().desc}>Please check your inbox.</Text>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity

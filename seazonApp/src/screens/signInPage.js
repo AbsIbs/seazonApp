@@ -18,7 +18,7 @@ const SignInPage = ({navigation}) => {
                     <View style={styles.signUpContainer}>
                         <View style={styles.title}>
                             <Text style={styles.title}>
-                                Welcome back!
+                                Welcome!
                             </Text>
                             <Text style={styles.text}>
                                 Sign in to continue

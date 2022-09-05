@@ -1,5 +1,4 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
 
 import SignUpPage1 from "../screens/signUpPage1";

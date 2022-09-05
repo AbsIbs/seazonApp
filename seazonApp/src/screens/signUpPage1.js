@@ -4,19 +4,19 @@ import signInTextField from '../components/signInTextField';
 import SignUpBanner from '../components/signUpBanner';
 import globalStyle from '../utils/globalStyle';
 
-import signUpNextButton from '../components/signUpNextButton';
+import signUpNextButton from '../components/signUpNextButton';  
 
 const SignUpPage1 = ({ navigation }) => {
 
     const data = {}
 
-    return(
-        <KeyboardAvoidingView
+    return( 
+        <KeyboardAvoidingView   
             enabled
             style = {globalStyle.signUpContainer}>
-            {SignUpBanner("Hello, we'd love to know you!", navigation)}
+            {SignUpBanner("Hello, we'd love to know you!", navigation, 17)} 
             <View style={styles.contentContainer}>
-                <View style={styles.uploadContainer}>
+                <View style={styles.uploadContainer}> 
                     <View style={styles.textContainer}>
                         <Text style={styles.Title}>
                             Upload your image
@@ -25,7 +25,7 @@ const SignUpPage1 = ({ navigation }) => {
                             This image will be visible to other users
                         </Text>
                     </View>
-                    <View style={styles.imageContainer}>
+                    <View style={styles.imageContainer}> 
                         <Image
                             style={{width: 80, height: 80}}
                             source={require('../../assets/img/cameraAdd.png')}/>
@@ -39,7 +39,7 @@ const SignUpPage1 = ({ navigation }) => {
                 {signUpNextButton(navigation, 'Sign Up Page 2')}
             </View>
         </KeyboardAvoidingView>
-    )
+    ) 
 };
 
 const styles = StyleSheet.create({

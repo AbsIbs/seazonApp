@@ -11,7 +11,7 @@ const ageList = () => {
     const [color6, setColor6] = useState(false)
 
     // states list
-     const setList = [setColor1, setColor2, setColor3, setColor4, setColor5, setColor6]
+    const setList = [setColor1, setColor2, setColor3, setColor4, setColor5, setColor6]
 
     const toggle = (id, colorNum) => {
         
@@ -32,7 +32,7 @@ const ageList = () => {
         <View style={ageListStyle().container}>
             <View style={ageListStyle().sections}>
                 <View style={ageListStyle().buttonContainer}>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                      style={[ageListStyle().button, ageListStyle(color1).toggleStyle]}
                      onPress={() => toggle(1, color1)}>
                         <Text style={ageListStyle().text}>13 - 18</Text>
@@ -101,7 +101,7 @@ const ageListStyle = (color) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 35,
-        width: 110,
+        width: 100,
         borderRadius: 55
     },
     text: {

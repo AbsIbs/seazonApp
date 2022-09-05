@@ -15,7 +15,7 @@ const SignUpPage2 = ({ navigation }) => {
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={globalStyle.signUpContainer}>
-                {SignUpBanner('Please tell us about yourself', navigation)}
+                {SignUpBanner('Please tell us about yourself', navigation, 34)}
                 <View style={styles.contentContainer}>
                     <View style={styles.container}>
                         {pleaseNote(message)} 

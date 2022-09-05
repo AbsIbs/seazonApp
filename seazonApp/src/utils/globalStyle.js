@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 const fontFamilySelector = (type) => type === 'android'? 'Inter-VariableFont_slnt,wght': 'san Francisco'
 
@@ -61,6 +62,7 @@ export default StyleSheet.create({
     signUpContainer: {
         flex: 1,
         backgroundColor: '#121212',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: Dimensions.get('window').width
     }
 });
