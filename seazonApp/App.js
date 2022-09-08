@@ -1,6 +1,8 @@
 import React from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator} from "@react-navigation/stack";
+
 
 import { Amplify } from 'aws-amplify'
 import awsconfig from './src/aws-exports'
@@ -18,7 +20,9 @@ function App({ navigation }) {
     return(
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{headerShown: false}}>
+                screenOptions={{
+                    headerShown: false
+                }}>
                 <Stack.Screen name='Main Stack' component={MainStack} />
                 <Stack.Screen name='Sign In' component={SignInPage} />
                 <Stack.Screen name='Sign Up' component={SignUpStack} />

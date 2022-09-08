@@ -1,8 +1,9 @@
-import React, {useRef} from "react";
+import React, {useState} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Modal from 'react-native-modal'
 
 import Explore from "../screens/explore";
 import FoodFeed from "../screens/foodFeed";
@@ -11,6 +12,9 @@ import MealPlan from "../screens/mealPlan";
 import ShoppingPlan from "../screens/shoppingList";
 
 import DockHeader from "../components/dockHeader";
+
+// components
+import modalOption from "../components/modalOption";
 
 const Tab = createBottomTabNavigator()
 
@@ -27,7 +31,12 @@ const dockLabels = (focused, iconName) => {
 };
 
 function MainStack() {
-  const tabOffsetValue = useRef(new Animated.Value(0)).current;
+  const [modalActive, setModal] = useState(false)
+
+  const toggleModal = () => {
+    setModal(!modalActive)
+  }
+
   return(
     <NavigationContainer
      independent={true}>
@@ -63,15 +72,15 @@ function MainStack() {
         name="Upload Recipe" 
         component={UploadRecipe} 
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: () => (
             <View>
-              <TouchableOpacity style={styles().button}>
+              <Pressable style={styles().button} onPress={toggleModal}>
                 <FontAwesome5 
                 name={'plus'}
                 size={20}
                 color='#ffffff'
                 />
-              </TouchableOpacity>
+              </Pressable>
             </View>
           )
           }}/>
@@ -90,6 +99,29 @@ function MainStack() {
           header: () => <DockHeader title={'Shopping List'} />  
           }}/>
       </Tab.Navigator>
+      {/* Modal */}
+      <Modal
+       isVisible={modalActive}
+       onBackButtonPress={() => setModal(false)}
+       backdropTransitionOutTiming={0}
+       onBackdropPress={() => setModal(false)}
+       onSwipeComplete={() => setModal(false)}
+       swipeDirection='down'
+       style={{justifyContent: 'flex-end'}}>
+        <View style={styles().modal}>
+          <View style={styles().modalContent}>
+            <View style={styles().modalSection}>
+              <Pressable style={styles().modalCloseButton}></Pressable>
+            </View>
+            <View style={styles().modalSection}>
+              {modalOption('Upload a recipe', 'note-plus')}
+            </View>
+            <View style={styles().modalSection}>
+              {modalOption('Upload a recipe request', 'message-question')}
+            </View>
+          </View> 
+        </View>
+      </Modal>
     </NavigationContainer>
   );
 }
@@ -112,6 +144,26 @@ const styles = (focused) => StyleSheet.create({
     bottom: 25,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  modal: {
+    backgroundColor: '#121212',
+    height: 180,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    alignItems: 'center',
+  },
+  modalContent: {
+    padding: 20,
+    alignItems: 'center'
+  },
+  modalSection: {
+    paddingBottom: 20
+  },
+  modalCloseButton: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: 5,
+    width: 50
   }
 });
 
