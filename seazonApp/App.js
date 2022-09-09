@@ -12,7 +12,9 @@ Amplify.configure(awsconfig);
 // Sign up/log in screens
 import SignInPage from "./src/screens/signInPage";
 import SignUpStack from "./src/routes/signUpStack";
-import MainStack from "./src/routes/mainStack";
+
+import ModalStack from "./src/routes/modalStack";
+import BottomTabsStack from "./src/routes/bottomTabsStack";
 
 const Stack = createStackNavigator()
 
@@ -23,7 +25,8 @@ function App({ navigation }) {
                 screenOptions={{
                     headerShown: false
                 }}>
-                <Stack.Screen name='Main Stack' component={MainStack} />
+                <Stack.Screen name='Bottom Tabs Stack' component={BottomTabsStack} />
+                <Stack.Screen name='Modal Stack' component={ModalStack} /> 
                 <Stack.Screen name='Sign In' component={SignInPage} />
                 <Stack.Screen name='Sign Up' component={SignUpStack} />
             </Stack.Navigator>

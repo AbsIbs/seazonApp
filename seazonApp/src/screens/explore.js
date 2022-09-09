@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import DockHeader from "../components/dockHeader";
+import { View, Text, StyleSheet, TouchableOpacity} from "react-native";
 
-const Explore = () => {
+const Explore = ( {navigation} ) => {
+
     return(
         <View style={styles.container}>
             <Text>Explore</Text>

@@ -1,22 +1,26 @@
 import React, {useState} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Text } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Modal from 'react-native-modal'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import Explore from "../screens/explore";
+
+// screens
+import ExploreStack from "./exploreStack";
 import FoodFeed from "../screens/foodFeed";
-import UploadRecipe from "../screens/uploadRecipe"
 import MealPlan from "../screens/mealPlan";
 import ShoppingPlan from "../screens/shoppingList";
 
+// components
 import DockHeader from "../components/dockHeader";
 
-// components
-import modalOption from "../components/modalOption";
-
 const Tab = createBottomTabNavigator()
+
+const BlankSpace = () => {
+  return null
+}
 
 const dockLabels = (focused, iconName) => {
   return(
@@ -30,12 +34,34 @@ const dockLabels = (focused, iconName) => {
   )
 };
 
-function MainStack() {
+function BottomTabsStack({navigation}) {
+
   const [modalActive, setModal] = useState(false)
 
   const toggleModal = () => {
     setModal(!modalActive)
   }
+
+  const onPressHandler = () => {
+    setModal(false), navigation.navigate('Modal Stack')
+  }
+
+  const modalOption = (title, imageName) => {
+    return(
+      <Pressable 
+        style={styles().modalOptionContainer}
+        onPress={onPressHandler}>
+          <Text style={styles().modalOptionText}>{title}</Text>
+          <View style={styles().modalOptionImageContainer}>
+              <MaterialCommunityIcons 
+              name={imageName}
+              color={'white'}
+              size={25}
+              />
+          </View>
+      </Pressable>
+    )
+  };
 
   return(
     <NavigationContainer
@@ -55,26 +81,26 @@ function MainStack() {
       }}> 
         <Tab.Screen 
           name="Explore" 
-          component={Explore}
+          component={ExploreStack}
           headerShown = {true} 
           options={{
             tabBarIcon: ({focused}) => dockLabels(focused, 'home', 'Explore'),
             header: () => <DockHeader title={'Explore'} />
           }}/>
         <Tab.Screen 
-        name="FoodFeed" 
+        name="Food Feed" 
         component={FoodFeed}
         options={{
           tabBarIcon: ({focused}) => dockLabels(focused, 'search', 'Food Feed'),
           header: () => <DockHeader title={'Food Feed'} /> 
           }}/>
         <Tab.Screen 
-        name="Upload Recipe" 
-        component={UploadRecipe} 
+        name="Recipe" 
+        component={BlankSpace} 
         options={{
-          tabBarIcon: () => (
+          tabBarButton: () => (
             <View>
-              <Pressable style={styles().button} onPress={toggleModal}>
+              <Pressable style={styles().button} onPress= {toggleModal}>
                 <FontAwesome5 
                 name={'plus'}
                 size={20}
@@ -114,10 +140,10 @@ function MainStack() {
               <Pressable style={styles().modalCloseButton}></Pressable>
             </View>
             <View style={styles().modalSection}>
-              {modalOption('Upload a recipe', 'note-plus')}
+              {modalOption('Upload a recipe', 'note-plus', setModal)}
             </View>
             <View style={styles().modalSection}>
-              {modalOption('Upload a recipe request', 'message-question')}
+              {modalOption('Upload a recipe request', 'message-question', 'Modal Stack')}
             </View>
           </View> 
         </View>
@@ -141,7 +167,7 @@ const styles = (focused) => StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
-    bottom: 25,
+    bottom: 20,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -164,7 +190,26 @@ const styles = (focused) => StyleSheet.create({
     borderRadius: 5,
     height: 5,
     width: 50
+  },
+  modalOptionContainer: {
+    height: 45,
+    width: 265,
+    borderRadius: 50,
+    backgroundColor: '#181818',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+modalOptionText: {
+    fontSize: 12,
+    color: '#ffffff',
+    flex: 7,
+    paddingLeft: 20
+  },
+modalOptionImageContainer: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
-export default MainStack;
+export default BottomTabsStack;
