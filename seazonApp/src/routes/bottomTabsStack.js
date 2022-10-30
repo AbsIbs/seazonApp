@@ -51,14 +51,13 @@ function BottomTabsStack({navigation}) {
       <Pressable 
         style={styles().modalOptionContainer}
         onPress={onPressHandler}>
-          <Text style={styles().modalOptionText}>{title}</Text>
-          <View style={styles().modalOptionImageContainer}>
-              <MaterialCommunityIcons 
-              name={imageName}
-              color={'white'}
-              size={25}
-              />
-          </View>
+        <Text style={styles().modalOptionText}>{title}</Text>
+        <View style={styles().modalOptionImageContainer}>
+          <MaterialCommunityIcons 
+          name={imageName}
+          color={'white'}
+          size={25}/>
+        </View>
       </Pressable>
     )
   };
@@ -133,11 +132,11 @@ function BottomTabsStack({navigation}) {
        onBackdropPress={() => setModal(false)}
        onSwipeComplete={() => setModal(false)}
        swipeDirection='down'
-       style={{justifyContent: 'flex-end'}}>
+       style={{justifyContent: 'flex-end', margin: 0}}>
         <View style={styles().modal}>
           <View style={styles().modalContent}>
             <View style={styles().modalSection}>
-              <Pressable style={styles().modalCloseButton}></Pressable>
+              <Pressable style={styles().modalCloseButton} onPress={() => setModal(false)}></Pressable>
             </View>
             <View style={styles().modalSection}>
               {modalOption('Upload a recipe', 'note-plus', setModal)}
@@ -174,9 +173,9 @@ const styles = (focused) => StyleSheet.create({
   modal: {
     backgroundColor: '#121212',
     height: 180,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-    alignItems: 'center',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    alignItems: 'center'
   },
   modalContent: {
     padding: 20,

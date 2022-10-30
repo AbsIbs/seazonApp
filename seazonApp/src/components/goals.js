@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-const interest = (text) => {
+const goals = (text) => {
 
     const [color, setColor] = useState(false)
 
@@ -35,4 +35,4 @@ const styles = (color) => StyleSheet.create({
     }
 });
 
-export default interest;
+export default goals;

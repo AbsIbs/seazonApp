@@ -1,42 +1,53 @@
 import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 
 // Components
+import SignUpBanner from "../components/signUpBanner";
 import pleaseNote from "../components/pleaseNote";
+import signUpNextButton from "../components/signUpNextButton";
 import globalStyle from "../utils/globalStyle";
-import goals from "../components/goals";
+import interest from "../components/interest";
+import dietGoals from "../components/dietGoals";
+import lifestyle from "../components/lifestyle";
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage5 = () => {
+const SignUpPage4 = ({ navigation }) => {
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={globalStyle.signUpContainer}>
+                {SignUpBanner('Where do your interests lie?', navigation, 68)}
                 <View style={styles().contentContainer}>
                     <View style={styles().container}>
                         {pleaseNote(message)}
                     </View>
                     <View style={styles().container}>
+                        <Text style={styles().title}>What are your interests?</Text>
+                    </View>
+                    <View style={styles().container}>
+                        {interest('Viewing/sharing culinary creations')}
+                    </View>
+                    <View style={styles().container}>
+                        {interest('Gaining inspiration in the kitchen')}
+                    </View>
+                    <View style={styles().container}>
+                        {interest('Experimneting with recipes')}
+                    </View>
+                    <View style={styles().container}>
                         <Text style={styles().title}>What are your main goals?</Text>
                     </View>
                     <View style={styles().container}>
-                        {goals('Promoting my business')}
+                        {dietGoals()}
                     </View>
                     <View style={styles().container}>
-                        {goals('Find cost effective meals')}
+                        <Text style={styles().title}>How is your lifestyle?</Text>
                     </View>
                     <View style={styles().container}>
-                        {goals('Sharing my recipes')}
+                        {lifestyle()}
                     </View>
-                    <View style={styles().container}>
-                        {goals('Eat cleaner')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Find new recipes')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Learn how to cook')}
+                    <View style={{paddingTop: 20}}>
+                        {signUpNextButton(navigation, 'Sign Up Page 5')}
                     </View>
                 </View>
             </View>
@@ -59,4 +70,4 @@ const styles = () => StyleSheet.create({
     },
 });
 
-export default SignUpPage5;
+export default SignUpPage4;

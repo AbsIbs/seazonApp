@@ -28,7 +28,8 @@ const SignInPage = ({navigation}) => {
                             {signInTextField('envelope', 'Username', false, userData)}
                             {signInTextField('lock', 'Password', true, userData)}
                             <TouchableOpacity 
-                             style={styles.signInButton}>
+                             style={styles.signInButton}
+                             onPress={() => navigation.navigate('Bottom Tabs Stack')}>
                                 <Text style={{color: '#ffffff', fontWeight: 'bold'}}>
                                     Sign in
                                 </Text>

@@ -8,7 +8,7 @@ import goals from "../components/goals";
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage5 = () => {
+const SignUpPage6 = () => {
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
@@ -18,25 +18,22 @@ const SignUpPage5 = () => {
                         {pleaseNote(message)}
                     </View>
                     <View style={styles().container}>
-                        <Text style={styles().title}>What are your main goals?</Text>
+                        <Text style={styles().title}>Where do you usually find your recipes?</Text>
                     </View>
                     <View style={styles().container}>
-                        {goals('Promoting my business')}
+                        {goals('Recipe apps')}
                     </View>
                     <View style={styles().container}>
-                        {goals('Find cost effective meals')}
+                        {goals('Online blogs/websites')}
                     </View>
                     <View style={styles().container}>
-                        {goals('Sharing my recipes')}
+                        {goals('YouTube')}
                     </View>
                     <View style={styles().container}>
-                        {goals('Eat cleaner')}
+                        {goals('TikTok')}
                     </View>
                     <View style={styles().container}>
-                        {goals('Find new recipes')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Learn how to cook')}
+                        {goals('Family and friends')}
                     </View>
                 </View>
             </View>
@@ -59,4 +56,4 @@ const styles = () => StyleSheet.create({
     },
 });
 
-export default SignUpPage5;
+export default SignUpPage6;

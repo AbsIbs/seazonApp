@@ -17,12 +17,6 @@ const lifestyle = () => {
         skillList[num](!difficulty)
     };
 
-    const tintToggle = (difficulty) => {
-        return(
-            difficulty? '#000000': '#ffffff50'
-        )
-    }; 
-
     return(
         <View style={styles().container}>
             <View style={styles().buttonContainer}>

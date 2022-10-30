@@ -4,11 +4,11 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 // Components
 import pleaseNote from "../components/pleaseNote";
 import globalStyle from "../utils/globalStyle";
-import goals from "../components/goals";
+import lifestyle from "../components/lifestyle";
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage5 = () => {
+const SignUpPage7 = () => {
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
@@ -18,25 +18,10 @@ const SignUpPage5 = () => {
                         {pleaseNote(message)}
                     </View>
                     <View style={styles().container}>
-                        <Text style={styles().title}>What are your main goals?</Text>
+                        <Text style={styles().title}>How active are you?</Text>
                     </View>
                     <View style={styles().container}>
-                        {goals('Promoting my business')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Find cost effective meals')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Sharing my recipes')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Eat cleaner')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Find new recipes')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Learn how to cook')}
+                        {lifestyle()}
                     </View>
                 </View>
             </View>
@@ -59,4 +44,4 @@ const styles = () => StyleSheet.create({
     },
 });
 
-export default SignUpPage5;
+export default SignUpPage7;

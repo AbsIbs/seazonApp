@@ -22,7 +22,7 @@ function signInTextField(iconName, placeholder, secure, obj) {
           placeholder={placeholder}
           placeholderTextColor= '#ffffff75'
           secureTextEntry={secure}
-          onEndEditing = {(userInput) => textHandler(obj, placeholder, userInput) }
+          onEndEditing = {(userInput) => textHandler(obj, placeholder, userInput)}
         />
       </View>
     )

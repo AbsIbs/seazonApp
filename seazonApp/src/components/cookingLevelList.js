@@ -33,12 +33,6 @@ const cookingLevelList = () => {
                         <Text style={styles(min).title}>Beginner</Text>
                         <Text style={styles(min).desc}>"I'm cooking just to get by"</Text>
                     </View>
-                    <View style={styles().imageContainer}>
-                        <Image
-                         tintColor = {tintToggle(min)}
-                         style={styles().image}
-                         source={require('../../assets/img/lowLevel.png')} />
-                    </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
@@ -49,12 +43,6 @@ const cookingLevelList = () => {
                         <Text style={styles(mid).title}>Intermediate</Text>
                         <Text style={styles(mid).desc}>"I like experiencing with recipes"</Text>
                     </View>
-                    <View style={styles().imageContainer}>
-                        <Image
-                         tintColor = {tintToggle(mid)}
-                         style={styles().image}
-                         source={require('../../assets/img/midLevel.png')} />
-                    </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
@@ -64,12 +52,6 @@ const cookingLevelList = () => {
                     <View style={styles().textContainer}>
                         <Text style={styles(max).title}>Advanced</Text>
                         <Text style={styles(max).desc}>"Self-proclaimed master chef"</Text>
-                    </View>
-                    <View style={styles().imageContainer}>
-                        <Image
-                         style={styles().image}
-                         tintColor={tintToggle(max)}
-                         source={require('../../assets/img/maxLevel.png')} />
                     </View>
                 </TouchableOpacity>
             </View>

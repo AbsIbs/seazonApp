@@ -1,12 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, KeyboardAvoidingView } from 'react-native';
 import signInTextField from '../components/signInTextField';
-import SignUpBanner from '../components/signUpBanner';
-import globalStyle from '../utils/globalStyle';
+import globalStyle from '../utils/globalStyle';  
 
-import signUpNextButton from '../components/signUpNextButton';  
-
-const SignUpPage1 = ({ navigation }) => {
+const SignUpPage1 = () => {
 
     const data = {}
 
@@ -14,7 +11,6 @@ const SignUpPage1 = ({ navigation }) => {
         <KeyboardAvoidingView   
             enabled
             style = {globalStyle.signUpContainer}>
-            {SignUpBanner("Hello, we'd love to know you!", navigation, 17)} 
             <View style={styles.contentContainer}>
                 <View style={styles.uploadContainer}> 
                     <View style={styles.textContainer}>
@@ -36,7 +32,6 @@ const SignUpPage1 = ({ navigation }) => {
                     {signInTextField('user', 'Username', false, data)}
                     {signInTextField('lock', 'Password', true, data)}
                 </View>
-                {signUpNextButton(navigation, 'Sign Up Page 2')}
             </View>
         </KeyboardAvoidingView>
     ) 
