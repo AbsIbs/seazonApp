@@ -2,28 +2,26 @@ import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
-function signInTextField(iconName, placeholder, secure, obj) {
+function SignInTextField(props) {
 
-    const textHandler = (obj, placeholder, userInput) => {
-        obj[placeholder] = userInput.nativeEvent.text
-    }
+    const textHandler = (userInput) => {
+      props.dataObject[props.placeholder] = userInput.nativeEvent.text
+    };
 
     return(
       <View style={styles.inputContainer}>
         <View style = {{alignItems: 'center', flex: 2}} >
           <FontAwesome5
-            name={iconName}
+            name={props.iconName}
             color = '#555'
-            size = {25}
-            />
+            size = {25}/>
         </View>
         <TextInput 
           style={{color: '#ffffff', flex: 9}}
-          placeholder={placeholder}
-          placeholderTextColor= '#ffffff75'
-          secureTextEntry={secure}
-          onEndEditing = {(userInput) => textHandler(obj, placeholder, userInput)}
-        />
+          placeholder={props.placeholder}
+          placeholderTextColor='#ffffff75'
+          secureTextEntry={props.secure}
+          onEndEditing = {(userInput) => textHandler(userInput)}/>
       </View>
     )
   }; 
@@ -40,4 +38,4 @@ function signInTextField(iconName, placeholder, secure, obj) {
     }
   });
 
-  export default signInTextField;
+  export default SignInTextField;

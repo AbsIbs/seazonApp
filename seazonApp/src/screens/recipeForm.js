@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-nati
 import StepIndicator from 'react-native-step-indicator';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Swiper from 'react-native-web-swiper'
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import RecipeUploadScreen1 from "./recipeUploadpage1";
 
@@ -57,8 +57,7 @@ const RecipeForm = () => {
           <FontAwesome5
           name={iconsList[position]}
           color = {stepStatus === 'finished' ? '#ffffff' : '#E84A4A'}
-          size = {12.5}
-          />
+          size = {12.5}/>
       </View>
     )
   };
@@ -92,7 +91,7 @@ const RecipeForm = () => {
           ref={swiperRef}
           gesturesEnabled={() => false}>
           {/* slide 1 */}
-            <RecipeUploadScreen1/>
+          <RecipeUploadScreen1 />
           {/* slide 2 */}
           <ScrollView>
             <View style={styles().section}>

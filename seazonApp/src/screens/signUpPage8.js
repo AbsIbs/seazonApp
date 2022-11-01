@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import globalStyle from "../utils/globalStyle";
 
-
 // Components
 import highlightCircle from "../components/highlightCircle";
 
@@ -19,8 +18,6 @@ const SignUpPage8 = () => {
 
     const halal = require('../../assets/img/halal.png')
     const kosher = require('../../assets/img/kosher.png')
-    
-
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}} contentContainerStyle={{paddingBottom: 10}}>

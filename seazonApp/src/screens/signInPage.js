@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Image } from 'react-native';
-import signInTextField from '../components/signInTextField';
+import SignInTextField from '../components/signInTextField';
 
 const SignInPage = ({navigation}) => {
 
@@ -25,8 +25,8 @@ const SignInPage = ({navigation}) => {
                             </Text>
                         </View>
                         <View style={styles.inputContainer}>
-                            {signInTextField('envelope', 'Username', false, userData)}
-                            {signInTextField('lock', 'Password', true, userData)}
+                            <SignInTextField iconName='envelope' placeholder='Email' secure={false} data={userData}/>
+                            <SignInTextField iconName='lock' placeholder='Password' secure={true} data={userData}/>
                             <TouchableOpacity 
                              style={styles.signInButton}
                              onPress={() => navigation.navigate('Bottom Tabs Stack')}>

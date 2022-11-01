@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 // Components
 import SignUpBanner from '../components/signUpBanner';
@@ -19,6 +19,24 @@ const SignUpPage = ({ navigation }) => {
 
     const [pageNum, setPageNum] = useState(0);
     const [progressPercentage, setProgressPercentage] = useState(0);
+    const [userPicture, setUserPicture] = useState(null);
+    const [userData, setUserData] = useState({
+        username: null,
+        password: null,
+        attributes: {
+            email: null,
+            gender: null,
+            age: null,
+            cookingLevel: null,
+            cookingFrequency: null,
+            goals: [],
+            findRecipes: [],
+            lifestyle: null,
+            allergies: [],
+            dietaryRequirements: [],
+            picture: null
+        }
+    });
 
     const swiperRef = useRef(null);
 
@@ -32,29 +50,30 @@ const SignUpPage = ({ navigation }) => {
                 setProgressPercentage(progressPercentage - (100/8))
             }
         }
-    };
+        console.log(userData)
+    }; 
 
     return (
         <View style={styles().container}>
             {/* Banner */}
-            <SignUpBanner navigation={navigation} percentage={progressPercentage}/>
+            <SignUpBanner navigation={navigation} percentage={progressPercentage} picture={userPicture} setFunction={setUserPicture} />
             {/* Swiper */} 
             <Swiper 
              controlsProps={{
-             prevPos: false,
-             dotsPos: false,
-             nextPos: false}}
+                prevPos: false,
+                dotsPos: false,
+                nextPos: false}}
              ref={swiperRef}
              gesturesEnabled={() => false}>
                 {/* Slides*/}
-                <SignUpPage1 />
+                <SignUpPage1 dataObject={userData} setFunction={setUserPicture}/>
                 <SignUpPage2 />   
                 <SignUpPage3 />
                 <SignUpPage4 />
                 <SignUpPage5 />
                 <SignUpPage6 />
                 <SignUpPage7 />
-                <SignUpPage8 />        
+                <SignUpPage8 /> 
             </Swiper>
             {/* Bottom Nav */}
             <View style={styles().buttonSection}>
@@ -67,8 +86,8 @@ const SignUpPage = ({ navigation }) => {
                 </View>
                 <View style={styles().buttonContainer}>
                     <TouchableOpacity 
-                    style={styles('next').button}
-                    onPress={() => newPageChange('next')}>
+                      style={styles('next').button}
+                      onPress={() => newPageChange('next')}>
                         <Text style={{color: '#ffffff'}}>Next</Text>
                     </TouchableOpacity>
                 </View>
