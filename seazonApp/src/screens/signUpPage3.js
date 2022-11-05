@@ -4,11 +4,11 @@ import globalStyle from '../utils/globalStyle';
 
 //components
 import pleaseNote from '../components/pleaseNote';
-import cookingLevelList from '../components/cookingLevelList';
+import CookingLevelList from '../components/cookingLevelList';
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage3 = () => {
+const SignUpPage3 = (props) => {
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={globalStyle.signUpContainer}>
@@ -20,7 +20,7 @@ const SignUpPage3 = () => {
                         <Text style={styles.title}>What is your cooking level?</Text>
                     </View>
                     <View style={styles.formContainer}>
-                        {cookingLevelList()}
+                        <CookingLevelList dataObject = {props.dataObject}/>
                     </View>
                 </View>
             </View>

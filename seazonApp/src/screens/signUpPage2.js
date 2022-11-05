@@ -4,12 +4,12 @@ import globalStyle from '../utils/globalStyle';
 
 // components
 import pleaseNote from '../components/pleaseNote';
-import genderList from '../components/genderList';
-import ageList from '../components/ageList';
+import GenderList from '../components/genderList';
+import AgeList from '../components/ageList';
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage2 = () => {
+const SignUpPage2 = (props) => {
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={globalStyle.signUpContainer}>
@@ -18,16 +18,16 @@ const SignUpPage2 = () => {
                         {pleaseNote(message)} 
                     </View>
                     <View style={styles.container}>
-                        <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
+                        <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal'}}>(optional)</Text></Text>
                     </View>
                     <View style={styles.genderContainer}>
-                        {genderList()}
+                        <GenderList userData={props.userData} setUserData={props.setUserData}/>
                     </View>
                     <View style={styles.container}>
-                        <Text style={styles.title}>Age<Text style={{fontWeight: 'normal'}}> (optional)</Text></Text>
+                        <Text style={styles.title}>Age<Text style={{fontWeight: 'normal'}}>(optional)</Text></Text>
                     </View>
                     <View>
-                    {ageList()} 
+                    <AgeList dataObject={props.dataObject} /> 
                     </View>
                 </View>
             </View>

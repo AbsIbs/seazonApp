@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const cookingLevelList = () => {
+const CookingLevelList = (props) => {
 
     const [min, setMin] = useState(false)
     const [mid, setMid] = useState(false)
@@ -9,12 +9,18 @@ const cookingLevelList = () => {
 
     const skillList = [setMin, setMid, setMax]
 
+    const cookingLevelObject = {
+        0: 'min',
+        1: 'mid',
+        2: 'max'
+    };
+
     const toggle = (num, difficulty) => {
         for (let i=0; i<3; i++) {
             let set = skillList[i]
             set(false)
-        }
-        skillList[num](!difficulty)
+        };
+        skillList[num](!difficulty);
     };
 
     const tintToggle = (difficulty) => {
@@ -102,4 +108,4 @@ const styles = (difficulty) => StyleSheet.create({
     }
 });
 
-export default cookingLevelList;
+export default CookingLevelList;

@@ -2,11 +2,14 @@ import React from "react";
 import { ImageBackground, Image, View, Text, StyleSheet} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
+
+// Componenets
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { launchImageLibrary } from "react-native-image-picker"
 
 function SignUpBanner(props) {
 
+    // Upload image
     const galleryUploadHandler = () => {
         let options = {
           storageOption: {
@@ -15,9 +18,15 @@ function SignUpBanner(props) {
           },
           includeBase64: false
         };
+        // Store the image
         launchImageLibrary(options, response => {
-          /* Save the image */
-          response['didCancel']? null: props.setFunction({uri: response.assets[0].uri})
+          if (response['didCancel']) {
+            null;
+          } else {
+            props.setUserData(prevState => {
+                return({...prevState, attributes: {...prevState.attributes, picture: {uri: response.assets[0].uri}}})
+            })
+          }
         });
     };
 
@@ -36,7 +45,7 @@ function SignUpBanner(props) {
                         <Text style={styles().desc}>Hello, we'd love to know you!</Text>
                     </View>
                 </View>
-                {props.picture == null?
+                {props.userData.attributes.picture == null?
                     <View style={styles().rightContainer}>
                         <AnimatedCircularProgress
                          size={120}
@@ -60,7 +69,7 @@ function SignUpBanner(props) {
                         {() => (
                             <ImageBackground
                             resizeMode='cover' 
-                            source={props.picture}
+                            source={props.userData.attributes.picture}
                             style={{ height: 100, width: 100}}
                             imageStyle={{borderRadius: 50}}/>
                         )}

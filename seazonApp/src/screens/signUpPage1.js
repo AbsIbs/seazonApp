@@ -8,6 +8,7 @@ import { launchImageLibrary } from "react-native-image-picker"
 
 const SignUpPage1 = (props) => {
 
+    // Upload image
     const galleryUploadHandler = () => {
         let options = {
           storageOption: {
@@ -16,9 +17,15 @@ const SignUpPage1 = (props) => {
           },
           includeBase64: false
         };
+        // Store the image
         launchImageLibrary(options, response => {
-          /* Save the image */
-          response['didCancel']? null: props.setFunction({uri: response.assets[0].uri})
+          if (response['didCancel']) {
+            null;
+          } else {
+            props.setUserData(prevState => {
+                return({...prevState, attributes: {...prevState.attributes, picture: {uri: response.assets[0].uri}}})
+            })
+          }
         });
     };
 
@@ -44,9 +51,9 @@ const SignUpPage1 = (props) => {
                         </View>
                     </View>
                     <View style={styles.formContainer}>
-                        <SignInTextField iconName='envelope' placeholder='Email' secure={false} dataObject={props.dataObject}/>
-                        <SignInTextField iconName='user' placeholder='Username' secure={false} dataObject={props.dataObject}/>
-                        <SignInTextField iconName='lock' placeholder='Password' secure={true} dataObject={props.dataObject}/>
+                        <SignInTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignInTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignInTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>

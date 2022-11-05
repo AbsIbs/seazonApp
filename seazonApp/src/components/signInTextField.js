@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 function SignInTextField(props) {
 
+    // Text handler to send input to userData 
     const textHandler = (userInput) => {
-      props.dataObject[props.placeholder] = userInput.nativeEvent.text
-    };
+      if (props.placeholder == 'Email') {
+        props.setUserData(prevState => {
+          return({...prevState, attributes: {...prevState.attributes, email: userInput.nativeEvent.text}})
+      })
+      } else {
+        props.setUserData(prevState => {
+          return({...prevState, [props.placeholder.toLowerCase()]: userInput.nativeEvent.text})
+      })
+    }};
 
     return(
       <View style={styles.inputContainer}>
@@ -21,7 +29,7 @@ function SignInTextField(props) {
           placeholder={props.placeholder}
           placeholderTextColor='#ffffff75'
           secureTextEntry={props.secure}
-          onEndEditing = {(userInput) => textHandler(userInput)}/>
+          onEndEditing = {(userInput) => textHandler(userInput, props.placeholder)}/>
       </View>
     )
   }; 

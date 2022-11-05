@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 // Components
@@ -18,8 +18,11 @@ import SignUpPage8 from './signUpPage8';
 const SignUpPage = ({ navigation }) => {
 
     const [pageNum, setPageNum] = useState(0);
+
+    // Circular progress bar percentage
     const [progressPercentage, setProgressPercentage] = useState(0);
-    const [userPicture, setUserPicture] = useState(null);
+
+    // User Data
     const [userData, setUserData] = useState({
         username: null,
         password: null,
@@ -51,12 +54,12 @@ const SignUpPage = ({ navigation }) => {
             }
         }
         console.log(userData)
-    }; 
+    };
 
     return (
         <View style={styles().container}>
             {/* Banner */}
-            <SignUpBanner navigation={navigation} percentage={progressPercentage} picture={userPicture} setFunction={setUserPicture} />
+            <SignUpBanner navigation={navigation} percentage={progressPercentage} userData={userData} setUserData={setUserData} />
             {/* Swiper */} 
             <Swiper 
              controlsProps={{
@@ -66,8 +69,8 @@ const SignUpPage = ({ navigation }) => {
              ref={swiperRef}
              gesturesEnabled={() => false}>
                 {/* Slides*/}
-                <SignUpPage1 dataObject={userData} setFunction={setUserPicture}/>
-                <SignUpPage2 />   
+                <SignUpPage1 userData={userData} setUserData={setUserData} />
+                <SignUpPage2 userData={userData} setUserData={setUserData} />   
                 <SignUpPage3 />
                 <SignUpPage4 />
                 <SignUpPage5 />
