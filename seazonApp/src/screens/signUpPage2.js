@@ -21,13 +21,13 @@ const SignUpPage2 = (props) => {
                         <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal'}}>(optional)</Text></Text>
                     </View>
                     <View style={styles.genderContainer}>
-                        <GenderList userData={props.userData} setUserData={props.setUserData}/>
+                        <GenderList setUserData={props.setUserData} />
                     </View>
                     <View style={styles.container}>
                         <Text style={styles.title}>Age<Text style={{fontWeight: 'normal'}}>(optional)</Text></Text>
                     </View>
                     <View>
-                    <AgeList dataObject={props.dataObject} /> 
+                    <AgeList setUserData={props.setUserData} /> 
                     </View>
                 </View>
             </View>

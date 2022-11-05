@@ -11,7 +11,7 @@ const SignInPage = ({navigation}) => {
     return(
         <View style={styles.Container}>
             <ImageBackground
-                source={bg}
+                source={null}
                 resizeMode='cover'
                 style={styles.backgroundImage}
                 imageStyle={{opacity: 0.2}}>
@@ -25,8 +25,8 @@ const SignInPage = ({navigation}) => {
                             </Text>
                         </View>
                         <View style={styles.inputContainer}>
-                            <SignInTextField iconName='envelope' placeholder='Email' secure={false} data={userData}/>
-                            <SignInTextField iconName='lock' placeholder='Password' secure={true} data={userData}/>
+                            <SignInTextField iconName='envelope' placeholder='Email' secure={false} />
+                            <SignInTextField iconName='lock' placeholder='Password' secure={true} />
                             <TouchableOpacity 
                              style={styles.signInButton}
                              onPress={() => navigation.navigate('Bottom Tabs Stack')}>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#000000'
+        backgroundColor: '#121212'
     },
     backgroundImage: {
         flex: 1,

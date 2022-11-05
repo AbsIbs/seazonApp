@@ -2,7 +2,7 @@ import React, {useRef, useState, useEffect} from "react";
 import { View, TextInput, StyleSheet, Animated } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
-function SignInTextField(props) {
+function SignUpTextField(props) {
 
     // Text handler to send input to userData 
     const [text, setText] = useState('');
@@ -93,4 +93,4 @@ function SignInTextField(props) {
     }
   });
 
-  export default SignInTextField;
+  export default SignUpTextField;

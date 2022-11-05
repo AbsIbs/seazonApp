@@ -9,20 +9,27 @@ const GenderList = (props) => {
         'Other': false
     });
 
+    // Update object state by making a copy rather than mutating the state
     const toggleColor = (gender) => {
-        for (const key in activeIndex) {
-            activeIndex[key] = false;
-        };
-        setActiveIndex({...activeIndex, [gender]: true})
+        setActiveIndex(prevState => {
+            const nextState = {}
+            Object.keys(prevState).forEach(key => {
+                if (key==gender) {
+                    nextState[key] = true
+                } else {
+                    nextState[key] = false
+                }
+            })
+            return nextState
+        })
     };
 
+    // Extract gender
     useEffect(() => {
-        for (const key in activeIndex){
-            if (activeIndex[key] == true) {
-                props.setUserData({...props.userData, attributes: {...props.userData.attributes, gender: key}})
-            }
-        }
-    }, [activeIndex]); 
+       props.setUserData(prevState => {
+        return({...prevState, attributes: {...prevState.attributes, gender: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+       }) 
+    }, [activeIndex]);
 
     return(
         <View style={styles.container}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import SignInTextField from '../components/signInTextField';
+import SignUpTextField from '../components/signInTextField';
 import globalStyle from '../utils/globalStyle';
 
 // Components
@@ -51,9 +51,9 @@ const SignUpPage1 = (props) => {
                         </View>
                     </View>
                     <View style={styles.formContainer}>
-                        <SignInTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignInTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignInTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
+                        <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignUpTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>

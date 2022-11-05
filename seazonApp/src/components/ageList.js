@@ -1,62 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const AgeList = (props) => {
-    // states
-    const [color0, setColor0] = useState(false)
-    const [color1, setColor1] = useState(false)
-    const [color2, setColor2] = useState(false)
-    const [color3, setColor3] = useState(false)
-    const [color4, setColor4] = useState(false)
-    const [color5, setColor5] = useState(false)
 
-    // states list
-    const setList = [setColor0, setColor1, setColor2, setColor3, setColor4, setColor5]
+    // Age list state object
+    const [activeIndex, setActiveIndex] = useState({
+        '13-18': false,
+        '19-25': false,
+        '26-35': false,
+        '36-45': false,
+        '45-49': false,
+        '50+': false
+    })
 
-    // object
-    const ageList = {
-        0: '13-18',
-        1: '19-25',
-        2: '26-35',
-        3: '36-45',
-        4: '45-49',
-        5: '50+'
+    const toggle = (age) => {
+        setActiveIndex(prevState => {
+            const nextState = {}
+            Object.keys(prevState).forEach(key => {
+                if (key==age) {
+                    nextState[key] = true
+                } else {
+                    nextState[key] = false
+                }
+            })
+            return nextState
+        })
     };
 
-    const toggle = (id, colorNum) => {
-
-        for (let i=0; i<6; i++) {
-            if (i != id) {
-                let set = setList[i]
-                set(false)
-            }
-        };
-        const newSet = setList[id];
-        newSet(!colorNum);
-        props.dataObject['attributes']['age'] = ageList[id]
-    };
+    // Extract age
+    useEffect(() => {
+        props.setUserData(prevState => {
+            return({...prevState, attributes: {...prevState.attributes, age: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+        }) 
+        }, [activeIndex]);
 
     return(
         <View style={ageListStyle().container}>
             <View style={ageListStyle().sections}>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity
-                     style={[ageListStyle().button, ageListStyle(color0).toggleStyle]}
-                     onPress={() => toggle(0, color1)}>
+                     style={[ageListStyle().button, {backgroundColor: activeIndex['13-18']? '#E84A4A': '#00000000', borderColor: activeIndex['13-18']? '#00000000': '#ffffff50'}]}
+                     onPress={() => toggle('13-18')}>
                         <Text style={ageListStyle().text}>13 - 18</Text>
                     </TouchableOpacity>
                 </View>
             <View style={ageListStyle().buttonContainer}>
                 <TouchableOpacity 
-                 style={[ageListStyle().button, ageListStyle(color1).toggleStyle]}
-                 onPress={() => toggle(1, color1)}>
+                 style={[ageListStyle().button, {backgroundColor: activeIndex['19-25']? '#E84A4A': '#00000000', borderColor: activeIndex['19-25']? '#00000000': '#ffffff50'}]}
+                 onPress={() => toggle('19-25')}>
                     <Text style={ageListStyle().text}>19 - 25</Text>
                 </TouchableOpacity>
             </View>
             <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                    style={[ageListStyle().button, ageListStyle(color2).toggleStyle]}
-                    onPress={() => toggle(2, color2)}>
+                    style={[ageListStyle().button, {backgroundColor: activeIndex['26-35']? '#E84A4A': '#00000000', borderColor: activeIndex['26-35']? '#00000000': '#ffffff50'}]}
+                    onPress={() => toggle('26-35')}>
                         <Text style={ageListStyle().text}>26 - 35</Text>
                     </TouchableOpacity>
                 </View>
@@ -64,22 +62,22 @@ const AgeList = (props) => {
             <View style={[ageListStyle().sections]}>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                    style={[ageListStyle().button, ageListStyle(color3).toggleStyle]}
-                    onPress={() => toggle(3, color3)}>
+                    style={[ageListStyle().button, {backgroundColor: activeIndex['36-45']? '#E84A4A': '#00000000', borderColor: activeIndex['36-45']? '#00000000': '#ffffff50'}]}
+                    onPress={() => toggle('36-45')}>
                         <Text style={ageListStyle().text}>36 - 45</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                        style={[ageListStyle().button, ageListStyle(color4).toggleStyle]}
-                        onPress={() => toggle(4, color4)}>
+                        style={[ageListStyle().button, {backgroundColor: activeIndex['45-49']? '#E84A4A': '#00000000', borderColor: activeIndex['45-49']? '#00000000': '#ffffff50'}]}
+                        onPress={() => toggle('45-49')}>
                         <Text style={ageListStyle().text}>45 - 49</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                        style={[ageListStyle().button, ageListStyle(color5).toggleStyle]}
-                        onPress={() => toggle(5, color5)}>
+                        style={[ageListStyle().button, {backgroundColor: activeIndex['50+']? '#E84A4A': '#00000000', borderColor: activeIndex['50+']? '#00000000': '#ffffff50'}]}
+                        onPress={() => toggle('50+')}>
                         <Text style={ageListStyle().text}>50+</Text>
                     </TouchableOpacity>
                 </View>
@@ -117,8 +115,7 @@ const ageListStyle = (color) => StyleSheet.create({
         fontSize: 12
     },
     toggleStyle: {
-        backgroundColor: color? '#E84A4A': '#00000000', 
-        borderColor: color? '#00000000': '#ffffff50'
+        backgroundColor: color? '#E84A4A': '#00000000', borderColor: color? '#00000000': '#ffffff50'
     }
 });
 

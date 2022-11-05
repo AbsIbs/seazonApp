@@ -69,8 +69,8 @@ const SignUpPage = ({ navigation }) => {
              ref={swiperRef}
              gesturesEnabled={() => false}>
                 {/* Slides*/}
-                <SignUpPage1 userData={userData} setUserData={setUserData} />
-                <SignUpPage2 userData={userData} setUserData={setUserData} />   
+                <SignUpPage1 setUserData={setUserData} />
+                <SignUpPage2 setUserData={setUserData} />   
                 <SignUpPage3 />
                 <SignUpPage4 />
                 <SignUpPage5 />
