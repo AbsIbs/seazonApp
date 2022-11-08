@@ -1,51 +1,65 @@
-import React, {useState} from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import React, {useState, useEffect} from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
-const lifestyle = () => {
+const Lifestyle = (props) => {
 
-    const [min, setMin] = useState(false)
-    const [mid, setMid] = useState(false)
-    const [max, setMax] = useState(false)
+    const [activeIndex, setActiveIndex] = useState({
+        'Not active': false,
+        'Active': false,
+        'Very active': false
+    });
 
-    const skillList = [setMin, setMid, setMax]
-
-    const toggle = (num, difficulty) => {
-        for (let i=0; i<3; i++) {
-            let set = skillList[i]
-            set(false)
-        }
-        skillList[num](!difficulty)
+    // Update object state by making a copy rather than mutating the state
+    const toggleColor = (lifestyle) => {
+        setActiveIndex(prevState => {
+            const nextState = {}
+            Object.keys(prevState).forEach(key => {
+                if (key==lifestyle) {
+                    nextState[key] = true
+                } else {
+                    nextState[key] = false
+                }
+            })
+            return nextState
+        })
     };
+
+    // Extract cooking frequency
+    useEffect(() => {
+        props.setUserData(prevState => {
+            return({...prevState, attributes: {...prevState.attributes, lifestyle: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+        }) 
+    }, [activeIndex]);
 
     return(
         <View style={styles().container}>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(min).button}
-                onPress={() => toggle(0, min)}>
+                 style={styles(activeIndex['Not active']).button}
+                 onPress={() => toggleColor('Not active')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(min).title}>I'm not active</Text>
-                        <Text style={styles(min).desc}>You don't exercise</Text>
+                        <Text style={styles(activeIndex['Not active']).title}>I'm not active</Text>
+                        <Text style={styles(activeIndex['Not active']).desc}>You don't exercise</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(mid).button}
-                onPress={() => toggle(1, mid)}>
+                 style={styles(activeIndex['Active']).button}
+                 onPress={() => toggleColor('Active')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(mid).title}>I'm moderately active</Text>
-                        <Text style={styles(mid).desc}>You exercise once or twice a week</Text>
+                        <Text style={styles(activeIndex['Active']).title}>I'm moderately active</Text>
+                        <Text style={styles(activeIndex['Active']).desc}>You exercise once or twice a week</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(max).button}
-                onPress={() => toggle(2, max)}>
+                 style={styles(activeIndex['Very active']).button}
+                 onPress={() => toggleColor('Very active')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(max).title}>I'm highly active</Text>
-                        <Text style={styles(max).desc}>You exercise 3 or more times per week</Text>
+                        <Text style={styles(activeIndex['Very active']).title}>I'm very active</Text>
+                        <Text style={styles(activeIndex['Very active']).desc}>You exercise 3 or more times per week</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -53,7 +67,7 @@ const lifestyle = () => {
     )
 };
 
-const styles = (difficulty) => StyleSheet.create({
+const styles = (lifestyle) => StyleSheet.create({
     container: {
         height: 250
     },
@@ -65,8 +79,8 @@ const styles = (difficulty) => StyleSheet.create({
     button: {
         width: '100%',
         borderRadius: 24,
-        borderColor: difficulty? '#00000000': '#ffffff50',
-        backgroundColor: difficulty? '#ffffff': '#00000000',
+        borderColor: lifestyle? '#00000000': '#ffffff50',
+        backgroundColor: lifestyle? '#ffffff': '#00000000',
         borderWidth: 1,
         height: 70,
         flexDirection: 'row'
@@ -78,13 +92,13 @@ const styles = (difficulty) => StyleSheet.create({
     },
     title: {
         fontSize: 14,
-        color: difficulty? '#000000': '#ffffff',
+        color: lifestyle? '#000000': '#ffffff',
         fontWeight: 'bold'
     },
     desc: {
         fontSize: 12,
-        color: difficulty? '#000000': '#ffffff87'
+        color: lifestyle? '#000000': '#ffffff87'
     }
 });
 
-export default lifestyle;
+export default Lifestyle;

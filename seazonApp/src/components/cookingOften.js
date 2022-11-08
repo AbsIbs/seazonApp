@@ -1,57 +1,65 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 
-const cookingOften = () => {
+const CookingOften = (props) => {
 
-    const [min, setMin] = useState(false)
-    const [mid, setMid] = useState(false)
-    const [max, setMax] = useState(false)
+    const [activeIndex, setActiveIndex] = useState({
+        'Infrequently': false,
+        'Sometimes': false,
+        'Often': false
+    });
 
-    const skillList = [setMin, setMid, setMax]
-
-    const toggle = (num, difficulty) => {
-        for (let i=0; i<3; i++) {
-            let set = skillList[i]
-            set(false)
-        }
-        skillList[num](!difficulty)
+    // Update object state by making a copy rather than mutating the state
+    const toggle = (frequency) => {
+        setActiveIndex(prevState => {
+            const nextState = {}
+            Object.keys(prevState).forEach(key => {
+                if (key==frequency) {
+                    nextState[key] = true
+                } else {
+                    nextState[key] = false
+                }
+            })
+            return nextState
+        })
     };
 
-    const tintToggle = (difficulty) => {
-        return(
-            difficulty? '#000000': '#ffffff50'
-        )
-    }; 
+    // Extract cooking frequency
+    useEffect(() => {
+        props.setUserData(prevState => {
+            return({...prevState, attributes: {...prevState.attributes, cookingFrequency: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+        }) 
+    }, [activeIndex]);
 
     return(
         <View style={styles().container}>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(min).button}
-                onPress={() => toggle(0, min)}>
+                style={styles(activeIndex['Infrequently']).button}
+                onPress={() => toggle('Infrequently')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(min).title}>Infrequently</Text>
-                        <Text style={styles(min).desc}>Once or twice a week</Text>
+                        <Text style={styles(activeIndex['Infrequently']).title}>Infrequently</Text>
+                        <Text style={styles(activeIndex['Infrequently']).desc}>Once or twice a week</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(mid).button}
-                onPress={() => toggle(1, mid)}>
+                style={styles(activeIndex['Sometimes']).button}
+                onPress={() => toggle('Sometimes')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(mid).title}>Sometimes</Text>
-                        <Text style={styles(mid).desc}>3-5 times a week</Text>
+                        <Text style={styles(activeIndex['Sometimes']).title}>Sometimes</Text>
+                        <Text style={styles(activeIndex['Sometimes']).desc}>3-5 times a week</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(max).button}
-                onPress={() => toggle(2, max)}>
+                style={styles(activeIndex['Often']).button}
+                onPress={() => toggle('Often')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(max).title}>Often</Text>
-                        <Text style={styles(max).desc}>More than 5 times a week</Text>
+                        <Text style={styles(activeIndex['Often']).title}>Often</Text>
+                        <Text style={styles(activeIndex['Often']).desc}>More than 5 times a week</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -93,4 +101,4 @@ const styles = (difficulty) => StyleSheet.create({
     }
 });
 
-export default cookingOften;
+export default CookingOften;

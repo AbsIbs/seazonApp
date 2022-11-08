@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 const GenderList = (props) => {
 
+    // states
     const [activeIndex, setActiveIndex] = useState({
         'Male': false,
         'Female': false,

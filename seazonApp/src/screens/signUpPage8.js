@@ -3,21 +3,10 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import globalStyle from "../utils/globalStyle";
 
 // Components
-import highlightCircle from "../components/highlightCircle";
+import Allergies from "../components/allergies";
+import DietaryRequirements from "../components/dietaryRequirements";
 
-const SignUpPage8 = () => {
-
-    // images
-    const dairy = require('../../assets/img/dairy.png')
-    const nuts = require('../../assets/img/nuts.png')
-    const gluten = require('../../assets/img/gluten.png')
-
-    const vegetarian = require('../../assets/img/vegetarian.png')
-    const vegan = require('../../assets/img/vegan.png')
-    const pescatarian = require('../../assets/img/pescatarian.png')
-
-    const halal = require('../../assets/img/halal.png')
-    const kosher = require('../../assets/img/kosher.png')
+const SignUpPage8 = (props) => {
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}} contentContainerStyle={{paddingBottom: 10}}>
@@ -26,21 +15,12 @@ const SignUpPage8 = () => {
                     <View style={styles().container}>
                         <Text style={styles().title}>Do you have any allergies?</Text>
                     </View>
-                    <View style={styles().itemContainer}>
-                        <View style={styles().item}>
-                            {highlightCircle('Dairy', dairy)}
-                        </View>
-                        <View style={styles().item}>
-                            {highlightCircle('Nuts', nuts)}
-                        </View>
-                        <View style={styles().item}>
-                            {highlightCircle('Gluten', gluten)}
-                        </View>
-                    </View>
+                    <Allergies setUserData={props.setUserData}/>
                     <View style={styles().container}>
                         <Text style={styles().title}>Do you have any dietary requirements?</Text>
                     </View>
-                    <View>
+                    <DietaryRequirements setUserData={props.setUserData} />
+                    {/* <View>
                         <View style={styles().itemContainer}>
                             <View style={styles().item}>
                                 {highlightCircle('Vegetarian', vegetarian)}
@@ -60,7 +40,7 @@ const SignUpPage8 = () => {
                                 {highlightCircle('Kosher', kosher)}
                             </View>
                         </View>
-                    </View>
+                    </View> */}
                 </View>
             </View>
         </ScrollView>
@@ -73,7 +53,7 @@ const styles = () => StyleSheet.create({
         width: '90%'
     },
     container: {
-        paddingTop: 20
+        paddingVertical: 20
     },
     title: {
         fontSize: 16,

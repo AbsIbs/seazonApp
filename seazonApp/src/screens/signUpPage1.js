@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SignUpTextField from '../components/signInTextField';
 import globalStyle from '../utils/globalStyle';
 
@@ -29,35 +30,33 @@ const SignUpPage1 = (props) => {
         });
     };
 
-    return( 
-        <ScrollView>
-            <View style={globalStyle.signUpContainer}>
-                <View style={styles.contentContainer}>
-                    <View style={styles.uploadContainer}> 
-                        <View style={styles.textContainer}>
-                            <Text style={styles.Title}>
-                                Upload your image
-                            </Text>
-                            <Text style={styles.Desc}>
-                                This image will be visible to other users
-                            </Text>
-                        </View>
-                        <View style={styles.imageContainer}>
-                            <TouchableOpacity onPress={galleryUploadHandler}>
-                                <Image
-                                    style={{width: 80, height: 80}}
-                                    source={require('../../assets/img/cameraAdd.png')}/>
-                            </TouchableOpacity> 
-                        </View>
+    return(
+        <View style={globalStyle.signUpContainer}>
+            <View style={styles.contentContainer}>
+                <View style={styles.uploadContainer}> 
+                    <View style={styles.textContainer}>
+                        <Text style={styles.Title}>
+                            Upload your image
+                        </Text>
+                        <Text style={styles.Desc}>
+                            This image will be visible to other users
+                        </Text>
                     </View>
-                    <View style={styles.formContainer}>
-                        <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignUpTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
+                    <View style={styles.imageContainer}>
+                        <TouchableOpacity onPress={galleryUploadHandler}>
+                            <Image
+                                style={{width: 80, height: 80}}
+                                source={require('../../assets/img/cameraAdd.png')}/>
+                        </TouchableOpacity> 
                     </View>
                 </View>
+                <View style={styles.formContainer}>
+                    <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                    <SignUpTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                    <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
+                </View>
             </View>
-        </ScrollView>
+        </View>
     ) 
 };
 

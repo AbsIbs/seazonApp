@@ -26,15 +26,15 @@ const recipeFormSection = (props) => {
         return (
             <View>
                 <Text style={styles().outerSectionTitle}>{props.title}</Text>
-                <View style={styles().outerInputSection}>
-                    <TextInput
-                     style={[styles(props.height, props.type).sectionInput]}
-                     placeholder={props.placeholder}
-                     placeholderTextColor='#ffffff50'
-                     fontSize={12}
-                     color='white'
-                     multiline={true}
-                     textAlignVertical='top'>
+                    <View style={styles().outerInputSection}>
+                        <TextInput
+                          style={[styles(props.height, props.type).sectionInput]}
+                          placeholder={props.placeholder}
+                          placeholderTextColor='#ffffff50'
+                          fontSize={12}
+                          color='white'
+                          multiline={true}
+                          textAlignVertical='top'>
                     </TextInput>
                 </View>
             </View>

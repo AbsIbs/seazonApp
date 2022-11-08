@@ -4,11 +4,11 @@ import globalStyle from '../utils/globalStyle';
 
 //components
 import pleaseNote from '../components/pleaseNote';
-import cookingOften from '../components/cookingOften';
+import CookingOften from '../components/cookingOften';
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage4 = () => {
+const SignUpPage4 = (props) => {
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={globalStyle.signUpContainer}>
@@ -20,7 +20,7 @@ const SignUpPage4 = () => {
                         <Text style={styles.title}>How often do you cook?</Text>
                     </View>
                     <View style={styles.formContainer}>
-                        {cookingOften()}
+                        <CookingOften setUserData={props.setUserData}/>
                     </View>
                 </View>
             </View>

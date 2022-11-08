@@ -31,8 +31,7 @@ const AgeList = (props) => {
     useEffect(() => {
         props.setUserData(prevState => {
             return({...prevState, attributes: {...prevState.attributes, age: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
-        }) 
-        }, [activeIndex]);
+        })}, [activeIndex]);
 
     return(
         <View style={ageListStyle().container}>
@@ -103,7 +102,7 @@ const ageListStyle = (color) => StyleSheet.create({
         flex: 1
     },
     button: {
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
         height: 35,

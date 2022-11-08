@@ -4,11 +4,11 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 // Components
 import pleaseNote from "../components/pleaseNote";
 import globalStyle from "../utils/globalStyle";
-import goals from "../components/goals";
+import WhereFindRecipes from "../components/whereFindRecipes";
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage6 = () => {
+const SignUpPage6 = (props) => {
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
@@ -17,24 +17,10 @@ const SignUpPage6 = () => {
                     <View style={styles().container}>
                         {pleaseNote(message)}
                     </View>
-                    <View style={styles().container}>
+                    <View style={{paddingTop: 20, paddingBottom: 10}}>
                         <Text style={styles().title}>Where do you usually find your recipes?</Text>
                     </View>
-                    <View style={styles().container}>
-                        {goals('Recipe apps')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Online blogs/websites')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('YouTube')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('TikTok')}
-                    </View>
-                    <View style={styles().container}>
-                        {goals('Family and friends')}
-                    </View>
+                    <WhereFindRecipes setUserData={props.setUserData} />
                 </View>
             </View>
         </ScrollView>

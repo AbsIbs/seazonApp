@@ -20,7 +20,7 @@ const SignUpPage3 = (props) => {
                         <Text style={styles.title}>What is your cooking level?</Text>
                     </View>
                     <View style={styles.formContainer}>
-                        <CookingLevelList dataObject = {props.dataObject}/>
+                        <CookingLevelList setUserData={props.setUserData}/>
                     </View>
                 </View>
             </View>

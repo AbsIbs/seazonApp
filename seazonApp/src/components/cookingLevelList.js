@@ -1,63 +1,65 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const CookingLevelList = (props) => {
 
-    const [min, setMin] = useState(false)
-    const [mid, setMid] = useState(false)
-    const [max, setMax] = useState(false)
+    const [activeIndex, setActiveIndex] = useState({
+        'Beginner': false,
+        'Intermediate': false,
+        'Advanced': false
+    });
 
-    const skillList = [setMin, setMid, setMax]
-
-    const cookingLevelObject = {
-        0: 'min',
-        1: 'mid',
-        2: 'max'
+    // Update object state by making a copy rather than mutating the state
+    const toggle = (level) => {
+        setActiveIndex(prevState => {
+            const nextState = {}
+            Object.keys(prevState).forEach(key => {
+                if (key==level) {
+                    nextState[key] = true
+                } else {
+                    nextState[key] = false
+                }
+            })
+            return nextState
+        })
     };
 
-    const toggle = (num, difficulty) => {
-        for (let i=0; i<3; i++) {
-            let set = skillList[i]
-            set(false)
-        };
-        skillList[num](!difficulty);
-    };
-
-    const tintToggle = (difficulty) => {
-        return(
-            difficulty? '#000000': '#ffffff50'
-        )
-    }; 
+    // Extract cooking level
+        useEffect(() => {
+            props.setUserData(prevState => {
+             return({...prevState, attributes: {...prevState.attributes, cookingLevel: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+            }) 
+        }, [activeIndex]);
 
     return(
         <View style={styles().container}>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(min).button}
-                onPress={() => toggle(0, min)}>
+                style={styles(activeIndex['Beginner']).button}
+                onPress={() => toggle('Beginner')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(min).title}>Beginner</Text>
-                        <Text style={styles(min).desc}>"I'm cooking just to get by"</Text>
+                        <Text style={styles(activeIndex['Beginner']).title}>Beginner</Text>
+                        <Text style={styles(activeIndex['Beginner']).desc}>"I'm cooking just to get by"</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(mid).button}
-                onPress={() => toggle(1, mid)}>
+                style={styles(activeIndex['Intermediate']).button}
+                onPress={() => toggle('Intermediate')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(mid).title}>Intermediate</Text>
-                        <Text style={styles(mid).desc}>"I like experiencing with recipes"</Text>
+                        <Text style={styles(activeIndex['Intermediate']).title}>Intermediate</Text>
+                        <Text style={styles(activeIndex['Intermediate']).desc}>"I like experiencing with recipes"</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity 
-                style={styles(max).button}
-                onPress={() => toggle(2, max)}>
+                style={styles(activeIndex['Advanced']).button}
+                onPress={() => toggle('Advanced')}>
                     <View style={styles().textContainer}>
-                        <Text style={styles(max).title}>Advanced</Text>
-                        <Text style={styles(max).desc}>"Self-proclaimed master chef"</Text>
+                        <Text style={styles(activeIndex['Advanced']).title}>Advanced</Text>
+                        <Text style={styles(activeIndex['Advanced']).desc}>"Self-proclaimed master chef"</Text>
                     </View>
                 </TouchableOpacity>
             </View>

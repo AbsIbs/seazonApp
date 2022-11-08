@@ -27,7 +27,7 @@ const SignUpPage2 = (props) => {
                         <Text style={styles.title}>Age<Text style={{fontWeight: 'normal'}}>(optional)</Text></Text>
                     </View>
                     <View>
-                    <AgeList setUserData={props.setUserData} /> 
+                        <AgeList setUserData={props.setUserData} /> 
                     </View>
                 </View>
             </View>

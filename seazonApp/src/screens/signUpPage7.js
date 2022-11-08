@@ -4,11 +4,11 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 // Components
 import pleaseNote from "../components/pleaseNote";
 import globalStyle from "../utils/globalStyle";
-import lifestyle from "../components/lifestyle";
+import Lifestyle from "../components/lifestyle";
 
 const message = 'Please note that we will NOT be sharing this with other users'
 
-const SignUpPage7 = () => {
+const SignUpPage7 = (props) => {
 
     return(
         <ScrollView style={{backgroundColor: '#121212'}}>
@@ -17,12 +17,10 @@ const SignUpPage7 = () => {
                     <View style={styles().container}>
                         {pleaseNote(message)}
                     </View>
-                    <View style={styles().container}>
+                    <View style={{paddingTop: 20, paddingBottom: 10}}>
                         <Text style={styles().title}>How active are you?</Text>
                     </View>
-                    <View style={styles().container}>
-                        {lifestyle()}
-                    </View>
+                    <Lifestyle setUserData={props.setUserData} />
                 </View>
             </View>
         </ScrollView>

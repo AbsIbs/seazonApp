@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Pressable } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Components
 import SignUpBanner from '../components/signUpBanner';
@@ -45,8 +46,10 @@ const SignUpPage = ({ navigation }) => {
 
     const newPageChange = (instruction) => {
         if(instruction == 'next') {
-            swiperRef.current.goToNext()
-            setProgressPercentage(progressPercentage + (100/8))
+            if (progressPercentage < (7*100/8)) {
+                swiperRef.current.goToNext()
+                setProgressPercentage(progressPercentage + (100/8))
+            }
         } else {
             swiperRef.current.goToPrev()
             if (progressPercentage > 0) {
@@ -57,29 +60,29 @@ const SignUpPage = ({ navigation }) => {
     };
 
     return (
-        <View style={styles().container}>
+        <KeyboardAwareScrollView contentContainerStyle={styles().container}>
             {/* Banner */}
             <SignUpBanner navigation={navigation} percentage={progressPercentage} userData={userData} setUserData={setUserData} />
             {/* Swiper */} 
             <Swiper 
-             controlsProps={{
+              controlsProps={{
                 prevPos: false,
                 dotsPos: false,
                 nextPos: false}}
-             ref={swiperRef}
-             gesturesEnabled={() => false}>
+              ref={swiperRef}
+              gesturesEnabled={() => false}>
                 {/* Slides*/}
                 <SignUpPage1 setUserData={setUserData} />
                 <SignUpPage2 setUserData={setUserData} />   
-                <SignUpPage3 />
-                <SignUpPage4 />
-                <SignUpPage5 />
-                <SignUpPage6 />
-                <SignUpPage7 />
-                <SignUpPage8 /> 
+                <SignUpPage3 setUserData={setUserData} />
+                <SignUpPage4 setUserData={setUserData} />
+                <SignUpPage5 setUserData={setUserData} />
+                <SignUpPage6 setUserData={setUserData} />
+                <SignUpPage7 setUserData={setUserData} />
+                <SignUpPage8 setUserData={setUserData} /> 
             </Swiper>
             {/* Bottom Nav */}
-            <View style={styles().buttonSection}>
+            {/* <View style={styles().buttonSection}>
                 <View style={styles().buttonContainer}>
                     <TouchableOpacity 
                     style={styles('prev').button}
@@ -89,13 +92,23 @@ const SignUpPage = ({ navigation }) => {
                 </View>
                 <View style={styles().buttonContainer}>
                     <TouchableOpacity 
-                      style={styles('next').button}
-                      onPress={() => newPageChange('next')}>
+                    style={styles('next').button}
+                    onPress={() => newPageChange('next')}>
                         <Text style={{color: '#ffffff'}}>Next</Text>
                     </TouchableOpacity>
                 </View>
+            </View> */}
+            <View style={styles().buttonSection}>
+                <View style={styles().innerButtonSection}>
+                    <Pressable onPress={() => newPageChange('prev')} style={styles('prev').button}>
+                        <Text>Back</Text>
+                    </Pressable>
+                    <Pressable onPress={() => newPageChange('next')} style={styles('next').button}>
+                        <Text>Next</Text>
+                    </Pressable>
+                </View>
             </View>
-        </View>
+        </KeyboardAwareScrollView> 
     )
 };
 
@@ -104,7 +117,7 @@ const styles = (button) => StyleSheet.create({
         backgroundColor: '#121212',
         flex: 1
     },
-    buttonSection: {
+/*     buttonSection: {
         height: 55, 
         flexDirection: 'row', 
         justifyContent: 'center', 
@@ -127,6 +140,35 @@ const styles = (button) => StyleSheet.create({
         borderRadius: 2,
         borderColor: button == 'next'? '': '#757882',
         borderWidth: button == 'next'? 0: 0.5
+    }, */
+    
+    buttonSection: {
+        height: 45,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTopWidth: 0.2,
+        borderColor: '#75788240'
+    },
+    innerButtonSection: {
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        width: '60%',
+        height: '70%',
+        borderRadius: 30
+      },
+    button: {
+        backgroundColor: button == 'next'? '#E32828': '#00000000',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: button == 'next'? '': '#757882',
+        borderWidth: button == 'prev'? 0.25: 0,
+        flex: 1,
+        height: '100%',
+        borderTopRightRadius: button == 'next'? 50: 0,
+        borderBottomRightRadius: button == 'next'? 50: 0,
+        borderTopLeftRadius: button == 'prev'? 50: 0,
+        borderBottomLeftRadius: button == 'prev'? 50: 0
     },
 });
 

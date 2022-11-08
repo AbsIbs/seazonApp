@@ -11,12 +11,12 @@ const highlightCircle = (text, image) => {
 
     return(
         <View>
-            <TouchableOpacity 
-             style={styles(highlight).circle}
-             onPress={()=>toggle()}>
+            <TouchableOpacity
+              style={styles(highlight).circle}
+              onPress={()=>toggle()}>
                 <Image 
-                 style={styles().image}
-                 source={image}/>
+                  style={styles().image}
+                  source={image} />
             </TouchableOpacity>
             <Text style={styles(highlight).text}>{text}</Text>
         </View>
