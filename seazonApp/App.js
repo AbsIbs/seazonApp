@@ -9,6 +9,7 @@ import awsconfig from './src/aws-exports'
 Amplify.configure(awsconfig);
 
 // Sign up/log in screens
+import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/SignUpPage";
 
@@ -24,6 +25,7 @@ function App({ navigation }) {
                 screenOptions={{
                     headerShown: false
                 }}>
+                <Stack.Screen name='Landing Page' component={LandingPage} />
                 <Stack.Screen name='Sign In' component={SignInPage} />
                 <Stack.Screen name='Sign Up' component={SignUpPage} />
                 <Stack.Screen name='Bottom Tabs Stack' component={BottomTabsStack} />
