@@ -1,11 +1,17 @@
 import React, { useState, useRef } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Swiper from 'react-native-web-swiper'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useNavigation } from "@react-navigation/native";
+import BottomSheet from 'react-native-bottomsheet-reanimated';
 
-const LandingPage = ({ navigation }) => {
+const LandingPage = () => {
+
+    const navigation = useNavigation()
     
     const swiperRef = useRef(null);
     const [pageIndex, setPageIndex] = useState(0);
+    const bottomSheetRef = useRef(null);
 
     const BG = {
         0: require('../../assets/img/landingPage0.png'),
@@ -15,21 +21,20 @@ const LandingPage = ({ navigation }) => {
 
     const slideObject = {
         slide0: {
-            title: 'Maximise your fitness',
-            desc: "Whether you're here for food or fitness, we'll cater to your every need. Read through an array of articles, diets and learn more about healthy eating",
-            image: require('../../assets/img/healthIcon.png')
-        },
-        slide1: {
-            title: 'Discover new recipes',
-            desc: 'Select your ingredients and discover thousands of recipes from all around the world',
-            image: require('../../assets/img/locationIcon.png')
-        },
-        slide2: {
             title: 'Engage with our community',
             desc: 'Join our ever-growing global community and interact with content creators to learn, share and create new recipes',
             image: require('../../assets/img/groupIcon.png')
         },
-
+        slide1: {
+            title: 'Maximise your fitness',
+            desc: "Whether you're here for food or fitness, we'll cater to your every need. Read through an array of articles, diets and learn more about healthy eating",
+            image: require('../../assets/img/healthIcon.png')
+        },
+        slide2: {
+            title: 'Discover global recipes',
+            desc: 'Travel across the globe and discover thousands of recipes',
+            image: require('../../assets/img/locationIcon.png')
+        }
     };
 
     const Slide = (props) => {
@@ -46,39 +51,84 @@ const LandingPage = ({ navigation }) => {
         )
     };
 
+    const ModalOption = (props) => {
+        return(
+            <TouchableOpacity style={styles().modalOption} onPress={() => {
+                bottomSheetRef.current?.snapTo(0)
+                navigation.navigate(props.destination)
+                }}>
+                <MaterialCommunityIcons 
+                 name={props.icon} 
+                 color={'#ffffff'} 
+                 size={22.5}
+                 style={{marginLeft: '7.5%', position: 'absolute'}} />
+                <Text style={{flex: 1, textAlign: 'center', fontSize: 12, fontWeight: 'bold'}}>Continue with {props.text}</Text>
+            </TouchableOpacity>
+        )
+    };
+
     return(
-        <View style={styles().container}>
-            <Image 
-             style={[
-                {height: '100%', width: '100%', position: 'absolute'}]}
-             source={BG[pageIndex]}
-             resizeMode='cover'/>
-             <View style={{backgroundColor: '#00000099', flex: 1}}>
-                <View style={{flex: 1, marginTop: '20%'}}>
-                    <Swiper
-                    style={{flex: 3}}
-                    swiperRef={swiperRef}
-                    onIndexChanged={(index) => setPageIndex(index)} 
-                    controlsProps={{
-                        prevPos: false,
-                        nextPos: false}}
-                    activeDotColor={'#E32828'}
-                    resizeMode='contain'>
-                        <Slide title={slideObject['slide0']['title']} desc={slideObject['slide0']['desc']} image={slideObject['slide0']['image']} />
-                        <Slide title={slideObject['slide1']['title']} desc={slideObject['slide1']['desc']} image={slideObject['slide1']['image']} />
-                        <Slide title={slideObject['slide2']['title']} desc={slideObject['slide2']['desc']} image={slideObject['slide2']['image']} />  
-                    </Swiper>
+ 
+            <View style={styles().container}>
+                <Image 
+                style={[
+                    {height: '100%', width: '100%', position: 'absolute'}]}
+                source={BG[pageIndex]}
+                resizeMode='cover'/>
+                <View style={{backgroundColor: '#00000099', flex: 1}}>
+                    <View style={{flex: 1, marginTop: '20%'}}>
+                        <Swiper
+                        style={{flex: 3}}
+                        swiperRef={swiperRef}
+                        onIndexChanged={(index) => setPageIndex(index)} 
+                        controlsProps={{
+                            prevPos: false,
+                            nextPos: false}}
+                        activeDotColor={'red'}
+                        resizeMode='contain'>
+                            <Slide title={slideObject['slide0']['title']} desc={slideObject['slide0']['desc']} image={slideObject['slide0']['image']} />
+                            <Slide title={slideObject['slide1']['title']} desc={slideObject['slide1']['desc']} image={slideObject['slide1']['image']} />
+                            <Slide title={slideObject['slide2']['title']} desc={slideObject['slide2']['desc']} image={slideObject['slide2']['image']} />  
+                        </Swiper>
+                    </View>
+                    <View style={{flex: 0.6, alignItems: 'center', justifyContent: 'flex-end'}}>
+                        <TouchableOpacity style={styles('').button} onPress={() => bottomSheetRef.current?.snapTo(1)}>
+                            <Text style={styles().text}>SIGN UP</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        style={styles('login').button} 
+                        onPress={() => navigation.navigate('Sign In')}>
+                            <Text style={styles().text}>LOGIN</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{flex: 0.6, alignItems: 'center', justifyContent: 'flex-end'}}>
-                    <TouchableOpacity style={styles('').button} onPress={() => navigation.navigate('Sign Up')}>
-                        <Text style={styles().text}>SIGN UP</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles('login').button}>
-                        <Text style={styles().text}>LOGIN</Text>
-                    </TouchableOpacity>
-                </View>
-             </View>              
-        </View>
+                <BottomSheet
+                keyboardAware
+                //bottomSheerColor="#121212"
+                ref={bottomSheetRef}
+                initialPosition={'0%'} //200, 300
+                snapPoints={['0%', 300]}
+                isBackDrop={true}
+                isBackDropDismissByPress={true}
+                isRoundBorderWithTipHeader={true}
+                bounce={false}
+                // backDropColor="red"
+                // isModal
+                containerStyle={{backgroundColor:"#121212"}}
+                tipStyle={{backgroundColor:"white"}}
+                // headerStyle
+                // bodyStyle={styles().modal}
+                header={null}
+                body={
+                    <View style={{backgroundColor: '#121212', alignItems: 'center'}}>
+                        <ModalOption text={'Email'} icon={'email'} destination={'Sign Up'} />
+                        <ModalOption text={'Apple'} icon={'apple'} destination={'Sign Up'} />
+                        <ModalOption text={'Facebook'} icon={'facebook'} destination={'Sign Up'} />
+                        <ModalOption text={'Google'} icon={'google'} destination={'Sign Up'} />
+                    </View>
+                }/>
+            </View>  
+ 
     )
 }
 
@@ -133,7 +183,17 @@ const styles = (button) => StyleSheet.create({
         borderRadius: 30,
         backgroundColor: 'white',
         marginBottom: 40
-    }
+    },
+    modalOption: {
+        width: '80%',
+        height: 45,
+        borderWidth: 0.5,
+        borderColor: 'white',
+        borderRadius: 25,
+        marginVertical: 7.5,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
 });
 
 export default LandingPage;

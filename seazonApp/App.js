@@ -18,7 +18,7 @@ import BottomTabsStack from "./src/routes/bottomTabsStack";
 
 const Stack = createStackNavigator()
 
-function App({ navigation }) {
+function App() {
     return(
         <NavigationContainer>
             <Stack.Navigator

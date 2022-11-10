@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import SignInTextField from '../components/signInTextField';
 
-const SignInPage = ({navigation}) => {
+const SignInPage = () => {
 
     const userData = {}
 
@@ -16,9 +16,15 @@ const SignInPage = ({navigation}) => {
                 style={styles.backgroundImage}
                 imageStyle={{opacity: 0.2}}>
                     <View style={styles.signUpContainer}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Landing Page')}>
+                            <Image 
+                            source={require('../../assets/img/iconBack.png')} 
+                            style={styles.backButton}/>
+                        </TouchableOpacity>
                         <View style={styles.title}>
                             <Text style={styles.title}>
-                                Welcome!
+                                Welcome back!
                             </Text>
                             <Text style={styles.text}>
                                 Sign in to continue
@@ -27,6 +33,7 @@ const SignInPage = ({navigation}) => {
                         <View style={styles.inputContainer}>
                             <SignInTextField iconName='envelope' placeholder='Email' secure={false} />
                             <SignInTextField iconName='lock' placeholder='Password' secure={true} />
+                            <Text style={{textAlign: 'right', paddingBottom: 30, fontSize: 12}}>Forgetten Passoword?</Text>
                             <TouchableOpacity 
                              style={styles.signInButton}
                              onPress={() => navigation.navigate('Bottom Tabs Stack')}>
@@ -36,31 +43,11 @@ const SignInPage = ({navigation}) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
-                            <Text style={{color: '#ffffff87'}}>
-                                or continue with
+                            <Text style={{color: '#ffffff87', fontSize: 12}}>
+                                Login with social
                             </Text>
                         </View>
-                        <View style={styles.logoContainer}>
-                            <View style={styles.logoInner}>
-                                <Image source={require('../../assets/img/appleLogo.png')} style={styles.logos} />
-                                <Image source={require('../../assets/img/googleLogo.png')} style={styles.logos} />
-                                <Image source={require('../../assets/img/facebookLogo.png')} style={styles.logos} />
-                            </View>
-                        </View>
-                        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{color: '#ffffff87', marginBottom: 5}}>
-                                    Don't have an account yet?
-                                </Text>
-                                <Text 
-                                    style={{marginLeft: 5, color: '#ffffff87', color: '#E32828', fontWeight: '400'}}
-                                    onPress={() => navigation.navigate('Sign Up')}>
-                                    Sign Up
-                                </Text>
-                            </View>
-                            <Text style={{color: '#E32828', fontWeight: '400'}}>
-                                Forgotten password?
-                            </Text>
+                            <View style={styles.logoContainer}>
                         </View>
                     </View>
             </ImageBackground>
@@ -83,15 +70,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         width: '80%',
-        justifyContent: 'center'
     },
     textContainer: {
         marginBottom: '25%'
     },
     title: {
-        fontSize: 40,
+        fontSize: 35,
         color: '#ffffff',
-        marginBottom: 5
+        marginBottom: 5,
+        fontWeight: 'bold'
     },
     text: {
         fontSize: 12,
@@ -126,7 +113,13 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         flex: 1,
         height: 50
-    }
+    },
+    backButton: {
+        resizeMode: 'cover', 
+        height: 45, 
+        width: 45, 
+        marginBottom: 10
+    },
 })
 
 export default SignInPage;

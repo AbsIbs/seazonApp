@@ -32,7 +32,7 @@ function SignInTextField(props) {
 
     // Onchange Text handler
     const onEndEditingHandler = (text) => {
-      if (props.placeholder == 'Email') {
+     /*  if (props.placeholder == 'Email') {
         props.setUserData(prevState => {
           return({...prevState, attributes: {...prevState.attributes, [props.placeholder.toLowerCase()]: text}})
       })
@@ -40,7 +40,8 @@ function SignInTextField(props) {
         props.setUserData(prevState => {
             return({...prevState, [props.placeholder.toLowerCase()]: text})
           })
-        }
+        } */
+        null
       }
 
     return(
@@ -88,7 +89,7 @@ function SignInTextField(props) {
       height: 47.5,
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 30,
+      marginVertical: 10,
       borderRadius: 4
     }
   });
