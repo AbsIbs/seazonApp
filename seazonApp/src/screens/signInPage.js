@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import SignInTextField from '../components/signInTextField';
+import { useNavigation } from '@react-navigation/native';
 
 const SignInPage = () => {
 
+    const navigation = useNavigation()
     const userData = {}
 
     const bg = require('../../assets/img/bg.png')

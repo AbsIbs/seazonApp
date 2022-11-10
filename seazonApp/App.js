@@ -5,6 +5,7 @@ import { createStackNavigator} from "@react-navigation/stack";
 
 import { Amplify } from 'aws-amplify'
 import awsconfig from './src/aws-exports'
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 Amplify.configure(awsconfig);
 
@@ -26,8 +27,20 @@ function App() {
                     headerShown: false
                 }}>
                 <Stack.Screen name='Landing Page' component={LandingPage} />
-                <Stack.Screen name='Sign In' component={SignInPage} />
-                <Stack.Screen name='Sign Up' component={SignUpPage} />
+                <Stack.Screen 
+                  name='Sign In' 
+                  component={SignInPage} 
+                  options={{
+                    title: 'Sign In',
+                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+                  }} />
+                <Stack.Screen 
+                  name='Sign Up' 
+                  component={SignUpPage} 
+                  options={{
+                    title: 'Sign Up',
+                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+                  }} />
                 <Stack.Screen name='Bottom Tabs Stack' component={BottomTabsStack} />
                 <Stack.Screen name='Modal Stack' component={ModalStack} /> 
             </Stack.Navigator>
