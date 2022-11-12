@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, {useRef, useState} from "react";
 import { View, TextInput, StyleSheet, Animated } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
@@ -66,7 +66,8 @@ function SignUpTextField(props) {
            style={{ flex: 1, marginLeft: 7}}
            onBlur={onBlurHandler}
            onChangeText={(input) => {setText(input)}} 
-           onEndEditing={(e) => {onEndEditingHandler(e.nativeEvent.text)}} />
+           onEndEditing={(e) => {onEndEditingHandler(e.nativeEvent.text)}} 
+           secureTextEntry={props.secure}/>
         </View>
         {/* Icon */}
         <View style = {{alignItems: 'center', flex: 1, paddingRight: 10}} >

@@ -67,7 +67,8 @@ function SignInTextField(props) {
            style={{ flex: 1, marginLeft: 7}}
            onBlur={onBlurHandler}
            onChangeText={(input) => {setText(input)}} 
-           onEndEditing={(e) => {onEndEditingHandler(e.nativeEvent.text)}} />
+           onEndEditing={(e) => {onEndEditingHandler(e.nativeEvent.text)}} 
+           secureTextEntry={props.secure} />
         </View>
         {/* Icon */}
         <View style = {{alignItems: 'center', flex: 1, paddingRight: 10}} >
