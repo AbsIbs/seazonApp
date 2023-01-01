@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Components
@@ -8,6 +8,8 @@ import Swiper from 'react-native-web-swiper'
 
 // Import slides
 import SignUpPage1 from './signUpPage1';
+import SignUpPage1Copy from './signUpPage1 copy';
+import SignUpPage2Copy from './signUpPage2 copy';
 import SignUpPage2 from './signUpPage2';
 import SignUpPage3 from './signUpPage3';
 import SignUpPage4 from './signUpPage4';
@@ -17,8 +19,6 @@ import SignUpPage7 from './signUpPage7';
 import SignUpPage8 from './signUpPage8';
 
 const SignUpPage = ({ navigation }) => {
-
-    const [pageNum, setPageNum] = useState(0);
 
     // Circular progress bar percentage
     const [progressPercentage, setProgressPercentage] = useState(0);
@@ -73,16 +73,18 @@ const SignUpPage = ({ navigation }) => {
               gesturesEnabled={() => false}>
                 {/* Slides*/}
                 <SignUpPage1 setUserData={setUserData} />
+                {/* <SignUpPage1Copy setUserData={setUserData} /> */}
+                <SignUpPage2Copy setUserData={setUserData} userData={userData} /> 
                 <SignUpPage2 setUserData={setUserData} />   
                 <SignUpPage3 setUserData={setUserData} />
                 <SignUpPage4 setUserData={setUserData} />
                 <SignUpPage5 setUserData={setUserData} />
                 <SignUpPage6 setUserData={setUserData} />
                 <SignUpPage7 setUserData={setUserData} />
-                <SignUpPage8 setUserData={setUserData} /> 
+                {/* <SignUpPage8 setUserData={setUserData} />  */}
             </Swiper>
             {/* Bottom Nav */}
-            {/* <View style={styles().buttonSection}>
+            <View style={styles().buttonSection}>
                 <View style={styles().buttonContainer}>
                     <TouchableOpacity 
                     style={styles('prev').button}
@@ -97,8 +99,8 @@ const SignUpPage = ({ navigation }) => {
                         <Text style={{color: '#ffffff'}}>Next</Text>
                     </TouchableOpacity>
                 </View>
-            </View> */}
-            <View style={styles().buttonSection}>
+            </View>
+{/*             <View style={styles().buttonSection}>
                 <View style={styles().innerButtonSection}>
                     <Pressable onPress={() => newPageChange('prev')} style={styles('prev').button}>
                         <Text>Back</Text>
@@ -107,7 +109,7 @@ const SignUpPage = ({ navigation }) => {
                         <Text>Next</Text>
                     </Pressable>
                 </View>
-            </View>
+            </View> */}
         </KeyboardAwareScrollView> 
     )
 };
@@ -117,7 +119,7 @@ const styles = (button) => StyleSheet.create({
         backgroundColor: '#121212',
         flex: 1
     },
-/*     buttonSection: {
+    buttonSection: {
         height: 55, 
         flexDirection: 'row', 
         justifyContent: 'center', 
@@ -140,9 +142,9 @@ const styles = (button) => StyleSheet.create({
         borderRadius: 2,
         borderColor: button == 'next'? '': '#757882',
         borderWidth: button == 'next'? 0: 0.5
-    }, */
+    },
     
-    buttonSection: {
+    /* buttonSection: {
         height: 45,
         alignItems: 'center',
         justifyContent: 'center',
@@ -169,7 +171,7 @@ const styles = (button) => StyleSheet.create({
         borderBottomRightRadius: button == 'next'? 50: 0,
         borderTopLeftRadius: button == 'prev'? 50: 0,
         borderBottomLeftRadius: button == 'prev'? 50: 0
-    },
+    }, */
 });
 
 export default SignUpPage;

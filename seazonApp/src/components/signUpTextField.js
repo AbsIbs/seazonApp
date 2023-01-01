@@ -43,7 +43,7 @@ function SignUpTextField(props) {
         }
       }
 
-    return(
+    return(  
       <View style={styles().inputContainer}>
         {/* Animated text */}
         <View style={{flex: 9, justifyContent: 'center'}}>

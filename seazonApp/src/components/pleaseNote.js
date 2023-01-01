@@ -1,13 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const pleaseNote = (text) => {
     return(
         <View style={styles.yellowContainer}>
             <View style={styles.imageContainer}>
-                <Image
-                style={styles.image}
-                source={require('../../assets/img/lightBulbIcon.png')}/>
+                <AntDesign 
+                 size={20}
+                 name={'exclamationcircle'} 
+                 color={'#EDBA18'} />
             </View>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>{text}</Text>
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
     yellowContainer: {
         borderRadius: 30,
         width: '100%',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: '#EDBA18',
         height: 60,
         flexDirection: 'row',

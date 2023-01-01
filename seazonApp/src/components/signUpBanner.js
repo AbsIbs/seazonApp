@@ -1,7 +1,8 @@
 import React from "react";
-import { ImageBackground, Image, View, Text, StyleSheet} from "react-native";
+import { ImageBackground, View, Text, StyleSheet} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Entypo from 'react-native-vector-icons/Entypo'
 
 // Componenets
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -35,10 +36,12 @@ function SignUpBanner(props) {
             <View style={styles().contentContainer}>
                 <View style={styles().leftContainer}>
                     <TouchableOpacity
-                        onPress={props.navigation.goBack}>
-                        <Image 
-                        source={require('../../assets/img/iconBack.png')} 
-                        style={styles().backButton}/>
+                        onPress={props.navigation.goBack}
+                        style={styles().goback}>
+                        <Entypo 
+                        name={'cross'}
+                        size={20}
+                        color={'#ffffff'}/>
                     </TouchableOpacity>
                     <View>
                         <Text style={styles().title}>Sign Up</Text>
@@ -70,7 +73,7 @@ function SignUpBanner(props) {
                             <ImageBackground
                             resizeMode='cover' 
                             source={props.userData.attributes.picture}
-                            style={{ height: 100, width: 100}}
+                            style={{ height: Number.isInteger(props.userData.attributes.picture)? 50: 100, width: Number.isInteger(props.userData.attributes.picture)? 50: 100}}
                             imageStyle={{borderRadius: 50}}/>
                         )}
                     </AnimatedCircularProgress>
@@ -97,12 +100,6 @@ const styles = () => StyleSheet.create({
     leftContainer: {
         flex: 2
     },
-    backButton: {
-        resizeMode: 'cover', 
-        height: 45, 
-        width: 45, 
-        marginBottom: 10
-    },
     rightContainer: {
         flex: 1,
         alignItems: 'flex-end'
@@ -115,6 +112,14 @@ const styles = () => StyleSheet.create({
     },
     desc: {
         color: '#ffffff'
+    },
+    goback: {
+        height: 60, 
+        width: 60, 
+        borderRadius: 30,
+        backgroundColor: '#ffffff20',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 
