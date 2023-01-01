@@ -38,46 +38,46 @@ const AgeList = (props) => {
             <View style={ageListStyle().sections}>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity
-                     style={[ageListStyle().button, {backgroundColor: activeIndex['13-18']? '#E84A4A': '#00000000', borderColor: activeIndex['13-18']? '#00000000': '#ffffff50'}]}
+                     style={[ageListStyle().button, {backgroundColor: activeIndex['13-18']? 'white': '#00000000', borderColor: activeIndex['13-18']? '#00000000': '#ffffff50'}]}
                      onPress={() => toggle('13-18')}>
-                        <Text style={ageListStyle().text}>13 - 18</Text>
+                        <Text style={[{color: activeIndex['13-18']? 'black': 'white'}, ageListStyle().text]}>13 - 18</Text>
                     </TouchableOpacity>
                 </View>
             <View style={ageListStyle().buttonContainer}>
                 <TouchableOpacity 
-                 style={[ageListStyle().button, {backgroundColor: activeIndex['19-25']? '#E84A4A': '#00000000', borderColor: activeIndex['19-25']? '#00000000': '#ffffff50'}]}
+                 style={[ageListStyle().button, {backgroundColor: activeIndex['19-25']? 'white': '#00000000', borderColor: activeIndex['19-25']? '#00000000': '#ffffff50'}]}
                  onPress={() => toggle('19-25')}>
-                    <Text style={ageListStyle().text}>19 - 25</Text>
+                    <Text style={[{color: activeIndex['19-25']? 'black': 'white'}, ageListStyle().text]}>19 - 25</Text>
                 </TouchableOpacity>
             </View>
             <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                    style={[ageListStyle().button, {backgroundColor: activeIndex['26-35']? '#E84A4A': '#00000000', borderColor: activeIndex['26-35']? '#00000000': '#ffffff50'}]}
+                    style={[ageListStyle().button, {backgroundColor: activeIndex['26-35']? 'white': '#00000000', borderColor: activeIndex['26-35']? '#00000000': '#ffffff50'}]}
                     onPress={() => toggle('26-35')}>
-                        <Text style={ageListStyle().text}>26 - 35</Text>
+                        <Text style={[{color: activeIndex['26-35']? 'black': 'white'}, ageListStyle().text]}>26 - 35</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={[ageListStyle().sections]}>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                    style={[ageListStyle().button, {backgroundColor: activeIndex['36-45']? '#E84A4A': '#00000000', borderColor: activeIndex['36-45']? '#00000000': '#ffffff50'}]}
+                    style={[ageListStyle().button, {backgroundColor: activeIndex['36-45']? 'white': '#00000000', borderColor: activeIndex['36-45']? '#00000000': '#ffffff50'}]}
                     onPress={() => toggle('36-45')}>
-                        <Text style={ageListStyle().text}>36 - 45</Text>
+                        <Text style={[{color: activeIndex['36-45']? 'black': 'white'}, ageListStyle().text]}>36 - 45</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                        style={[ageListStyle().button, {backgroundColor: activeIndex['45-49']? '#E84A4A': '#00000000', borderColor: activeIndex['45-49']? '#00000000': '#ffffff50'}]}
+                        style={[ageListStyle().button, {backgroundColor: activeIndex['45-49']? 'white': '#00000000', borderColor: activeIndex['45-49']? '#00000000': '#ffffff50'}]}
                         onPress={() => toggle('45-49')}>
-                        <Text style={ageListStyle().text}>45 - 49</Text>
+                        <Text style={[{color: activeIndex['45-49']? 'black': 'white'}, ageListStyle().text]}>45 - 49</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={ageListStyle().buttonContainer}>
                     <TouchableOpacity 
-                        style={[ageListStyle().button, {backgroundColor: activeIndex['50+']? '#E84A4A': '#00000000', borderColor: activeIndex['50+']? '#00000000': '#ffffff50'}]}
+                        style={[ageListStyle().button, {backgroundColor: activeIndex['50+']? 'white': '#00000000', borderColor: activeIndex['50+']? '#00000000': '#ffffff50'}]}
                         onPress={() => toggle('50+')}>
-                        <Text style={ageListStyle().text}>50+</Text>
+                        <Text style={[{color: activeIndex['50+']? 'black': 'white'}, ageListStyle().text]}>50+</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -110,8 +110,8 @@ const ageListStyle = (color) => StyleSheet.create({
         borderRadius: 55
     },
     text: {
-        color: '#ffffff',
-        fontSize: 12
+        fontSize: 12,
+        fontWeight: '500'
     },
     toggleStyle: {
         backgroundColor: color? '#E84A4A': '#00000000', borderColor: color? '#00000000': '#ffffff50'

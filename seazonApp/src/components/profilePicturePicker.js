@@ -84,7 +84,7 @@ const ProfilePicturePicker = (props) => {
 
     const DefaultUserImageCircle = () => {
         return(
-            <View style={[styles.defaultButtonContainer, {borderColor: activeType == 'defaultUser'? '#E84A4A': null, borderWidth: activeType=='defaultUser'? 2: 0}]}>
+            <View style={[styles.defaultButtonContainer, {borderColor: activeType == 'defaultUser'? 'white': null, borderWidth: activeType=='defaultUser'? 2: 0}]}>
                 <TouchableOpacity style={styles.button} onPress={defaultImageHandler}>
                     <MaterialCommunityIcons 
                      name='account' 
