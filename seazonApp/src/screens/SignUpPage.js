@@ -8,8 +8,6 @@ import Swiper from 'react-native-web-swiper'
 
 // Import slides
 import SignUpPage1 from './signUpPage1';
-import SignUpPage1Copy from './signUpPage1 copy';
-import SignUpPage2Copy from './signUpPage2 copy';
 import SignUpPage2 from './signUpPage2';
 import SignUpPage3 from './signUpPage3';
 import SignUpPage4 from './signUpPage4';
@@ -73,9 +71,7 @@ const SignUpPage = ({ navigation }) => {
               gesturesEnabled={() => false}>
                 {/* Slides*/}
                 <SignUpPage1 setUserData={setUserData} />
-                {/* <SignUpPage1Copy setUserData={setUserData} /> */}
-                <SignUpPage2Copy setUserData={setUserData} userData={userData} /> 
-                <SignUpPage2 setUserData={setUserData} />   
+                <SignUpPage2 setUserData={setUserData} userData={userData} />  
                 <SignUpPage3 setUserData={setUserData} />
                 <SignUpPage4 setUserData={setUserData} />
                 <SignUpPage5 setUserData={setUserData} />
@@ -100,16 +96,6 @@ const SignUpPage = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-{/*             <View style={styles().buttonSection}>
-                <View style={styles().innerButtonSection}>
-                    <Pressable onPress={() => newPageChange('prev')} style={styles('prev').button}>
-                        <Text>Back</Text>
-                    </Pressable>
-                    <Pressable onPress={() => newPageChange('next')} style={styles('next').button}>
-                        <Text>Next</Text>
-                    </Pressable>
-                </View>
-            </View> */}
         </KeyboardAwareScrollView> 
     )
 };
@@ -142,36 +128,7 @@ const styles = (button) => StyleSheet.create({
         borderRadius: 2,
         borderColor: button == 'next'? '': '#757882',
         borderWidth: button == 'next'? 0: 0.5
-    },
-    
-    /* buttonSection: {
-        height: 45,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderTopWidth: 0.2,
-        borderColor: '#75788240'
-    },
-    innerButtonSection: {
-        flexDirection: 'row', 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        width: '60%',
-        height: '70%',
-        borderRadius: 30
-      },
-    button: {
-        backgroundColor: button == 'next'? '#E32828': '#00000000',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: button == 'next'? '': '#757882',
-        borderWidth: button == 'prev'? 0.25: 0,
-        flex: 1,
-        height: '100%',
-        borderTopRightRadius: button == 'next'? 50: 0,
-        borderBottomRightRadius: button == 'next'? 50: 0,
-        borderTopLeftRadius: button == 'prev'? 50: 0,
-        borderBottomLeftRadius: button == 'prev'? 50: 0
-    }, */
+    }
 });
 
 export default SignUpPage;

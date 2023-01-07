@@ -13,10 +13,15 @@ const SignUpPage1 = (props) => {
                         <Text style={styles.Title}>
                             Personal details
                         </Text>
+                        <Text style={styles.Desc}>
+                            Your username will be public to the other users
+                        </Text>
                     </View>
-                    <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                    <SignUpTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                    <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
+                    <View style={{paddingTop: 30}}>
+                        <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignUpTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
+                    </View>
                 </View>
             </View>
         </View>
@@ -26,7 +31,8 @@ const SignUpPage1 = (props) => {
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
-        width: '90%'
+        width: '90%',
+        justifyContent: 'center'
     },
     uploadContainer: {
         flex: 1
@@ -35,17 +41,18 @@ const styles = StyleSheet.create({
         flex: 1
     },
     textContainer: {
-        paddingVertical: 30,
+        paddingVertical: 20,
         justifyContent: 'center'
     },  
     Title: {
-        fontSize: 20,
+        fontSize: 18,
         color: '#ffffff',
-        fontWeight: '500'
+        fontWeight: 'bold'
     },
     Desc: {
         fontSize: 12,
-        color: '#ffffff87'
+        color: '#ffffff87',
+        paddingTop: 2.5
     },
     imageContainer: {
         flexDirection: 'row'

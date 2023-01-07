@@ -3,11 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import globalStyle from '../utils/globalStyle';
 
 // components
-import pleaseNote from '../components/pleaseNote';
-import GenderList from '../components/genderList';
-import AgeList from '../components/ageList';
-
-const message = 'Please note that we will NOT be sharing this with other users'
+import ProfilePicturePicker from '../components/profilePicturePicker';
 
 const SignUpPage2 = (props) => {
     return(
@@ -15,19 +11,11 @@ const SignUpPage2 = (props) => {
             <View style={globalStyle.signUpContainer}>
                 <View style={styles.contentContainer}>
                     <View style={styles.container}>
-                        {pleaseNote(message)} 
-                    </View>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal', fontSize: 14}}> (optional)</Text></Text>
+                        <Text style={styles.title}>Upload a profile picture</Text>
+                        <Text style={styles.desc}>This image will be visible to other users</Text>
                     </View>
                     <View style={styles.genderContainer}>
-                        <GenderList setUserData={props.setUserData} />
-                    </View>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Age<Text style={{fontWeight: 'normal', fontSize: 14}}> (optional)</Text></Text>
-                    </View>
-                    <View>
-                        <AgeList setUserData={props.setUserData} /> 
+                        <ProfilePicturePicker setUserData={props.setUserData} userData={props.userData} />
                     </View>
                 </View>
             </View>
@@ -45,12 +33,17 @@ const styles = StyleSheet.create({
     },
     genderContainer: {
         paddingTop: 20,
-        height: 175
+        flex: 1
     },
     title: {
         color: '#ffffff',
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 18
+    },
+    desc: {
+        fontSize: 12,
+        color: '#ffffff87',
+        paddingTop: 2.5
     }
 });
 
