@@ -29,7 +29,7 @@ const GenderList = (props) => {
     // Extract gender
     useEffect(() => {
        props.setUserData(prevState => {
-        return({...prevState, attributes: {...prevState.attributes, gender: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+        return({...prevState, gender: Object.keys(activeIndex).find(key => activeIndex[key] === true)})
        }) 
     }, [activeIndex]);
 

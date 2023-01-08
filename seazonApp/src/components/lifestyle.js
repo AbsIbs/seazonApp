@@ -27,7 +27,7 @@ const Lifestyle = (props) => {
     // Extract cooking frequency
     useEffect(() => {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, lifestyle: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+            return({...prevState, lifestyle: Object.keys(activeIndex).find(key => activeIndex[key] === true)})
         }) 
     }, [activeIndex]);
 

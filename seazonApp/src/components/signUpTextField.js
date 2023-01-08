@@ -47,19 +47,19 @@ function SignUpTextField(props) {
         setEmailError(false)
         setTextBorderColor('#ffffff75')
         props.setUserData(prevState => {
-          return({...prevState, attributes: {...prevState.attributes, 'email': text}})
+          return({...prevState, 'email': text})
         }) 
       } else {
         setEmailError(true)
         setTextBorderColor('red')
         props.setUserData(prevState => {
-          return({...prevState, attributes: {...prevState.attributes, 'email': null}})
+          return({...prevState, 'email': null})
         }) 
       }
     };
 
     const passwordValidation = (text) => {
-      let passwordFormat = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+      let passwordFormat = /(?=^.{7,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
       if (text.match(passwordFormat)) {
         setTextBorderColor('#ffffff75')
         props.setUserData(prevState => {
@@ -159,7 +159,7 @@ function SignUpTextField(props) {
           <View style={styles().modalContainer}>
             <View style={styles().modal}>
               <View style={{padding: 20}}>
-                <Text style={styles().modalTitle}>Error</Text>
+                <Text style={styles().modalTitle}>Hold on!</Text>
                 <Text style={styles().modalDesc}>{passwordErrorMessage}</Text>
                 <View style={{alignItems: 'flex-end'}}>
                   <TouchableOpacity style={styles().modalConfirm} onPress={() => setPasswordModalError(false)}>
@@ -170,8 +170,7 @@ function SignUpTextField(props) {
             </View>
           </View>
         </Modal>
-      </View>  
-      
+      </View>
     )
   }; 
 

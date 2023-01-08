@@ -25,7 +25,7 @@ function SignUpBanner(props) {
             null;
           } else {
             props.setUserData(prevState => {
-                return({...prevState, attributes: {...prevState.attributes, picture: {uri: response.assets[0].uri}}})
+                return({...prevState, picture: {uri: response.assets[0].uri}})
             })
           }
         });
@@ -48,7 +48,7 @@ function SignUpBanner(props) {
                         <Text style={styles().desc}>Hello, we'd love to know you!</Text>
                     </View>
                 </View>
-                {props.userData.attributes.picture == null?
+                {props.userData.picture == null?
                     <View style={styles().rightContainer}>
                         <AnimatedCircularProgress
                          size={120}
@@ -72,8 +72,8 @@ function SignUpBanner(props) {
                         {() => (
                             <ImageBackground
                             resizeMode='cover' 
-                            source={props.userData.attributes.picture}
-                            style={{ height: Number.isInteger(props.userData.attributes.picture)? 50: 100, width: Number.isInteger(props.userData.attributes.picture)? 50: 100}}
+                            source={props.userData.picture}
+                            style={{ height: Number.isInteger(props.userData.picture)? 50: 100, width: Number.isInteger(props.userData.picture)? 50: 100}}
                             imageStyle={{borderRadius: 50}}/>
                         )}
                     </AnimatedCircularProgress>

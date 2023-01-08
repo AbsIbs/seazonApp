@@ -27,7 +27,7 @@ const CookingLevelList = (props) => {
     // Extract cooking level
         useEffect(() => {
             props.setUserData(prevState => {
-             return({...prevState, attributes: {...prevState.attributes, cookingLevel: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+             return({...prevState, cookingLevel: Object.keys(activeIndex).find(key => activeIndex[key] === true)})
             }) 
         }, [activeIndex]);
 

@@ -30,7 +30,7 @@ const AgeList = (props) => {
     // Extract age
     useEffect(() => {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, age: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+            return({...prevState, age: Object.keys(activeIndex).find(key => activeIndex[key] === true)})
         })}, [activeIndex]);
 
     return(

@@ -22,7 +22,7 @@ const WhereFindRecipes = (props) => {
     
     useEffect(()=> {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, findRecipes: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)}})
+            return({...prevState, findRecipes: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)})
         })
     }, [activeIndex])
 

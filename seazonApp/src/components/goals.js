@@ -22,7 +22,7 @@ const Goals = (props) => {
     
     useEffect(()=> {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, goals: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)}})
+            return({...prevState, goals: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)})
         })
     }, [activeIndex])
 

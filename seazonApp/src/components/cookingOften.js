@@ -27,7 +27,7 @@ const CookingOften = (props) => {
     // Extract cooking frequency
     useEffect(() => {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, cookingFrequency: Object.keys(activeIndex).find(key => activeIndex[key] === true)}})
+            return({...prevState, cookingFrequency: Object.keys(activeIndex).find(key => activeIndex[key] === true)})
         }) 
     }, [activeIndex]);
 

@@ -78,7 +78,7 @@ const ProfilePicturePicker = (props) => {
 
     useEffect(() => {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, picture: profilePicture}})
+            return({...prevState, picture: profilePicture})
         })
     }, [profilePicture])
 

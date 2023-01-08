@@ -22,7 +22,7 @@ const DietaryRequirements = (props) => {
     // Extract allergy
     useEffect(()=> {
         props.setUserData(prevState => {
-            return({...prevState, attributes: {...prevState.attributes, dietaryRequirements: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)}})
+            return({...prevState, dietaryRequirements: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)})
         })
     }, [activeIndex]);
 
