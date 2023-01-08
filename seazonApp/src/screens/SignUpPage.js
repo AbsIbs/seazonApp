@@ -7,6 +7,7 @@ import SignUpBanner from '../components/signUpBanner';
 import Swiper from 'react-native-web-swiper'
 
 // Import slides
+import SignUpPage0 from './signUpPage0';
 import SignUpPage1 from './signUpPage1';
 import SignUpPage2 from './signUpPage2';
 import SignUpPage3 from './signUpPage3';
@@ -35,8 +36,6 @@ const SignUpPage = ({ navigation }) => {
         goals: [],
         findRecipes: [],
         lifestyle: null,
-        allergies: [],
-        dietaryRequirements: [],
         picture: null
     });
 
@@ -45,12 +44,33 @@ const SignUpPage = ({ navigation }) => {
     const errorMessages = {
         0: {
             'data': ['username', 'password', 'email'],
-            'message': 'Please fill in your Username, Email and password'
+            'message': 'Please fill in your Username, Email and password.'
         },
         1: {
             'data': ['picture'],
             'message': 'Please select a profile image. You can upload your own or select the default picture.'
-        }
+        },
+        2: {'data': [], 'message': ''},
+        3: {
+            'data': ['cookingLevel'],
+            'message': 'Please select your cooking level.'
+        },
+        4: {
+            'data': ['cookingFrequency'],
+            'message': 'Please select how often you cook.'
+        },
+        5: {
+            'data': ['goals'],
+            'message': 'Please select your goals.'
+        },
+        6: {
+            'data': ['findRecipes'],
+            'message': 'Please select where you usually find recipes.'
+        },
+        7: {
+            'data': ['lifestyle'],
+            'message': 'Please select how active you are.'
+        },
     };
 
     const newPageChange = (instruction) => {
@@ -58,11 +78,11 @@ const SignUpPage = ({ navigation }) => {
             let errorMessagesObject = errorMessages[swiperRef.current.state.activeIndex]
             let nullValues = []
             for (let value of errorMessagesObject['data']) {
-                if (userData[value] == null) {
+                if (userData[value] == null || userData[value].length == 0) {
                     nullValues.push(value)
                 };
             };
-            if (nullValues.length == 0) {
+            if (nullValues.length == 0 && swiperRef.current.activeIndex != 2) {
                 if (progressPercentage < (7*100/8)) {
                     swiperRef.current.goToNext()
                     setProgressPercentage(progressPercentage + (100/8))
@@ -93,6 +113,7 @@ const SignUpPage = ({ navigation }) => {
               ref={swiperRef}
               gesturesEnabled={() => false}>
                 {/* Slides*/}
+                <SignUpPage0 setUserData={setUserData} />
                 <SignUpPage1 setUserData={setUserData} />
                 <SignUpPage2 setUserData={setUserData} userData={userData} />  
                 <SignUpPage3 setUserData={setUserData} />
@@ -176,7 +197,6 @@ const styles = (button) => StyleSheet.create({
         alignItems: 'center'
       },
       modal: {
-        height: 200,
         width: '80%',
         backgroundColor: '#151515',
         borderRadius: 15
