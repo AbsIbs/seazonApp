@@ -5,8 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BallIndicator } from 'react-native-indicators';
 
 // Firebase
-import { auth, db } from '../../firebase/firebase-config';
-import { setDoc, doc } from 'firebase/firestore/lite';
+import { auth } from '../../firebase/firebase-config';
 import { getStorage, ref, uploadString } from 'firebase/storage'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 
@@ -32,9 +31,6 @@ const SignUpPage = () => {
     // Firebase Cloud functions
     const functions = getFunctions()
     const registerUser = httpsCallable(functions, 'registerUser')
-
-    // Firebase storage
-    const storage = getStorage();
 
     const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
@@ -120,27 +116,17 @@ const SignUpPage = () => {
     const registration = (data) => {
         // Loading screen
         setLoading(true)
-        const uid = {}
         // Sign up
         registerUser(data)
-            // Upload profile picture
-            .then((user) => {
-                uid['uid'] = user.uid
-                const profilePhotoRef = ref(storage, 'users/' + uid['uid'] + '/profilePhoto.jpg')
-                uploadString(profilePhotoRef, data.picture)
-            })
-            // Upload to firestore
-            .then(() => {
-                const userDoc = doc(db, 'users', uid['uid'])
-                setDoc(userDoc, userData)
-            })
-            .then(() => {
-                setLoading(false)
-                setIsUserNew(true)
-                console.log('success!')
-            })
-            .catch((error) => { console.log(error) })
-    }
+        .then(() => {
+            setIsUserNew(true)
+        })
+        .then(() => {
+            setLoading(false)
+        }).catch((error) => {
+            console.log(error)
+        })
+    };
 
     const nextPageChange = () => {
         let errorMessagesObject = errorMessages[swiperRef.current.state.activeIndex]
@@ -188,7 +174,7 @@ const SignUpPage = () => {
             <SignUpBanner navigation={navigation} percentage={progressPercentage} userData={userData} setUserData={setUserData} />
             <View style={{ flex: 1 }}>
                 {/* Swiper */}
-                <Swiper  
+                <Swiper
                     controlsProps={{
                         prevPos: false,
                         dotsPos: false,
@@ -216,15 +202,10 @@ const SignUpPage = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles().buttonContainer}>
-                        {/*                     <TouchableOpacity
+                        <TouchableOpacity
                             style={styles('next').button}
                             onPress={() => nextPageChange()}>
                             <Text style={{ color: '#ffffff' }}>Next</Text>
-                        </TouchableOpacity> */}
-                        <TouchableOpacity
-                            style={styles('next').button}
-                            onPress={() => setIsUserNew(true)}>
-                            <Text style={{ color: '#ffffff' }}>Trial</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -245,7 +226,7 @@ const SignUpPage = () => {
                             </View>
                         </View>
                     </View>
-                </View>  
+                </View>
             </Modal>
             <Modal
                 visible={loading}
@@ -254,13 +235,6 @@ const SignUpPage = () => {
                     <BallIndicator color='white' />
                 </View>
             </Modal>
-            {/*             <Modal 
-                visible={isUserNew}
-                animationType={'slide'}>
-                <View style={{ backgroundColor: '#151515', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text>You did it!</Text>
-                </View>
-            </Modal> */}
             <Modal
                 visible={isUserNew}
                 animationType={'slide'}>
