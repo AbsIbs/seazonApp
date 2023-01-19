@@ -1,18 +1,21 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import globalStyle from "../utils/globalStyle";
+import { useNavigation } from '@react-navigation/native';
 
 // components
 import SignUpCompleteBanner from "../components/signUpCompleteBanner";
 
-const SignUpComplete = ({navigation}) => {
+const SignUpComplete = () => {
+
+    const navigation = useNavigation()
+
     return(
         <View style={globalStyle.signUpContainer}>
             {SignUpCompleteBanner()}
             <View style={styles().section}>
                 <View style={styles().outerCircle}>
                     <View style={styles().imageContainer}>
-
                     </View>
                 </View>
             </View>
@@ -29,7 +32,7 @@ const SignUpComplete = ({navigation}) => {
             </View>
             <View style={styles().buttonContainer}>
                 <TouchableOpacity
-                 onPress={() => navigation.navigate('Sign Up Page 1')} 
+                 onPress={() => navigation.navigate('Landing Page')} 
                  style={styles().button}>
                     <Text style={styles().okay}>Okay!</Text>
                 </TouchableOpacity>

@@ -19,7 +19,7 @@ const SignUpPage0 = (props) => {
                     </View>
                     <View style={{paddingTop: 30}}>
                         <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignUpTextField iconName='user' placeholder='Username' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                        <SignUpTextField iconName='user' placeholder='Display Name' secure={false} userData={props.userData} setUserData={props.setUserData} />
                         <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
                     </View>
                 </View>

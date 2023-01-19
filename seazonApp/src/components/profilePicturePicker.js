@@ -39,7 +39,7 @@ const ProfilePicturePicker = (props) => {
             path: 'images',
             mediaType: 'photo',
             },
-            includeBase64: false
+            includeBase64: true
         };
         // Upload chosen image
         launchImageLibrary(options, response => {
@@ -58,7 +58,7 @@ const ProfilePicturePicker = (props) => {
             path: 'images',
             mediaType: 'photo',
             },
-            includeBase64: false
+            includeBase64: true
         };
         // launch camera
         launchCamera(options, response => {

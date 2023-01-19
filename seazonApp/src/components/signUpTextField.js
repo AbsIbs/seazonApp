@@ -8,7 +8,7 @@ function SignUpTextField(props) {
     const [text, setText] = useState('');
     const [textBorderColor, setTextBorderColor] = useState('#ffffff75')
     const [emailError, setEmailError] = useState(false)
-    const [usernameError, setUsernameError] = useState(false)
+    const [displayNameError, setDisplayNameError] = useState(false)
     const [passwordModalError, setPasswordModalError] = useState(false)
 
     const passwordErrorMessage = 'Please enter a password that: \
@@ -81,18 +81,18 @@ function SignUpTextField(props) {
             emailValidation(text)
           };
           break;
-        case 'Username':
+        case 'Display Name':
           if (text.length < 4) {
             setTextBorderColor('red')
-            setUsernameError(true)
+            setDisplayNameError(true)
             props.setUserData(prevState => {
-              return({...prevState, 'username': null})
+              return({...prevState, 'displayName': null})
             }) 
           } else {
             setTextBorderColor('#ffffff75')
-            setUsernameError(false)
+            setDisplayNameError(false)
             props.setUserData(prevState => {
-              return({...prevState, 'username': text})
+              return({...prevState, 'displayName': text})
             }) 
           };
           break;
@@ -143,14 +143,14 @@ function SignUpTextField(props) {
           </View>
         </View>
         {props.placeholder == 'Email' && emailError? <Text style={{textAlign: 'left', fontSize: 12, marginTop: 2, color: 'red'}}>Please enter a valid Email.</Text>: null}
-        {props.placeholder == 'Username'?
+        {props.placeholder == 'Display Name'?
         <View style={{flexDirection: 'row-reverse'}}>
           <View style={{alignItems: 'flex-end', flex: 2}}>
             <Text style={{fontSize: 12}}>{text.length}/30</Text>
           </View>
-          {usernameError?
+          {displayNameError?
             <View style={{alignItems: 'flex-start', flex: 8}}>
-              <Text style={{fontSize: 12, color: 'red'}}>Username must be more than 3 characters</Text>
+              <Text style={{fontSize: 12, color: 'red'}}>Display Name must be more than 3 characters</Text>
             </View>: null}
         </View>: null}
         <Modal

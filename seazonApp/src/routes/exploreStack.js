@@ -1,17 +1,18 @@
 import React from "react";
-import { CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
+import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 
 import Explore from "../screens/explore";
 
 const Stack = createStackNavigator()
 
 function ExploreStack() {
-    return(
+    return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}}>
-                <Stack.Screen name='Explore: Home' component={Explore} />
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+            }}>
+            <Stack.Screen name='Explore: Home' component={Explore} />
         </Stack.Navigator>
     )
 };
