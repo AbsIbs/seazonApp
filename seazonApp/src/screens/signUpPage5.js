@@ -2,44 +2,52 @@ import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 // Components
-import pleaseNote from "../components/pleaseNote";
-import globalStyle from "../utils/globalStyle";
 import Goals from "../components/goals";
 
-const message = 'Please note that we will NOT be sharing this with other users'
-
 const SignUpPage5 = (props) => {
-
-    return(
-        <ScrollView style={{backgroundColor: '#121212'}}>
-            <View style={globalStyle.signUpContainer}>
-                <View style={styles().contentContainer}>
-                    <View style={styles().container}>
-                        {pleaseNote(message)}
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.contentContainer}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.Desc}>
+                        We'd love to know you
+                    </Text>
+                    <Text style={styles.Title}>
+                        What are your goals?
+                    </Text>
+                    <View style={{ paddingTop: 50, height: 200 }}>
+                        <Goals setUserData={props.setUserData} />
                     </View>
-                    <View style={{paddingTop: 20, paddingBottom: 10}}>
-                        <Text style={styles().title}>What are your main goals?</Text>
-                    </View>
-                    <Goals setUserData={props.setUserData} />
                 </View>
             </View>
         </ScrollView>
     )
 };
 
-const styles = () => StyleSheet.create({
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     contentContainer: {
         flex: 1,
         width: '90%'
     },
-    container: {
-       paddingTop: 20
+    textContainer: {
+        paddingTop: 50,
+        justifyContent: 'center'
     },
-    title: {
-        fontWeight: 'bold',
+    Title: {
+        fontSize: 22.5,
         color: '#ffffff',
-        fontSize: 16
+        fontWeight: 'bold'
     },
+    Desc: {
+        fontSize: 14,
+        color: '#ffffff87',
+        paddingTop: 2.5
+    }
 });
 
 export default SignUpPage5;

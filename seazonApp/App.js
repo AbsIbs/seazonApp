@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import { TouchableOpacity } from "react-native";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Global states
 import { AuthProvider } from "./Global/AuthContext";
@@ -27,14 +29,14 @@ function App() {
     if (user) {
       setLoggedIn(true)
     }
-  })
+  });
 
   return (
     <AuthProvider>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerShown: false
+            headerTitleAlign: 'center'
           }}>
           {loggedIn ? (
             <Stack.Group>
@@ -42,26 +44,56 @@ function App() {
                 name='Bottom Tabs Stack'
                 component={BottomTabsStack}
                 options={{
-                  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                  headerShown: false
                 }} />
-              <Stack.Screen name='Modal Stack' component={ModalStack} />
+              <Stack.Screen
+                name='Modal Stack'
+                component={ModalStack}
+                options={{
+                  headerShown: false
+                }} />
             </Stack.Group>
           ) : (
             <Stack.Group>
-              <Stack.Screen name='Landing Page' component={LandingPage} />
+              <Stack.Screen
+                name='Landing Page'
+                component={LandingPage}
+                options={{
+                  headerShown: false
+                }} />
               <Stack.Screen
                 name='Sign In'
                 component={SignInPage}
                 options={{
                   title: 'Sign In',
-                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                  headerShown: false
                 }} />
               <Stack.Screen
                 name='Sign Up'
                 component={SignUpPage}
                 options={{
                   title: 'Sign Up',
-                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                  headerTitle: 'Profile setup',
+                  headerBackImage: () => {
+                    return (
+                      <MaterialCommunityIcons
+                        name="chevron-left"
+                        size={35}
+                        color={'white'} />
+                    )
+                  },
+                  headerShadowVisible: false,
+                  headerTitleStyle: {
+                    fontSize: 16,
+                    color: 'white',
+                    fontWeight: 'bold'
+                  },
+                  headerStyle: {
+                    backgroundColor: '#121212'
+                  }
                 }} />
             </Stack.Group>
           )}

@@ -9,7 +9,6 @@ const Goals = (props) => {
         'Find cost effective meals': false,
         'Sharing my recipes': false,
         'Eat cleaner': false,
-        'Find new recipes': false,
         'Learn how to cook': false
     });
 
@@ -54,13 +53,6 @@ const Goals = (props) => {
                 style={styles(activeIndex['Eat cleaner']).button}
                 onPress={() => toggleColor('Eat cleaner')}>
                     <Text style={styles(activeIndex['Eat cleaner']).text}>Eat cleaner</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles().buttonContainer}>
-                <TouchableOpacity 
-                style={styles(activeIndex['Find new recipes']).button}
-                onPress={() => toggleColor('Find new recipes')}>
-                    <Text style={styles(activeIndex['Find new recipes']).text}>Find new recipes</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>

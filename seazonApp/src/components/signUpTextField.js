@@ -112,7 +112,7 @@ function SignUpTextField(props) {
             <Animated.Text
             style={{ 
               paddingHorizontal: 3, 
-              backgroundColor: '#121212', 
+              backgroundColor: 'black', 
               fontSize: 11.5, 
               marginLeft: 8, 
               position: 'absolute', 
@@ -144,7 +144,7 @@ function SignUpTextField(props) {
         </View>
         {props.placeholder == 'Email' && emailError? <Text style={{textAlign: 'left', fontSize: 12, marginTop: 2, color: 'red'}}>Please enter a valid Email.</Text>: null}
         {props.placeholder == 'Display Name'?
-        <View style={{flexDirection: 'row-reverse'}}>
+        <View style={{flexDirection: 'row-reverse', paddingTop: 5}}>
           <View style={{alignItems: 'flex-end', flex: 2}}>
             <Text style={{fontSize: 12}}>{text.length}/30</Text>
           </View>
@@ -193,7 +193,7 @@ function SignUpTextField(props) {
     modal: {
       height: 300,
       width: '80%',
-      backgroundColor: '#151515',
+      backgroundColor: '#121212',
       borderRadius: 15
     },
     modalTitle: {

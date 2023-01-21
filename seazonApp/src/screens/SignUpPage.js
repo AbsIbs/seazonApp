@@ -3,14 +3,13 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import { BallIndicator } from 'react-native-indicators';
+import { Bar } from 'react-native-progress'
 
 // Firebase
 import { auth } from '../../firebase/firebase-config';
-import { getStorage, ref, uploadString } from 'firebase/storage'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 
 // Components
-import SignUpBanner from '../components/signUpBanner';
 import Swiper from 'react-native-web-swiper'
 import RegistrationComplete from '../components/registrationCompletion';
 
@@ -36,7 +35,7 @@ const SignUpPage = () => {
     const [loading, setLoading] = useState(false)
 
     // Circular progress bar percentage
-    const [progressPercentage, setProgressPercentage] = useState(0);
+    const [progressPercentage, setProgressPercentage] = useState(1 / 8);
     const [errorModal, setErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -51,8 +50,7 @@ const SignUpPage = () => {
         cookingFrequency: null,
         goals: [],
         findRecipes: [],
-        lifestyle: null,
-        picture: null
+        lifestyle: null
     });
 
     const swiperRef = useRef(null);
@@ -60,13 +58,16 @@ const SignUpPage = () => {
     const errorMessages = {
         0: {
             'data': ['displayName', 'password', 'email'],
-            'message': 'Please fill in your Display Name, Email and Password.'
+            'message': 'Please fill in your display name, email and password.'
         },
         1: {
-            'data': ['picture'],
-            'message': 'Please select a profile image. You can upload your own or select the default picture.'
+            'data': ['gender'],
+            'message': 'Please select your gender.'
         },
-        2: { 'data': [], 'message': '' },
+        2: {
+            'data': ['age'],
+            'message': 'Please select your age group.'
+        },
         3: {
             'data': ['cookingLevel'],
             'message': 'Please select your cooking level.'
@@ -89,43 +90,19 @@ const SignUpPage = () => {
         },
     };
 
-    // Register the new user
-    /*    const RegisterUser = (data) => {
-           // Loading Screen
-           setLoading(true)
-           createUserWithEmailAndPassword(auth, email, password)
-               .then((re) => {
-                   uid['uid'] = re.uid
-               })
-               .catch((error) => {
-                   console.log(error)
-               })
-               .then(() => {
-                   const myDoc = doc(db, 'users', 'Test user 3')
-                   setDoc(myDoc, userData)
-                       .then(() => {
-                           alert('Document created!')
-                       }).catch((error) => {
-                           console.log(error)
-                       });
-               }).then(() => {
-                   setLoading(false)
-               })
-       } */
-
     const registration = (data) => {
         // Loading screen
         setLoading(true)
         // Sign up
         registerUser(data)
-        .then(() => {
-            setIsUserNew(true)
-        })
-        .then(() => {
-            setLoading(false)
-        }).catch((error) => {
-            console.log(error)
-        })
+            .then(() => {
+                setIsUserNew(true)
+            })
+            .then(() => {
+                setLoading(false)
+            }).catch((error) => {
+                console.log(error)
+            })
     };
 
     const nextPageChange = () => {
@@ -144,14 +121,11 @@ const SignUpPage = () => {
                 setErrorModal(true)
                 setErrorMessage(errorMessagesObject['message'])
             }
-        } else if (swiperRef.current.state.activeIndex == 2) {
-            swiperRef.current.goToNext()
-            setProgressPercentage(progressPercentage + (100 / 8))
         } else {
             if (nullValues.length == 0) {
                 if (progressPercentage < (7 * 100 / 8)) {
                     swiperRef.current.goToNext()
-                    setProgressPercentage(progressPercentage + (100 / 8))
+                    setProgressPercentage(progressPercentage + (1 / 8))
                 }
             } else {
                 setErrorModal(true)
@@ -163,15 +137,23 @@ const SignUpPage = () => {
 
     const prevPageChange = () => {
         swiperRef.current.goToPrev()
-        if (progressPercentage > 0) {
-            setProgressPercentage(progressPercentage - (100 / 8))
+        if (progressPercentage > 1 / 8) {
+            setProgressPercentage(progressPercentage - (1 / 8))
         }
-    }
+    };
 
     return (
         <KeyboardAwareScrollView contentContainerStyle={styles().container}>
-            {/* Banner */}
-            <SignUpBanner navigation={navigation} percentage={progressPercentage} userData={userData} setUserData={setUserData} />
+            <View style={{ alignItems: 'center' }}>
+                <Bar
+                    progress={progressPercentage}
+                    width={325}
+                    height={2.5}
+                    color={'red'}
+                    unfilledColor={'grey'}
+                    borderWidth={0}
+                    useNavitveDriver />
+            </View>
             <View style={{ flex: 1 }}>
                 {/* Swiper */}
                 <Swiper
@@ -277,14 +259,15 @@ const styles = (button) => StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        backgroundColor: '#00000080',
+        backgroundColor: '#00000090',
         justifyContent: 'center',
         alignItems: 'center'
     },
     modal: {
         width: '80%',
-        backgroundColor: '#151515',
-        borderRadius: 15
+        backgroundColor: '#121212',
+        borderTopColor: 'red',
+        borderTopWidth: 2
     },
     modalTitle: {
         fontSize: 24,

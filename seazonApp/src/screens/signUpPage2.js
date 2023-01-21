@@ -1,33 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import globalStyle from '../utils/globalStyle';
 
 // components
-import pleaseNote from '../components/pleaseNote';
-import GenderList from '../components/genderList';
 import AgeList from '../components/ageList';
-
-const message = 'Please note that we will NOT be sharing this with other users'
 
 const SignUpPage2 = (props) => {
     return(
-        <ScrollView style={{backgroundColor: '#121212'}}>
-            <View style={globalStyle.signUpContainer}>
-                <View style={styles.contentContainer}>
-                    <View style={styles.container}>
-                        {pleaseNote(message)} 
-                    </View>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Gender<Text style={{fontWeight: 'normal', fontSize: 12}}>(optional)</Text></Text>
-                    </View>
-                    <View style={styles.genderContainer}>
-                        <GenderList setUserData={props.setUserData} />
-                    </View>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Age<Text style={{fontWeight: 'normal', fontSize: 12}}>(optional)</Text></Text>
-                    </View>
-                    <View>
-                        <AgeList setUserData={props.setUserData} /> 
+        <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.contentContainer}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.Desc}>
+                        We'd love to know you
+                    </Text>
+                    <Text style={styles.Title}>
+                        What is your age group?
+                    </Text>
+                    <View style={{ paddingTop: 50, height: 200 }}>
+                        <AgeList setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
@@ -36,21 +25,28 @@ const SignUpPage2 = (props) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     contentContainer: {
         flex: 1,
         width: '90%'
     },
-    container: {
-        paddingTop: 20
+    textContainer: {
+        paddingTop: 50,
+        justifyContent: 'center'
     },
-    genderContainer: {
-        paddingTop: 20,
-        height: 175
-    },
-    title: {
+    Title: {
+        fontSize: 22.5,
         color: '#ffffff',
-        fontWeight: 'bold',
-        fontSize: 16
+        fontWeight: 'bold'
+    },
+    Desc: {
+        fontSize: 14,
+        color: '#ffffff87',
+        paddingTop: 2.5
     }
 });
 

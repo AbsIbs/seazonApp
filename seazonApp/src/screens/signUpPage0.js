@@ -1,66 +1,53 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SignUpTextField from '../components/signUpTextField';
-import globalStyle from '../utils/globalStyle';
 
 const SignUpPage0 = (props) => {
 
-    return(
-        <View style={globalStyle.signUpContainer}>
+    return (
+        <View style={styles.container}>
             <View style={styles.contentContainer}>
-                <View style={styles.uploadContainer}> 
-                    <View style={styles.textContainer}>
-                        <Text style={styles.Title}>
-                            Personal details
-                        </Text>
-                        <Text style={styles.Desc}>
-                            Your username will be public to the other users
-                        </Text>
-                    </View>
-                    <View style={{paddingTop: 30}}>
-                        <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignUpTextField iconName='user' placeholder='Display Name' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                        <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
-                    </View>
+                <View style={styles.textContainer}>
+                    <Text style={styles.Desc}>
+                        We'd love to know you
+                    </Text>
+                    <Text style={styles.Title}>
+                        Basic information
+                    </Text>
+                </View>
+                <View style={{ paddingTop: 50 }}>
+                    <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                    <SignUpTextField iconName='user' placeholder='Display Name' secure={false} userData={props.userData} setUserData={props.setUserData} />
+                    <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
                 </View>
             </View>
         </View>
-    ) 
+    )
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     contentContainer: {
         flex: 1,
-        width: '90%',
-        justifyContent: 'center'
-    },
-    uploadContainer: {
-        flex: 1
-    },
-    formContainer: {
-        flex: 1
+        width: '90%'
     },
     textContainer: {
-        paddingVertical: 20,
+        paddingTop: 50,
         justifyContent: 'center'
-    },  
+    },
     Title: {
-        fontSize: 18,
+        fontSize: 22.5,
         color: '#ffffff',
         fontWeight: 'bold'
     },
     Desc: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#ffffff87',
         paddingTop: 2.5
-    },
-    imageContainer: {
-        flexDirection: 'row'
-    },
-    iconContainer: {
-        height: 100,
-        width: 100,
-        borderRadius: 50
     }
 });
 

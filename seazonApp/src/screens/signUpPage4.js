@@ -1,26 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import globalStyle from '../utils/globalStyle';
 
 //components
-import pleaseNote from '../components/pleaseNote';
 import CookingOften from '../components/cookingOften';
-
-const message = 'Please note that we will NOT be sharing this with other users'
 
 const SignUpPage4 = (props) => {
     return(
-        <ScrollView style={{backgroundColor: '#121212'}}>
-            <View style={globalStyle.signUpContainer}>
-                <View style={styles.contentContainer}>
-                    <View style={styles.container}>
-                        {pleaseNote(message)} 
-                    </View>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>How often do you cook?</Text>
-                    </View>
-                    <View style={styles.formContainer}>
-                        <CookingOften setUserData={props.setUserData}/>
+        <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.contentContainer}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.Desc}>
+                        We'd love to know you
+                    </Text>
+                    <Text style={styles.Title}>
+                        How often do you cook?
+                    </Text>
+                    <View style={{ paddingTop: 50, height: 200 }}>
+                        <CookingOften setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
@@ -29,21 +25,28 @@ const SignUpPage4 = (props) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     contentContainer: {
         flex: 1,
         width: '90%'
     },
-    container: {
-        paddingTop: 20
+    textContainer: {
+        paddingTop: 50,
+        justifyContent: 'center'
     },
-    title: {
-        fontWeight: 'bold',
+    Title: {
+        fontSize: 22.5,
         color: '#ffffff',
-        fontSize: 16
+        fontWeight: 'bold'
     },
-    formContainer: {
-        flex: 1,
-        paddingTop: 10
+    Desc: {
+        fontSize: 14,
+        color: '#ffffff87',
+        paddingTop: 2.5
     }
 });
 

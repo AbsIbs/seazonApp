@@ -84,3 +84,4 @@ amplifytools.xcconfig
 # Firebase
 firebase/
 functions/
+server/

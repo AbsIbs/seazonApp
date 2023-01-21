@@ -1,47 +1,50 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import globalStyle from '../utils/globalStyle';
+import { StyleSheet, Text, View } from 'react-native';
 
 // components
-import ProfilePicturePicker from '../components/profilePicturePicker';
+import GenderList from '../components/genderList';
 
 const SignUpPage1 = (props) => {
-    return(
-        <ScrollView style={{backgroundColor: '#121212'}}>
-            <View style={globalStyle.signUpContainer}>
-                <View style={styles.contentContainer}>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Upload a profile picture</Text>
-                        <Text style={styles.desc}>This image will be visible to other users</Text>
-                    </View>
-                    <View style={styles.genderContainer}>
-                        <ProfilePicturePicker setUserData={props.setUserData} userData={props.userData} />
+    return (
+        <View style={styles.container}>
+            <View style={styles.contentContainer}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.Desc}>
+                        We'd love to know you
+                    </Text>
+                    <Text style={styles.Title}>
+                        What is your gender?
+                    </Text>
+                    <View style={{ paddingTop: 50, height: 200 }}>
+                        <GenderList setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     )
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     contentContainer: {
         flex: 1,
         width: '90%'
     },
-    container: {
-        paddingTop: 20
+    textContainer: {
+        paddingTop: 50,
+        justifyContent: 'center'
     },
-    genderContainer: {
-        paddingTop: 20,
-        flex: 1
-    },
-    title: {
+    Title: {
+        fontSize: 22.5,
         color: '#ffffff',
-        fontWeight: 'bold',
-        fontSize: 18
+        fontWeight: 'bold'
     },
-    desc: {
-        fontSize: 12,
+    Desc: {
+        fontSize: 14,
         color: '#ffffff87',
         paddingTop: 2.5
     }
