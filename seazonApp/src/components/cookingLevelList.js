@@ -49,7 +49,7 @@ const CookingLevelList = (props) => {
                 onPress={() => toggle('Intermediate')}>
                     <View style={styles().textContainer}>
                         <Text style={styles(activeIndex['Intermediate']).title}>Intermediate</Text>
-                        <Text style={styles(activeIndex['Intermediate']).desc}>"I like experiencing with recipes"</Text>
+                        <Text style={styles(activeIndex['Intermediate']).desc}>"I like experimenting with recipes"</Text>
                     </View>
                 </TouchableOpacity>
             </View>

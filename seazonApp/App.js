@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { CardStyleInterpolators } from '@react-navigation/stack';
-import { TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Global states
@@ -16,8 +15,8 @@ import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/SignUpPage";
 
-import ModalStack from "./src/routes/modalStack";
-import BottomTabsStack from "./src/routes/bottomTabsStack";
+import RecipeForm from "./src/screens/recipeForm";
+import MainStack from "./src/routes/mainStack";
 
 const Stack = createStackNavigator()
 
@@ -41,15 +40,15 @@ function App() {
           {loggedIn ? (
             <Stack.Group>
               <Stack.Screen
-                name='Bottom Tabs Stack'
-                component={BottomTabsStack}
+                name='Main Stack'
+                component={MainStack}
                 options={{
                   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                   headerShown: false
                 }} />
               <Stack.Screen
-                name='Modal Stack'
-                component={ModalStack}
+                name='Recipe Form'
+                component={RecipeForm}
                 options={{
                   headerShown: false
                 }} />

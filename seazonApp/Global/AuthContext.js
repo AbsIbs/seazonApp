@@ -6,13 +6,8 @@ const AuthProvider = ({ children }) => {
 
     const [isUserNew, setIsUserNew] = useState(false)
 
-    const value = {
-        isUserNew,
-        setIsUserNew
-    }
-
     return (
-        <AuthContext.Provider value={value}>
+        <AuthContext.Provider value={{ isUserNew, setIsUserNew }}>
             {children}
         </AuthContext.Provider>
     )

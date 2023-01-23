@@ -1,12 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useNavigation } from '@react-navigation/native';
 import { BallIndicator } from 'react-native-indicators';
 import { Bar } from 'react-native-progress'
 
+//Global states
+import { AuthContext } from '../../Global/AuthContext';
+
 // Firebase
-import { auth } from '../../firebase/firebase-config';
 import { getFunctions, httpsCallable } from 'firebase/functions'
 
 // Components
@@ -25,17 +26,19 @@ import SignUpPage7 from './signUpPage7';
 
 const SignUpPage = () => {
 
-    const [isUserNew, setIsUserNew] = useState(false);
+    const {
+        isUserNew,
+        setIsUserNew
+    } = useContext(AuthContext)
 
     // Firebase Cloud functions
     const functions = getFunctions()
     const registerUser = httpsCallable(functions, 'registerUser')
 
-    const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
 
     // Circular progress bar percentage
-    const [progressPercentage, setProgressPercentage] = useState(1 / 8);
+    const [progressPercentage, setProgressPercentage] = useState(1/8);
     const [errorModal, setErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -116,7 +119,7 @@ const SignUpPage = () => {
         if (swiperRef.current.state.activeIndex == 7) {
             // Register new user if no missing data
             if (nullValues.length == 0) {
-                registration(userData)
+                registration(userData);
             } else {
                 setErrorModal(true)
                 setErrorMessage(errorMessagesObject['message'])
@@ -221,7 +224,7 @@ const SignUpPage = () => {
                 visible={isUserNew}
                 animationType={'slide'}>
                 <View style={{ flex: 1 }}>
-                    <RegistrationComplete />
+                    <RegistrationComplete email={userData.email} password={userData.password} />
                 </View>
             </Modal>
         </KeyboardAwareScrollView>

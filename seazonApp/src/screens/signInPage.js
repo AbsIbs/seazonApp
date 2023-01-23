@@ -4,12 +4,9 @@ import SignInTextField from '../components/signInTextField';
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
-import { getFunctions } from "firebase/functions";
 
 // Modal testing
 const SignInPage = () => {
-
-    const functions = getFunctions()
 
     const navigation = useNavigation()
 
@@ -51,7 +48,7 @@ const SignInPage = () => {
                     <View style={styles.inputContainer}>
                         <SignInTextField iconName='envelope' placeholder='Email' secure={false} />
                         <SignInTextField iconName='lock' placeholder='Password' secure={true} />
-                        <Text style={{ textAlign: 'right', paddingBottom: 30, fontSize: 12 }}>Forgot your passoword?</Text>
+                        <Text style={{ textAlign: 'right', paddingBottom: 30, fontSize: 12 }}>Forgot your password?</Text>
                         <View style={{ alignItems: 'flex-end' }}>
                             <TouchableOpacity
                                 style={styles.signInButton}

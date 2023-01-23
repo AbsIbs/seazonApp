@@ -1,21 +1,33 @@
 import React, { useRef, useState } from "react";
-import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Swiper from "react-native-web-swiper";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import LinearGradient from "react-native-linear-gradient";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
-const RegistrationComplete = () => {
+const RegistrationComplete = (props) => {
+
+    const auth = getAuth()
 
     const swiperRef = useRef(null);
-    const [pageIndex, setPageIndex] = useState(0);
     const [percentage, setPercentage] = useState(25);
 
     const nextHandler = () => {
-        const newPercetage = percentage + 25
-        swiperRef.current.goToNext()
-        setPercentage(newPercetage)
-    }
+        if (percentage < 100) {
+            const newPercetage = percentage + 25
+            swiperRef.current.goToNext()
+            setPercentage(newPercetage)
+        } else {
+            signInWithEmailAndPassword(auth, props.email, props.password)
+                .then((res) => {
+                    console.log(res)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    };
 
     const Slide = (props) => {
         return (
@@ -105,9 +117,9 @@ const RegistrationComplete = () => {
                                             colors={['#Eb2962', '#FE443B']}
                                             style={styles.button}>
                                             <MaterialCommunityIcons
-                                             size={30}
-                                             color={'#ffffff'}
-                                             name={'arrow-right-thin'} />
+                                                size={30}
+                                                color={'#ffffff'}
+                                                name={'arrow-right-thin'} />
                                         </LinearGradient>
                                     </TouchableOpacity>
                                 </View>

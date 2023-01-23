@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UIManager, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressable, Image, Animated, ImageBackground, TouchableOpacity } from "react-native";
+import { UIManager, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressable, ImageBackground } from "react-native";
 import recipeFormSection from "../components/recipeFormSection";
 import recipeMacros from "../components/recipeMacros";
 import recipeDifficulty from "../components/recipeDifficulty";
