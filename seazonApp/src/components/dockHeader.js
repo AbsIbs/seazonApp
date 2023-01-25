@@ -1,50 +1,25 @@
-import React, {useState} from "react";
-import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import React from "react";
+import { View, StyleSheet, Pressable, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
-const icon = (iconName) => {
-    return(
-        <FontAwesome5
-        name={iconName}
-        color = '#ffffff87'
-        size = {17.5}
-        />
-    )
-};
+const DockHeader = (props) => {
 
-const DockHeader = ({title}) => {
-    return(
-        <View style={styles().outerContainer}>
-            <View style={styles().innerContainer}>
-                <View style={styles().topContainer}>
-                    <View style={styles().titleContainer}>
-                        <Text style={styles().title}>{title}</Text>
-                    </View>
-                    <View style={styles().buttonContainer}>
-                        <View style={styles().button}>
-                            
-                        </View>
-                    </View>
-                    <View style={styles().buttonContainer}>
-                        <View style={styles().button}>
-                            {icon('bell')}
-                        </View>
-                    </View>
-                    <View style={styles().buttonContainer}>
-                        <View style={styles().button}>
-                            {icon('cog')}
-                        </View>
-                    </View>
-                </View>
-                <View style={styles().bottomContainer}>
-                    <View style={styles().searchBar}>
-                        <View style={{paddingLeft: 15}}>
-                            {icon('search')}
-                        </View>
-                        <TextInput 
-                         style={styles().searchText}
-                         placeholder="Search for recipes, posts and accounts"
-                        />
+    const navigation = useNavigation();
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.innerContainer}>
+                <Pressable style={styles.hamburgerContainer} onPress={() => navigation.openDrawer()} hitSlop={20}>
+                    <View style={[{ width: '100%', backgroundColor: 'white' }, styles.hamburgerLine]}></View>
+                    <View style={[{ width: '60%', backgroundColor: 'white' }, styles.hamburgerLine]}></View>
+                    <View style={[{ width: '35%', backgroundColor: 'white' }, styles.hamburgerLine]}></View>
+                </Pressable>
+                <Text style={styles.text}>{props.name}</Text>
+                <View style={{ justifyContent: 'flex-end', flex: 1, flexDirection: 'row' }}>
+                    <AntDesign name={'search1'} color={'white'} size={20} />
+                    <View style={{ paddingLeft: 15 }}>
+                        <AntDesign name={'user'} color={'white'} size={20} />
                     </View>
                 </View>
             </View>
@@ -52,60 +27,33 @@ const DockHeader = ({title}) => {
     )
 };
 
-const styles = () => StyleSheet.create({
-    outerContainer: {
+const styles = StyleSheet.create({
+    container: {
         width: '100%',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ffffff25',
-        height: 120,
+        height: 60,
+        backgroundColor: '#121212',
         justifyContent: 'center',
-        alignItems: 'center' ,
-        backgroundColor: '#121212'       
+        alignItems: 'center'
     },
     innerContainer: {
-        width: '90%'
-    },
-    topContainer: {
+        width: '90%',
         flexDirection: 'row',
-        paddingBottom: 10
+        alignItems: 'center'
     },
-    bottomContainer: {
+    hamburgerContainer: {
+        width: 17.5,
+        height: 20,
+        justifyContent: 'space-evenly',
     },
-    titleContainer: {
-        flex: 4
+    hamburgerLine: {
+        height: 1.75,
+        borderRadius: 25
     },
-    title: {
-        fontSize: 22,
+    text: {
         fontWeight: 'bold',
-        color: '#ffffff',
-    },
-    buttonContainer: {
-        flex: 1,
-    },
-    button: {
-        height: 35,
-        width: 35,
-        borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#ffffff50',
-        backgroundColor: '#ffffff10'
-    },
-    searchBar: {
-        width: '100%',
-        borderRadius: 40,
-        height: 35,
-        backgroundColor: '#ffffff10',
-        borderWidth: 1,
-        borderColor: '#ffffff50',
-        alignItems: 'center',
-        flexDirection: 'row'
-    },
-    searchText: {
-        fontSize: 12,
-        color: '#ffffff50',
-        paddingLeft: 10
+        paddingLeft: 20,
+        fontSize: 16,
+        color: 'white'
     }
 });
 

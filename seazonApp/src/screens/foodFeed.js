@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const FoodFeed = () => {
-    return(
+    return (
         <View style={styles.container}>
-            <Text style={styles.text}>Hello world</Text>
+            <Text>Food Feed</Text>
         </View>
     )
 };
@@ -12,11 +12,8 @@ const FoodFeed = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212'
-    },
-    text: {
-        color: 'white'
+        backgroundColor: 'black'
     }
 });
 
-export default FoodFeed;
+export default FoodFeed

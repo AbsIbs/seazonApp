@@ -15,8 +15,8 @@ import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/SignUpPage";
 
-import RecipeForm from "./src/screens/recipeForm";
-import MainStack from "./src/routes/mainStack";
+// Stacks
+import DrawerStack from "./src/routes/drawerStack";
 
 const Stack = createStackNavigator()
 
@@ -40,18 +40,12 @@ function App() {
           {loggedIn ? (
             <Stack.Group>
               <Stack.Screen
-                name='Main Stack'
-                component={MainStack}
-                options={{
-                  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                  headerShown: false
-                }} />
-              <Stack.Screen
-                name='Recipe Form'
-                component={RecipeForm}
+                name='Drawer Stack'
+                component={DrawerStack}
                 options={{
                   headerShown: false
-                }} />
+                }}
+              />
             </Stack.Group>
           ) : (
             <Stack.Group>
