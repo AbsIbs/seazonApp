@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, View, StyleSheet, Text } from "react-native";
+import { Modal, View, StyleSheet } from "react-native";
 
 const RecipeTimeWheelPicker = (props) => {
     return(

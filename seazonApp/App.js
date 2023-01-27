@@ -14,6 +14,7 @@ import { auth } from "./firebase/firebase-config";
 import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/SignUpPage";
+import RecipeForm from "./src/screens/recipeForm";
 
 // Stacks
 import DrawerStack from "./src/routes/drawerStack";
@@ -27,6 +28,8 @@ function App() {
   auth.onAuthStateChanged((user) => {
     if (user) {
       setLoggedIn(true)
+    } else {
+      setLoggedIn(false)
     }
   });
 
@@ -46,6 +49,13 @@ function App() {
                   headerShown: false
                 }}
               />
+              <Stack.Screen 
+               name='Recipe Form' 
+               component={RecipeForm}
+               options={{
+                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                headerShown: false
+               }} />
             </Stack.Group>
           ) : (
             <Stack.Group>

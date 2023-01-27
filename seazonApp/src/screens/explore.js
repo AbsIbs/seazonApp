@@ -6,14 +6,25 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 // Firebase
 import { sendEmailVerification } from "firebase/auth";
-import { auth } from '../../firebase/firebase-config';
+import { getAuth, updateProfile } from "firebase/auth";
 
 // Global state
 import { AuthContext } from '../../Global/AuthContext';
 
 const Explore = () => {
 
+    const auth = getAuth();
     const navigation = useNavigation()
+    const { isUserNew, setIsUserNew } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (isUserNew) {
+            sendEmailVerification(auth.currentUser)
+                .then(() => {
+                    setIsUserNew(false)
+                })
+        }
+    }, []);
 
     const Icon = (props) => {
         return (
@@ -34,34 +45,17 @@ const Explore = () => {
         color: '#E84A4A'
     }];
 
-    const { isUserNew, setIsUserNew } = useContext(AuthContext);
-
-    useEffect(() => {
-        if (isUserNew) {
-            sendEmailVerification(auth.currentUser)
-                .then(() => {
-                    setIsUserNew(false)
-                })
-        }
-    }, []);
-
     return (
         <View style={styles.container}>
-            <Text>Explore</Text>
-            <View style={{ flex: 1 }}>
-                <TouchableOpacity style={[styles.button, { backgroundColor: isUserNew ? 'red' : 'white' }]} onPress={() => navigation.openDrawer()}>
-
-                </TouchableOpacity>
-            </View>
-            <View style={{ position: 'relative', marginBottom: '20%' }}>
-                <FloatingAction
-                    actions={actions}
-                    onPressItem={name => {
-                        navigation.navigate(name);
-                    }}
-                    color='#E84A4A'
-                />
-            </View>
+            <FloatingAction
+                actions={actions}
+                onPressItem={name => {
+                    navigation.navigate(name);
+                }}
+                color='#E84A4A'
+                distanceToEdge={{ vertical: 100, horizontal: 40 }}
+                overlayColor='#000000'
+            />
         </View>
     )
 };
