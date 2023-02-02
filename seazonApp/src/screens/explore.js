@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FloatingAction } from "react-native-floating-action";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Firebase
 import { sendEmailVerification } from "firebase/auth";
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 // Global state
 import { AuthContext } from '../../Global/AuthContext';
@@ -53,7 +53,7 @@ const Explore = () => {
                     navigation.navigate(name);
                 }}
                 color='#E84A4A'
-                distanceToEdge={{ vertical: 100, horizontal: 40 }}
+                distanceToEdge={{ vertical: 100, horizontal: 20 }}
                 overlayColor='#000000'
             />
         </View>

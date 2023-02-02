@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 
-const RecipeMacros = (props, data) => {
+const RecipeMacros = (props) => {
 
     const [test, setTest] = useState('')
 
     const changeHandler = (e) => {
         const input = e.nativeEvent.text
         setTest(input)
-        data[props.title] = input
+        /* data[props.title] = input */
     }
     
     return(

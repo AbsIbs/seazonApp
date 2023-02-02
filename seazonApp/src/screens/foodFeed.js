@@ -35,7 +35,7 @@ const FoodFeed = () => {
                     navigation.navigate(name);
                 }}
                 color='#E84A4A'
-                distanceToEdge={{vertical: 100, horizontal: 40}}
+                distanceToEdge={{vertical: 100, horizontal: 20}}
             />
         </View>
     )

@@ -1,11 +1,11 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
-// Components
-import Lifestyle from "../components/lifestyle";
+//components
+import CookingOften from '../../components/cookingOften';
 
-const SignUpPage7 = (props) => {
-    return (
+const SignUpPage4 = (props) => {
+    return(
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.contentContainer}>
                 <View style={styles.textContainer}>
@@ -13,10 +13,10 @@ const SignUpPage7 = (props) => {
                         We'd love to know you
                     </Text>
                     <Text style={styles.Title}>
-                        How is your lifestyle?
+                        How often do you cook?
                     </Text>
                     <View style={{ paddingTop: 50, height: 200 }}>
-                        <Lifestyle setUserData={props.setUserData} />
+                        <CookingOften setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignUpPage7;
+export default SignUpPage4;

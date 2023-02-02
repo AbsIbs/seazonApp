@@ -1,14 +1,28 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, Modal } from 'react-native';
 import SignInTextField from '../components/signInTextField';
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { BallIndicator } from 'react-native-indicators';
 
 // Modal testing
 const SignInPage = () => {
 
+    const auth = getAuth();
+
     const navigation = useNavigation()
+
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [errorModal, setErrorModal] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const errorMessages = {
+        'auth/invalid-email': "Invalid email and password combination."
+    }
 
     const SocialButton = (props) => {
         return (
@@ -19,6 +33,21 @@ const SignInPage = () => {
                     color={'#ffffff'} />
             </View>
         )
+    };
+
+    const signIn = () => {
+        setLoading(true)
+        signInWithEmailAndPassword(auth, userEmail, userPassword)
+            .then((res) => {
+                console.log(res)
+                console.log('Signed in successfully!')
+            })
+            .catch((error) => {
+                console.log(error.code)
+                setErrorModal(true)
+                setErrorMessage(errorMessages[error.code])
+                setLoading(false)
+            })
     };
 
     return (
@@ -46,13 +75,13 @@ const SignInPage = () => {
                         </Text>
                     </View>
                     <View style={styles.inputContainer}>
-                        <SignInTextField iconName='envelope' placeholder='Email' secure={false} />
-                        <SignInTextField iconName='lock' placeholder='Password' secure={true} />
+                        <SignInTextField iconName='envelope' placeholder='Email' secure={false} setUserEmail={setUserEmail} />
+                        <SignInTextField iconName='lock' placeholder='Password' secure={true} setUserPassword={setUserPassword} />
                         <Text style={{ textAlign: 'right', paddingBottom: 30, fontSize: 12 }}>Forgot your password?</Text>
                         <View style={{ alignItems: 'flex-end' }}>
                             <TouchableOpacity
                                 style={styles.signInButton}
-                                onPress={null}>
+                                onPress={() => signIn()}>
                                 <MaterialCommunityIcons
                                     name={'arrow-right-thin'}
                                     size={30}
@@ -74,6 +103,31 @@ const SignInPage = () => {
                     </View>
                 </View>
             </ImageBackground>
+            <Modal
+                visible={loading}
+                animationType={'fade'}>
+                <View style={{ backgroundColor: '#151515', flex: 1 }}>
+                    <BallIndicator color='white' />
+                </View>
+            </Modal>
+            <Modal
+                visible={errorModal}
+                transparent
+                animationType='fade'>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modal}>
+                        <View style={{ padding: 20 }}>
+                            <Text style={styles.modalTitle}>Error</Text>
+                            <Text style={styles.modalDesc}>{errorMessage}</Text>
+                            <View style={{ alignItems: 'flex-end' }}>
+                                <TouchableOpacity style={styles.modalConfirm} onPress={() => setErrorModal(false)}>
+                                    <Text style={{ fontSize: 12, color: 'white', fontWeight: 'bold' }}>Okay!</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -155,6 +209,36 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginHorizontal: 5
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: '#00000090',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modal: {
+        width: '80%',
+        backgroundColor: '#121212',
+        borderTopColor: 'red',
+        borderTopWidth: 2
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+    modalDesc: {
+        fontSize: 12,
+        paddingTop: 10,
+        lineHeight: 25
+    },
+    modalConfirm: {
+        height: 35,
+        width: 100,
+        borderRadius: 5,
+        backgroundColor: 'red',
+        marginTop: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 

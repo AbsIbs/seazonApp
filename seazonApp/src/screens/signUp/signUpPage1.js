@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import SignUpTextField from '../components/signUpTextField';
 
-const SignUpPage0 = (props) => {
+// components
+import GenderList from '../../components/genderList';
 
+const SignUpPage1 = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
@@ -12,13 +13,11 @@ const SignUpPage0 = (props) => {
                         We'd love to know you
                     </Text>
                     <Text style={styles.Title}>
-                        Basic information
+                        What is your gender?
                     </Text>
-                </View>
-                <View style={{ paddingTop: 50 }}>
-                    <SignUpTextField iconName='envelope' placeholder='Email' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                    <SignUpTextField iconName='user' placeholder='Display Name' secure={false} userData={props.userData} setUserData={props.setUserData} />
-                    <SignUpTextField iconName='lock' placeholder='Password' secure={true} userData={props.userData} setUserData={props.setUserData} />
+                    <View style={{ paddingTop: 50, height: 200 }}>
+                        <GenderList setUserData={props.setUserData} />
+                    </View>
                 </View>
             </View>
         </View>
@@ -51,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignUpPage0;
+export default SignUpPage1;

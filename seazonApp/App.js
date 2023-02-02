@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { CardStyleInterpolators } from '@react-navigation/stack';
@@ -8,12 +8,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { AuthProvider } from "./Global/AuthContext";
 
 // Firebase
-import { auth } from "./firebase/firebase-config";
+import { auth } from './firebase/firebase-config'
 
 // Sign up/log in screens
 import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
-import SignUpPage from "./src/screens/SignUpPage";
+import SignUpPage from "./src/screens/signUp/SignUpPage";
 import RecipeForm from "./src/screens/recipeForm";
 
 // Stacks
@@ -23,15 +23,15 @@ const Stack = createStackNavigator()
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(false)
 
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      setLoggedIn(true)
-    } else {
-      setLoggedIn(false)
-    }
-  });
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLoggedIn(true)
+      } else {
+        setLoggedIn(false)
+      }
+    });
 
   return (
     <AuthProvider>
@@ -49,13 +49,32 @@ function App() {
                   headerShown: false
                 }}
               />
-              <Stack.Screen 
-               name='Recipe Form' 
-               component={RecipeForm}
-               options={{
-                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-                headerShown: false
-               }} />
+              <Stack.Screen
+                name='Recipe Form'
+                component={RecipeForm}
+                options={{
+                  title: 'Upload a recipe',
+                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                  headerShown: true,
+                  headerTitle: 'Upload a recipe',
+                  headerBackImage: () => {
+                    return (
+                      <MaterialCommunityIcons
+                        name="chevron-left"
+                        size={35}
+                        color={'white'} />
+                    )
+                  },
+                  headerShadowVisible: false,
+                  headerTitleStyle: {
+                    fontSize: 14,
+                    color: 'white',
+                    fontWeight: 'bold'
+                  },
+                  headerStyle: {
+                    backgroundColor: 'black'
+                  }
+                }} />
             </Stack.Group>
           ) : (
             <Stack.Group>

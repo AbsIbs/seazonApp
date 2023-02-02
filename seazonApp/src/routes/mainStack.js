@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { useNavigation } from "@react-navigation/native";
 
 // screens
-import ExploreStack from "./exploreStack";
+import Explore from "../screens/explore";
 import FoodFeed from "../screens/foodFeed";
 import MealPlan from "../screens/mealPlan";
 import ShoppingPlan from "../screens/shoppingList";
@@ -39,15 +39,15 @@ function MainStack() {
           backgroundColor: '#191919',
           bottom: 20,
           position: 'absolute',
-          marginHorizontal: 40,
-          borderRadius: 30,
+          marginHorizontal: 20,
+          borderRadius: 12,
           height: 60,
           borderTopWidth: 0
         }
       }}>
       <Tab.Screen
         name="Explore"
-        component={ExploreStack}
+        component={Explore}
         options={{
           tabBarIcon: ({ focused }) => dockLabels(focused, 'home', 'Explore'),
           header: () => {

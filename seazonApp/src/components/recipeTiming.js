@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import Modal from 'react-native-modal'
 import { Picker } from 'react-native-wheel-pick';
 
-const recipeTiming = () => {
+const RecipeTiming = (props) => {
 
     const [prepTimeModalActive, setPrepTimeModal] = useState(false)
     const [cookingTimeModalActive, setCookingTimeModal] = useState(false)
@@ -290,4 +290,4 @@ const styles = (label) => StyleSheet.create({
     }
 });
 
-export default recipeTiming;
+export default RecipeTiming;

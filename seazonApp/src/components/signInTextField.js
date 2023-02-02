@@ -32,17 +32,12 @@ function SignInTextField(props) {
 
     // Onchange Text handler
     const onEndEditingHandler = (text) => {
-     /*  if (props.placeholder == 'Email') {
-        props.setUserData(prevState => {
-          return({...prevState, attributes: {...prevState.attributes, [props.placeholder.toLowerCase()]: text}})
-      })
+      if (props.placeholder == 'Email') {
+        props.setUserEmail(text)
       } else {
-        props.setUserData(prevState => {
-            return({...prevState, [props.placeholder.toLowerCase()]: text})
-          })
-        } */
-        null
-      }
+        props.setUserPassword(text)
+        }
+      };
 
     return(
       <View style={styles().inputContainer}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
-//components
-import CookingLevelList from '../components/cookingLevelList';
+// components
+import AgeList from '../../components/ageList';
 
-const SignUpPage3 = (props) => {
+const SignUpPage2 = (props) => {
     return(
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.contentContainer}>
@@ -13,10 +13,10 @@ const SignUpPage3 = (props) => {
                         We'd love to know you
                     </Text>
                     <Text style={styles.Title}>
-                        What is your cooking level?
+                        What is your age group?
                     </Text>
                     <View style={{ paddingTop: 50, height: 200 }}>
-                        <CookingLevelList setUserData={props.setUserData} />
+                        <AgeList setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignUpPage3;
+export default SignUpPage2;

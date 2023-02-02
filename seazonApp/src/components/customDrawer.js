@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Modal } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { getAuth } from "firebase/auth";
 import LinearGradient from "react-native-linear-gradient";
@@ -7,10 +7,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import UserProfileImage from "./userProfileImage";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { BallIndicator } from 'react-native-indicators';
 
 const CustomDrawer = (props) => {
 
     const auth = getAuth();
+
+    const [loading, setLoading] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -38,6 +41,7 @@ const CustomDrawer = (props) => {
                 </DrawerContentScrollView>
                 <View style={styles.lowerContainer}>
                     <TouchableOpacity style={styles.logoutButton} onPress={() => {
+                        setLoading(true)
                         auth.signOut()
                             .then((res) => {
                                 console.log(res)
@@ -55,6 +59,13 @@ const CustomDrawer = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Modal
+                visible={loading}
+                animationType={'fade'}>
+                <View style={{ backgroundColor: '#151515', flex: 1 }}>
+                    <BallIndicator color='white' />
+                </View>
+            </Modal>
         </View>
     )
 };

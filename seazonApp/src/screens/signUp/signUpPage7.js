@@ -2,10 +2,10 @@ import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 // Components
-import WhereFindRecipes from "../components/whereFindRecipes";
+import Lifestyle from "../../components/lifestyle";
 
-const SignUpPage6 = (props) => {
-    return(
+const SignUpPage7 = (props) => {
+    return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.contentContainer}>
                 <View style={styles.textContainer}>
@@ -13,10 +13,10 @@ const SignUpPage6 = (props) => {
                         We'd love to know you
                     </Text>
                     <Text style={styles.Title}>
-                        Where do you find recipes?
+                        How is your lifestyle?
                     </Text>
                     <View style={{ paddingTop: 50, height: 200 }}>
-                        <WhereFindRecipes setUserData={props.setUserData} />
+                        <Lifestyle setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignUpPage6;
+export default SignUpPage7;

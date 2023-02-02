@@ -1,11 +1,11 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
-// Components
-import Goals from "../components/goals";
+//components
+import CookingLevelList from '../../components/cookingLevelList';
 
-const SignUpPage5 = (props) => {
-    return (
+const SignUpPage3 = (props) => {
+    return(
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.contentContainer}>
                 <View style={styles.textContainer}>
@@ -13,10 +13,10 @@ const SignUpPage5 = (props) => {
                         We'd love to know you
                     </Text>
                     <Text style={styles.Title}>
-                        What are your goals?
+                        What is your cooking level?
                     </Text>
                     <View style={{ paddingTop: 50, height: 200 }}>
-                        <Goals setUserData={props.setUserData} />
+                        <CookingLevelList setUserData={props.setUserData} />
                     </View>
                 </View>
             </View>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignUpPage5;
+export default SignUpPage3;
