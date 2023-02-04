@@ -97,8 +97,8 @@ const styles = (state) => StyleSheet.create({
     mealType: {
         width: '95%',
         borderWidth: state == true? 0: 1,
-        borderColor: '#ffffff20',
-        backgroundColor: state == true? '#ffffff': '#00000000',
+        borderColor: '#2B303C',
+        backgroundColor: state == true? '#ffffff': '#121212',
         justifyContent: 'center',
         alignItems: 'center',
         height: 30,

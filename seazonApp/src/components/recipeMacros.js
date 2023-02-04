@@ -8,7 +8,6 @@ const RecipeMacros = (props) => {
     const changeHandler = (e) => {
         const input = e.nativeEvent.text
         setTest(input)
-        /* data[props.title] = input */
     }
     
     return(

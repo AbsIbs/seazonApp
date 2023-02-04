@@ -1,21 +1,19 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from "react-native";
 import Swiper from 'react-native-web-swiper'
-import { useNavigation } from "@react-navigation/native";
 import { Bar } from 'react-native-progress'
 
 // slides
-import RecipeUploadScreen1 from "./recipeUpload/recipeUploadPage1";
-import RecipeUploadScreen2 from "./recipeUpload/recipeUploadPage2";
-
-import recipeFormSection from "../components/recipeFormSection";
-import RecipeMacros from "../components/recipeMacros";
+import RecipeUploadScreen1 from "./recipeUpload/recipeUploadScreen1";
+import RecipeUploadScreen2 from "./recipeUpload/recipeUploadScreen2";
+import RecipeUploadScreen3 from "./recipeUpload/recipeUploadScreen3";
+import RecipeUploadScreen6 from "./recipeUpload/recipeUploadScreen6";
 
 const RecipeForm = () => {
 
-  const navigation = useNavigation();
+  const windowWidth = Dimensions.get('window').width;
 
-  const [progress, setProgress] = useState(1 / 8);
+  const [progress, setProgress] = useState(1 / 6);
 
   const [recipeObject, setRecipeObject] = useState({
     'title': '',
@@ -27,14 +25,14 @@ const RecipeForm = () => {
   const nextPageChange = () => {
     if (progress <= 1) {
       swiperRef.current.goToNext()
-      setProgress(progress + 1 / 8)
+      setProgress(progress + 1 / 6)
     }
   };
 
   const prevPageChange = () => {
-    if (progress > 1 / 8) {
+    if (progress > 1 / 6) {
       swiperRef.current.goToPrev()
-      setProgress(progress - 1 / 8)
+      setProgress(progress - 1 / 6)
     }
   };
 
@@ -44,7 +42,7 @@ const RecipeForm = () => {
         <View style={{ alignItems: 'center' }}>
           <Bar
             progress={progress}
-            width={325}
+            width={windowWidth}
             height={2.5}
             color={'red'}
             unfilledColor={'grey'}
@@ -62,27 +60,13 @@ const RecipeForm = () => {
           {/* slide 1 */}
           <RecipeUploadScreen1 />
           {/* slide 2 */}
-          <ScrollView>
-            <View style={styles().section}>
-              <Text style={styles().nutrientsTitle}>Calories <Text style={styles().nutrientsOptional}>(Optional)</Text> </Text>
-              {/* {recipeMacros({title: 'Calories', desc: '(kcal)'}, dataObject)}  */}
-              <RecipeMacros title='Calories' desc='(kcal)' />
-            </View>
-            <View style={styles().section}>
-              <Text style={styles().nutrientsTitle}>Macro Nutrients <Text style={styles().nutrientsOptional}>(Optional)</Text> </Text>
-              <RecipeMacros title='Carbs' desc='(g)' />
-              <RecipeMacros title='Fat' desc='(g)' />
-              <RecipeMacros title='Protein' desc='(g)' />
-            </View>
-          </ScrollView>
+          <RecipeUploadScreen2 />
           {/* slide 3 */}
-          <ScrollView>
-            <View>
-              <View style={styles().section}>
-                {recipeFormSection({ title: "Description", type: 'text', placeholder: 'Let others know the story behind your recipe. Feel free to use hashtags!', height: 100 })}
-              </View>
-            </View>
-          </ScrollView>
+          <RecipeUploadScreen3 />
+          {/* slide 4 */}
+          {/* slide 5 */}
+          {/* slide 6 */}
+          <RecipeUploadScreen6 />
         </Swiper>
       </View>
       <View style={styles().buttonSection}>

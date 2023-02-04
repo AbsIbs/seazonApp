@@ -3,10 +3,14 @@ import { UIManager, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressab
 import { TextInput } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import RecipeTiming from "../../components/recipeTiming";
 
 const RecipeUploadScreen1 = () => {
 
   const [imageUri, setImageUri] = useState(null);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   if (Platform.OS === 'android') {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -53,12 +57,12 @@ const RecipeUploadScreen1 = () => {
         <View style={[{ alignItems: 'center', justifyContent: 'center' }, styles().section]}>
           <Pressable
             onPress={LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)}
-            style={[styles(250).multimediaUploadContainer]}>
+            style={[styles(175).multimediaUploadContainer]}>
             <ImageBackground
               source={imageUri}
               resizeMode='cover'
               style={{ height: '100%', width: '100%' }}
-              imageStyle={{ borderRadius: 3 }}>
+              imageStyle={{ borderRadius: 8 }}>
             </ImageBackground>
             <Pressable
               style={{ position: 'absolute', height: '100%', width: '100%' }}
@@ -66,18 +70,23 @@ const RecipeUploadScreen1 = () => {
           </Pressable>
         </View>}
       <View style={styles().outerContainer}>
+        <RecipeTiming />
+      </View>
+      <View style={styles().outerContainer}>
         <Text style={styles().header}>Title</Text>
         <TextInput
           style={styles().textInputTitle}
-          placeholder={"Let's name your masterpiece!"} />
+          placeholder={"Let's name your masterpiece!"}
+          onSubmitEditing={(e) => { setTitle(e.nativeEvent.text) }} />
       </View>
       <View style={styles().outerContainer}>
         <Text style={styles().header}>Description</Text>
         <TextInput
           style={styles().textInputDescription}
-          placeholder={"Let's name your masterpiece!"} 
+          placeholder={"Let others know the story behind your recipe."}
           multiline
-          textAlignVertical="top"/>
+          textAlignVertical="top"
+          onSubmitEditing={(e) => { setDescription(e.nativeEvent.text) }} />
       </View>
     </ScrollView>
   )
@@ -85,14 +94,14 @@ const RecipeUploadScreen1 = () => {
 
 const styles = (animatedValue) => StyleSheet.create({
   section: {
-    paddingVertical: 10
+    paddingTop: 10
   },
   outerContainer: {
     paddingTop: 20,
     paddingHorizontal: '2.5%'
   },
   header: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: 'bold',
     color: 'white'
   },
@@ -100,7 +109,7 @@ const styles = (animatedValue) => StyleSheet.create({
     backgroundColor: '#121212',
     borderColor: '#2B303C',
     height: 45,
-    borderRadius: 4,
+    borderRadius: 6,
     marginVertical: 10,
     borderWidth: 1.5,
     paddingHorizontal: 10
@@ -109,7 +118,7 @@ const styles = (animatedValue) => StyleSheet.create({
     backgroundColor: '#121212',
     borderColor: '#2B303C',
     height: 100,
-    borderRadius: 4,
+    borderRadius: 6,
     marginVertical: 10,
     borderWidth: 1.5,
     paddingHorizontal: 10
@@ -117,8 +126,8 @@ const styles = (animatedValue) => StyleSheet.create({
   multimediaUploadContainer: {
     marginTop: 10,
     backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderWidth: animatedValue == 250 ? 0 : 1.5,
+    borderColor: '#E84A4A',
+    borderWidth: animatedValue == 225 ? 0 : 1.5,
     height: animatedValue,
     width: '95%',
     justifyContent: 'center',

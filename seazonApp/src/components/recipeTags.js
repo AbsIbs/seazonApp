@@ -87,8 +87,9 @@ const styles = () => StyleSheet.create({
   innerContainer: {
     width: '90%',
     borderWidth: 1,
-    borderColor: '#ffffff20',
+    borderColor: '#2B303C',
     borderRadius: 4,
+    backgroundColor: '#121212',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center'
