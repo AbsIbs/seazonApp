@@ -8,7 +8,7 @@ const RecipeTags = (props) => {
   const [tags, setTags] = useState([])
   const [inputText, setInputText] = useState('')
 
-  const tagsListFunction = () => {
+  const TagsListFunction = () => {
     return tags.map((tag, index) => {
       return (
         <View
@@ -52,7 +52,6 @@ const RecipeTags = (props) => {
     setInputText('');
   };
 
-
   const deleteTag = (indexToRemove) => {
     setTags([...tags.filter((_, index) => index !== indexToRemove)]);
   }
@@ -65,7 +64,7 @@ const RecipeTags = (props) => {
     <View style={styles().outerContainer}>
       <View
         style={styles().innerContainer}>
-        {tagsListFunction()}
+        <TagsListFunction />
         <TextInput
           style={styles().tagInput}
           multiline={false}

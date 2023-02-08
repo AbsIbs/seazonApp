@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text, Modal } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { getAuth } from "firebase/auth";
-import LinearGradient from "react-native-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import UserProfileImage from "./userProfileImage";
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -17,11 +16,6 @@ const CustomDrawer = (props) => {
 
     return (
         <View style={styles.container}>
-            {/*             <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#Eb2962', '#FE443B']}
-                style={styles.profileSection}> */}
             <View style={[styles.profileSection]}>
                 <UserProfileImage height={90} width={90} />
                 <Text style={styles.displayName}>{auth.currentUser.displayName}</Text>
@@ -34,7 +28,6 @@ const CustomDrawer = (props) => {
                     </TouchableOpacity>
                 }
             </View>
-            {/*       </LinearGradient> */}
             <View style={styles.listContainer}>
                 <DrawerContentScrollView>
                     <DrawerItemList {...props} />
@@ -43,13 +36,6 @@ const CustomDrawer = (props) => {
                     <TouchableOpacity style={styles.logoutButton} onPress={() => {
                         setLoading(true)
                         auth.signOut()
-                            .then((res) => {
-                                console.log(res)
-                                console.log('Signed out successfully!')
-                            })
-                            .catch((error) => {
-                                console.log(error)
-                            })
                     }}>
                         <MaterialCommunityIcons
                             name={'logout'}

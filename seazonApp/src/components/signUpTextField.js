@@ -112,7 +112,7 @@ function SignUpTextField(props) {
             <Animated.Text
             style={{ 
               paddingHorizontal: 3, 
-              backgroundColor: 'black', 
+              backgroundColor: '#121212', 
               fontSize: 11.5, 
               marginLeft: 8, 
               position: 'absolute', 

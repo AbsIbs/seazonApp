@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const recipeMealType = () => {
+const RecipeMealType = () => {
 
     const [breakfast, setBreakfast] = useState(false)
     const [lunch, setLunch] = useState(false)
@@ -110,4 +110,4 @@ const styles = (state) => StyleSheet.create({
     }
 });
 
-export default recipeMealType;
+export default RecipeMealType;

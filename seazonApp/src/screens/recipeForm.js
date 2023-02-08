@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import Swiper from 'react-native-web-swiper'
 import { Bar } from 'react-native-progress'
 
@@ -7,13 +7,14 @@ import { Bar } from 'react-native-progress'
 import RecipeUploadScreen1 from "./recipeUpload/recipeUploadScreen1";
 import RecipeUploadScreen2 from "./recipeUpload/recipeUploadScreen2";
 import RecipeUploadScreen3 from "./recipeUpload/recipeUploadScreen3";
-import RecipeUploadScreen6 from "./recipeUpload/recipeUploadScreen6";
+import RecipeUploadScreen4 from "./recipeUpload/recipeUploadScreen4";
+import RecipeUploadScreen5 from "./recipeUpload/recipeUploadScreen5";
 
 const RecipeForm = () => {
 
   const windowWidth = Dimensions.get('window').width;
 
-  const [progress, setProgress] = useState(1 / 6);
+  const [progress, setProgress] = useState(1 / 5);
 
   const [recipeObject, setRecipeObject] = useState({
     'title': '',
@@ -25,30 +26,30 @@ const RecipeForm = () => {
   const nextPageChange = () => {
     if (progress <= 1) {
       swiperRef.current.goToNext()
-      setProgress(progress + 1 / 6)
+      setProgress(progress + 1 / 5)
     }
   };
 
   const prevPageChange = () => {
-    if (progress > 1 / 6) {
+    if (progress > 1 / 5) {
       swiperRef.current.goToPrev()
-      setProgress(progress - 1 / 6)
+      setProgress(progress - 1 / 5)
     }
   };
 
   return (
     <View style={styles().container}>
+      <View style={{ alignItems: 'center' }}>
+        <Bar
+          progress={progress}
+          width={windowWidth}
+          height={2.5}
+          color={'red'}
+          unfilledColor={'grey'}
+          borderWidth={0}
+          useNavitveDriver />
+      </View>
       <View style={styles().swiperContainer}>
-        <View style={{ alignItems: 'center' }}>
-          <Bar
-            progress={progress}
-            width={windowWidth}
-            height={2.5}
-            color={'red'}
-            unfilledColor={'grey'}
-            borderWidth={0}
-            useNavitveDriver />
-        </View>
         <Swiper
           controlsProps={{
             prevPos: false,
@@ -64,9 +65,9 @@ const RecipeForm = () => {
           {/* slide 3 */}
           <RecipeUploadScreen3 />
           {/* slide 4 */}
+          <RecipeUploadScreen4 />
           {/* slide 5 */}
-          {/* slide 6 */}
-          <RecipeUploadScreen6 />
+          <RecipeUploadScreen5 />
         </Swiper>
       </View>
       <View style={styles().buttonSection}>

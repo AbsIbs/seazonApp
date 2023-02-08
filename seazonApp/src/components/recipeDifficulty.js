@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const recipeDifficulty = () => {
+const RecipeDifficulty = () => {
 
     const [simple, setSimple] = useState(false)
     const [intermediate, setIntermediate] = useState(false)
@@ -81,4 +81,4 @@ const styles = (state) => StyleSheet.create({
     }
 });
 
-export default recipeDifficulty;
+export default RecipeDifficulty;

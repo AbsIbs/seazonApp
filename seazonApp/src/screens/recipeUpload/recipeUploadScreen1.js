@@ -39,6 +39,25 @@ const RecipeUploadScreen1 = () => {
   return (
     <ScrollView>
       {/* Image Uploader */}
+      <View style={styles().outerContainer}>
+        <Text style={styles().header}>RECIPE NAME</Text>
+        <TextInput
+          style={styles().textInputTitle}
+          placeholder={"Let's name your masterpiece!"}
+          onSubmitEditing={(e) => { setTitle(e.nativeEvent.text) }} />
+      </View>
+      <View style={styles().outerContainer}>
+        <Text style={styles().header}>DESCRIPTION</Text>
+        <TextInput
+          style={styles().textInputDescription}
+          placeholder={"Let others know the story behind your recipe."}
+          multiline
+          textAlignVertical="top"
+          onSubmitEditing={(e) => { setDescription(e.nativeEvent.text) }} />
+      </View>
+      <View style={styles().outerContainer}>
+        <RecipeTiming />
+      </View>
       {imageUri == null ?
         <View
           style={[{ alignItems: 'center', justifyContent: 'center' }, styles().section]}>
@@ -57,7 +76,7 @@ const RecipeUploadScreen1 = () => {
         <View style={[{ alignItems: 'center', justifyContent: 'center' }, styles().section]}>
           <Pressable
             onPress={LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)}
-            style={[styles(175).multimediaUploadContainer]}>
+            style={[styles(225).multimediaUploadContainer]}>
             <ImageBackground
               source={imageUri}
               resizeMode='cover'
@@ -69,25 +88,6 @@ const RecipeUploadScreen1 = () => {
               onPress={galleryUploadHandler}></Pressable>
           </Pressable>
         </View>}
-      <View style={styles().outerContainer}>
-        <RecipeTiming />
-      </View>
-      <View style={styles().outerContainer}>
-        <Text style={styles().header}>Title</Text>
-        <TextInput
-          style={styles().textInputTitle}
-          placeholder={"Let's name your masterpiece!"}
-          onSubmitEditing={(e) => { setTitle(e.nativeEvent.text) }} />
-      </View>
-      <View style={styles().outerContainer}>
-        <Text style={styles().header}>Description</Text>
-        <TextInput
-          style={styles().textInputDescription}
-          placeholder={"Let others know the story behind your recipe."}
-          multiline
-          textAlignVertical="top"
-          onSubmitEditing={(e) => { setDescription(e.nativeEvent.text) }} />
-      </View>
     </ScrollView>
   )
 };
@@ -126,7 +126,7 @@ const styles = (animatedValue) => StyleSheet.create({
   multimediaUploadContainer: {
     marginTop: 10,
     backgroundColor: '#121212',
-    borderColor: '#E84A4A',
+    borderColor: '#2B303C',
     borderWidth: animatedValue == 225 ? 0 : 1.5,
     height: animatedValue,
     width: '95%',

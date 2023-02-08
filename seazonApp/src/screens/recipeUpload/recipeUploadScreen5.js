@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import RecipeMacros from "../../components/recipeMacros";
 
-const RecipeUploadScreen6 = () => {
+const RecipeUploadScreen5 = () => {
 
   const [tagCount, setTagCount] = useState(0);
 
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RecipeUploadScreen6;
+export default RecipeUploadScreen5;

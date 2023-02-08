@@ -10,8 +10,8 @@ const RecipeTiming = (props) => {
     const [cookingTimeModalActive, setCookingTimeModal] = useState(false)
     const [servingsModalActive, setServingsModal] = useState(false)
 
-    const [prepMins, setPrepMins] = useState('12m')
-    const [prepHours, setPrepHours] = useState('10h')
+    const [prepMins, setPrepMins] = useState('-')
+    const [prepHours, setPrepHours] = useState('-')
     const [cookingMins, setCookingMins] = useState('-')
     const [cookingHours, setCookingHours] = useState('-')
     const [servingsValue, setServingsValue] = useState('-')
@@ -56,7 +56,9 @@ const RecipeTiming = (props) => {
                 onBackButtonPress={() => setPrepTimeModal(false)}
                 backdropTransitionOutTiming={0}
                 onBackdropPress={() => setPrepTimeModal(false)}
-                style={{ justifyContent: 'flex-end', margin: 0 }}>
+                style={{ justifyContent: 'flex-end', margin: 0 }}
+                useNativeDriver
+                hideModalContentWhileAnimating>
                 <View style={styles().modalPickerContainer}>
                     <View style={styles().modalSection}>
                         <Pressable
@@ -101,7 +103,9 @@ const RecipeTiming = (props) => {
                 onBackButtonPress={() => setCookingTimeModal(false)}
                 backdropTransitionOutTiming={0}
                 onBackdropPress={() => setCookingTimeModal(false)}
-                style={{ justifyContent: 'flex-end', margin: 0 }}>
+                style={{ justifyContent: 'flex-end', margin: 0 }}
+                useNativeDriver
+                hideModalContentWhileAnimating>
                 <View style={styles().modalPickerContainer}>
                     <View style={styles().modalSection}>
                         <Pressable
@@ -158,7 +162,9 @@ const RecipeTiming = (props) => {
                 onBackButtonPress={() => setServingsModal(false)}
                 backdropTransitionOutTiming={0}
                 onBackdropPress={() => setServingsModal(false)}
-                style={{ justifyContent: 'flex-end', margin: 0 }}>
+                style={{ justifyContent: 'flex-end', margin: 0 }}
+                useNativeDriver
+                hideModalContentWhileAnimating>
                 <View style={styles().modalPickerContainer}>
                     <View style={styles().modalSection}>
                         <Pressable
@@ -174,7 +180,7 @@ const RecipeTiming = (props) => {
                             style={{ backgroundColor: '#00000000', width: 50 }}
                             selectedValue={servingsValue}
                             pickerData={[...Array(21).keys()]}
-                            onValueChange={value => setServingsValue(value + 'people')} />
+                            onValueChange={value => value >1? setServingsValue(value.toString() + ' people'): setServingsValue(value.toString() + ' person')} />
                         <View style={styles('servings').modalLabelContainer}>
                             <Text style={styles().modalLabel}>servings</Text>
                         </View>

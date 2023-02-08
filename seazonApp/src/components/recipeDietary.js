@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const recipeDietary = () => {
+const RecipeDietary = () => {
 
     const [vegan, setVegan] = useState(false)
     const [vegetarian, setVegetarian] = useState(false)
@@ -137,4 +137,4 @@ const styles = (state) => StyleSheet.create({
     }
 });
 
-export default recipeDietary;
+export default RecipeDietary;

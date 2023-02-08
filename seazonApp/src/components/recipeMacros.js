@@ -25,7 +25,9 @@ const RecipeMacros = (props) => {
                          placeholder="-"
                          keyboardType="numeric"
                          clearTextOnFocus={true}
-                         onEndEditing={(e) => changeHandler(e)}></TextInput>
+                         onEndEditing={(e) => changeHandler(e)}
+                         style={{color: '#E84A4A', fontWeight: 'bold'}}
+                         placeholderTextColor='#E84A4A' />
                     </View>
                 </View>
             </View>
@@ -50,13 +52,13 @@ const styles = (title) => StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'row',
-        flex: 1
+        flex: 8
     },
     inputContainer: {
         justifyContent: 'flex-end',
         alignItems: 'center',
         flexDirection: 'row',
-        flex: 1
+        flex: 2
     },
     title: {
         fontSize: 13,
