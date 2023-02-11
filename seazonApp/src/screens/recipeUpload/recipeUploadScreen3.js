@@ -76,6 +76,12 @@ const RecipeUploadScreen3 = () => {
                 placeholder={'ml'} />
             </View>
           </View>
+          <View style={{ paddingTop: 20 }}>
+            <Text style={styles.modalTitle}>ALTERNATIVES<Text style={{ fontSize: 12 }}>  (Optional)</Text> </Text>
+            <TextInput
+              style={styles.modalTextInput}
+              placeholder={'Suggest any alternatives for the ingredient'} />
+          </View>
         </View>
       </View>
     )
@@ -108,7 +114,7 @@ const RecipeUploadScreen3 = () => {
       <Modal
         useNativeDriver
         visible={modalState}
-        animationType={'slide'}>
+        animationType={'fade'}>
         <AddIngredientModal />
       </Modal>
     </>
@@ -120,12 +126,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: '5%',
     paddingVertical: 20
-  },
-  title: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    paddingBottom: 10
   },
   desc: {
     fontSize: 12,

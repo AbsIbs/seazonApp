@@ -47,7 +47,7 @@ const RecipeUploadScreen1 = () => {
           onSubmitEditing={(e) => { setTitle(e.nativeEvent.text) }} />
       </View>
       <View style={styles().outerContainer}>
-        <Text style={styles().header}>DESCRIPTION</Text>
+        <Text style={styles().header}>CHEF'S NOTES</Text>
         <TextInput
           style={styles().textInputDescription}
           placeholder={"Let others know the story behind your recipe."}
@@ -85,7 +85,8 @@ const RecipeUploadScreen1 = () => {
             </ImageBackground>
             <Pressable
               style={{ position: 'absolute', height: '100%', width: '100%' }}
-              onPress={galleryUploadHandler}></Pressable>
+              onPress={galleryUploadHandler}>
+            </Pressable>
           </Pressable>
         </View>}
     </ScrollView>
