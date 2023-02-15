@@ -14,11 +14,28 @@ const RecipeForm = () => {
 
   const windowWidth = Dimensions.get('window').width;
 
-  const [progress, setProgress] = useState(1 / 5);
+  const [progress, setProgress] = useState(1/5);
+  const [index, setIndex] = useState(0);
 
   const [recipeObject, setRecipeObject] = useState({
-    'title': '',
-    'description': ''
+    title: null,
+    chefsNotes: null,
+    prepTime: null,
+    cookingTime: null,
+    servings: null,
+    coverImage: null,
+    difficulty: null,
+    mealType: null,
+    dietary: [],
+    tags: null,
+    ingredients: [],
+    steps: null,
+    macros: {
+      calories: null,
+      carbs: null,
+      protein: null,
+      fat: null
+    }
   });
 
   const swiperRef = useRef(null);
@@ -26,14 +43,15 @@ const RecipeForm = () => {
   const nextPageChange = () => {
     if (progress <= 1) {
       swiperRef.current.goToNext()
-      setProgress(progress + 1 / 5)
+      setProgress(progress + 1/5)
     }
+    console.log(recipeObject)
   };
 
   const prevPageChange = () => {
-    if (progress > 1 / 5) {
+    if (index != 0) {
       swiperRef.current.goToPrev()
-      setProgress(progress - 1 / 5)
+      setProgress(progress - 1/5)
     }
   };
 
@@ -57,9 +75,10 @@ const RecipeForm = () => {
             nextPos: false
           }}
           ref={swiperRef}
-          gesturesEnabled={() => false}>
+          gesturesEnabled={() => false}
+          onIndexChanged={index => setIndex(index)}>
           {/* slide 1 */}
-          <RecipeUploadScreen1 />
+          <RecipeUploadScreen1 setRecipeObject={setRecipeObject} />
           {/* slide 2 */}
           <RecipeUploadScreen2 />
           {/* slide 3 */}

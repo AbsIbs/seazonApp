@@ -5,12 +5,21 @@ import { launchImageLibrary } from "react-native-image-picker"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import RecipeTiming from "../../components/recipeTiming";
 
-const RecipeUploadScreen1 = () => {
+const RecipeUploadScreen1 = (props) => {
 
   const [imageUri, setImageUri] = useState(null);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const titleHandler = (text) => {
+    props.setRecipeObject(prevState => {
+      return ({ ...prevState, title: text })
+    })
+  };
+
+  const chefsNotesHandler = (text) => {
+    props.setRecipeObject(prevState => {
+      return ({ ...prevState, chefsNotes: text })
+    })
+  };
 
   if (Platform.OS === 'android') {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -32,6 +41,9 @@ const RecipeUploadScreen1 = () => {
       } else {
         /* Save the image */
         setImageUri({ uri: response.assets[0].uri })
+        props.setRecipeObject(prevState => {
+          return ({ ...prevState, coverImage: { uri: response.assets[0].uri } })
+        })
       }
     });
   };
@@ -44,7 +56,7 @@ const RecipeUploadScreen1 = () => {
         <TextInput
           style={styles().textInputTitle}
           placeholder={"Let's name your masterpiece!"}
-          onSubmitEditing={(e) => { setTitle(e.nativeEvent.text) }} />
+          onChangeText={(text) => titleHandler(text)} />
       </View>
       <View style={styles().outerContainer}>
         <Text style={styles().header}>CHEF'S NOTES</Text>
@@ -53,10 +65,10 @@ const RecipeUploadScreen1 = () => {
           placeholder={"Let others know the story behind your recipe."}
           multiline
           textAlignVertical="top"
-          onSubmitEditing={(e) => { setDescription(e.nativeEvent.text) }} />
+          onChangeText={(text) => chefsNotesHandler(text)} />
       </View>
       <View style={styles().outerContainer}>
-        <RecipeTiming />
+        <RecipeTiming setRecipeObject={props.setRecipeObject} />
       </View>
       {imageUri == null ?
         <View
@@ -73,7 +85,7 @@ const RecipeUploadScreen1 = () => {
           </Pressable>
         </View>
         :
-        <View style={[{ alignItems: 'center', justifyContent: 'center' }, styles().section]}>
+        <View style={[{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }, styles().section]}>
           <Pressable
             onPress={LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)}
             style={[styles(225).multimediaUploadContainer]}>
