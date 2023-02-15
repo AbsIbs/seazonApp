@@ -170,7 +170,7 @@ const styles = (animatedValue) => StyleSheet.create({
     width: '100%'
   },
   textInputCounter: {
-    fontSize: 14,
+    fontSize: 12,
     color: 'white'
   },
   multimediaUploadContainer: {

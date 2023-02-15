@@ -27,7 +27,7 @@ const RecipeForm = () => {
     difficulty: null,
     mealType: null,
     dietary: [],
-    tags: null,
+    tags: [],
     ingredients: [],
     steps: null,
     macros: {
@@ -80,7 +80,7 @@ const RecipeForm = () => {
           {/* slide 1 */}
           <RecipeUploadScreen1 setRecipeObject={setRecipeObject} />
           {/* slide 2 */}
-          <RecipeUploadScreen2 />
+          <RecipeUploadScreen2 setRecipeObject={setRecipeObject} />
           {/* slide 3 */}
           <RecipeUploadScreen3 />
           {/* slide 4 */}

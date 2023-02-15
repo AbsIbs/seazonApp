@@ -1,106 +1,102 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const RecipeDietary = () => {
+const RecipeDietary = (props) => {
 
-    const [vegan, setVegan] = useState(false)
-    const [vegetarian, setVegetarian] = useState(false)
-    const [pescatarian, setPescatarian] = useState(false)
-    const [nutFree, setNutFree] = useState(false)
-    const [glutenFree, setGlutenFree] = useState(false)
-    const [dairyFree, setDairyFree] = useState(false)
-    const [highProtein, setHighProtein] = useState(false)
-    const [lowCarb, setLowCarb] = useState(false)
-    const [highFat, setHighFat] = useState(false)
-    
+    const [activeIndex, setActiveIndex] = useState({
+        'Vegan': false,
+        'Vegetarian': false,
+        'Pescatarian': false,
+        'Nut-Free': false,
+        'Gluten-Free': false,
+        'Dairy-Free': false,
+        'High Protein': false,
+        'Low Carb': false,
+        'High Fat': false
+    });
 
-    const dietaryList = [
-        {'setFunction': setVegan, 'setValue': vegan},
-        {'setFunction': setVegetarian, 'setValue': vegetarian},
-        {'setFunction': setPescatarian, 'setValue': pescatarian},
-        {'setFunction': setNutFree, 'setValue': nutFree},
-        {'setFunction': setGlutenFree, 'setValue': glutenFree},
-        {'setFunction': setDairyFree, 'setValue': dairyFree},
-        {'setFunction': setHighProtein, 'setValue': highProtein},
-        {'setFunction': setLowCarb, 'setValue': lowCarb},
-        {'setFunction': setHighFat, 'setValue': highFat}
-    ]
-
-    const toggleColor = (index) => {
-        const dietaryType = dietaryList[index]
-        const setFunction = dietaryType['setFunction']
-        const setValue = dietaryType['setValue']
-        setFunction(!setValue);
+    // Update object state by making a copy rather than mutating the state
+    const toggleColor = (dietary) => {
+        setActiveIndex(prevState => {
+            return ({ ...prevState, [dietary]: !activeIndex[dietary] })
+        })
     };
-    
-    return(
+
+
+    useEffect(() => {
+        props.setRecipeObject(prevState => {
+            return ({ ...prevState, dietary: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key) })
+        })
+    }, [activeIndex])
+
+    return (
         <View style={styles().outerContainer}>
             <View style={styles().innerContainer}>
                 <View style={styles().dietaryContainer}>
-                    <TouchableOpacity 
-                    style={styles(vegan).dietary}
-                    onPress={() => toggleColor(0)}>
-                        <Text style={styles(vegan).dietaryType}>Vegan</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles().dietaryContainer}>             
-                    <TouchableOpacity 
-                    style={styles(vegetarian).dietary}
-                    onPress={() => toggleColor(1)}>
-                        <Text style={styles(vegetarian).dietaryType}>Vegetarian</Text>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Vegan']).dietary}
+                        onPress={() => toggleColor('Vegan')}>
+                        <Text style={styles(activeIndex['Vegan']).dietaryType}>Vegan</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().dietaryContainer}>
-                    <TouchableOpacity 
-                    style={styles(pescatarian).dietary}
-                    onPress={() => toggleColor(2)}>
-                        <Text style={styles(pescatarian).dietaryType}>Pescatarian</Text>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Vegetarian']).dietary}
+                        onPress={() => toggleColor('Vegetarian')}>
+                        <Text style={styles(activeIndex['Vegetarian']).dietaryType}>Vegetarian</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles().dietaryContainer}>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Pescatarian']).dietary}
+                        onPress={() => toggleColor('Pescatarian')}>
+                        <Text style={styles(activeIndex['Pescatarian']).dietaryType}>Pescatarian</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={[styles().innerContainer, {paddingTop: 10}]}>
+            <View style={[styles().innerContainer, { paddingTop: 10 }]}>
                 <View style={styles().dietaryContainer}>
-                    <TouchableOpacity 
-                    style={styles(nutFree).dietary}
-                    onPress={() => toggleColor(3)}>
-                        <Text style={styles(nutFree).dietaryType}>Nut-Free</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles().dietaryContainer}>             
-                    <TouchableOpacity 
-                    style={styles(glutenFree).dietary}
-                    onPress={() => toggleColor(4)}>
-                        <Text style={styles(glutenFree).dietaryType}>Gluten-Free</Text>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Nut-Free']).dietary}
+                        onPress={() => toggleColor('Nut-Free')}>
+                        <Text style={styles(activeIndex['Nut-Free']).dietaryType}>Nut-Free</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().dietaryContainer}>
-                    <TouchableOpacity 
-                    style={styles(dairyFree).dietary}
-                    onPress={() => toggleColor(5)}>
-                        <Text style={styles(dairyFree).dietaryType}>Dairy-Free</Text>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Gluten-Free']).dietary}
+                        onPress={() => toggleColor('Gluten-Free')}>
+                        <Text style={styles(activeIndex['Gluten-Free']).dietaryType}>Gluten-Free</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles().dietaryContainer}>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Dairy-Free']).dietary}
+                        onPress={() => toggleColor('Dairy-Free')}>
+                        <Text style={styles(activeIndex['Dairy-Free']).dietaryType}>Dairy-Free</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={[styles().innerContainer, {paddingTop: 10}]}>
+            <View style={[styles().innerContainer, { paddingTop: 10 }]}>
                 <View style={styles().dietaryContainer}>
-                    <TouchableOpacity 
-                    style={styles(highProtein).dietary}
-                    onPress={() => toggleColor(6)}>
-                        <Text style={styles(highProtein).dietaryType}>High Protein</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles().dietaryContainer}>             
-                    <TouchableOpacity 
-                    style={styles(lowCarb).dietary}
-                    onPress={() => toggleColor(7)}>
-                        <Text style={styles(lowCarb).dietaryType}>Low Carb</Text>
+                    <TouchableOpacity
+                        style={styles(activeIndex['High Protein']).dietary}
+                        onPress={() => toggleColor('High Protein')}>
+                        <Text style={styles(activeIndex['High Protein']).dietaryType}>High Protein</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().dietaryContainer}>
-                    <TouchableOpacity 
-                    style={styles(highFat).dietary}
-                    onPress={() => toggleColor(8)}>
-                        <Text style={styles(highFat).dietaryType}>High Fat</Text>
+                    <TouchableOpacity
+                        style={styles(activeIndex['Low Carb']).dietary}
+                        onPress={() => toggleColor('Low Carb')}>
+                        <Text style={styles(activeIndex['Low Carb']).dietaryType}>Low Carb</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles().dietaryContainer}>
+                    <TouchableOpacity
+                        style={styles(activeIndex['High Fat']).dietary}
+                        onPress={() => toggleColor('High Fat')}>
+                        <Text style={styles(activeIndex['High Fat']).dietaryType}>High Fat</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -123,16 +119,16 @@ const styles = (state) => StyleSheet.create({
     },
     dietary: {
         width: '95%',
-        borderWidth: state == true? 0: 1,
+        borderWidth: state == true ? 0 : 1,
         borderColor: '#2B303C',
-        backgroundColor: state == true? '#ffffff': '#121212',
+        backgroundColor: state == true ? '#ffffff' : '#121212',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 30,
+        height: 35,
         borderRadius: 4
     },
     dietaryType: {
-        color: state == true? '#000000': '#ffffff',
+        color: state == true ? '#000000' : '#ffffff',
         fontSize: 12
     }
 });
