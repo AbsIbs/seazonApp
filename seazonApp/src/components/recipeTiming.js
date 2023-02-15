@@ -17,34 +17,34 @@ const RecipeTiming = (props) => {
   const [cookingHours, setCookingHours] = useState(0)
   const [cookingTime, setCookingTime] = useState('-')
 
-  const [tempServingsValue, setTempServingsValue] = useState(null)
+  const [tempServingsValue, setTempServingsValue] = useState(1)
   const [servingsValue, setServingsValue] = useState('-')
 
   /* Saving Cooking Time value */
   useEffect(() => {
     if (cookingTime != '-') {
       props.setRecipeObject(prevState => {
-        return({...prevState, cookingTime: cookingTime})
+        return ({ ...prevState, cookingTime: cookingTime })
       })
-    } 
+    }
   }, [cookingTime])
 
   /* Saving Prep Time Value */
   useEffect(() => {
     if (prepTime != '-') {
       props.setRecipeObject(prevState => {
-        return({...prevState, prepTime: prepTime})
+        return ({ ...prevState, prepTime: prepTime })
       })
-    } 
+    }
   }, [prepTime])
 
   /* Saving Servings Value */
   useEffect(() => {
     if (servingsValue != '-') {
       props.setRecipeObject(prevState => {
-        return({...prevState, servings: +servingsValue})
+        return ({ ...prevState, servings: +servingsValue })
       })
-    } 
+    }
   }, [servingsValue])
 
   return (
@@ -212,8 +212,8 @@ const RecipeTiming = (props) => {
             <Picker
               style={{ backgroundColor: '#00000000', width: 50 }}
               selectedValue={servingsValue}
-              pickerData={Array.from({length:100},(v,k)=>k+1)}
-              onValueChange={value => {setTempServingsValue(value)}} />
+              pickerData={Array.from({ length: 100 }, (v, k) => k + 1)}
+              onValueChange={value => { setTempServingsValue(value) }} />
             <View style={styles('servings').modalLabelContainer}>
               <Text style={styles().modalLabel}>servings</Text>
             </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UIManager, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressable, ImageBackground } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker"
@@ -8,18 +8,39 @@ import RecipeTiming from "../../components/recipeTiming";
 const RecipeUploadScreen1 = (props) => {
 
   const [imageUri, setImageUri] = useState(null);
+  const [title, setTitle] = useState('')
+  const [chefsNotes, setChefsNotes] = useState('')
 
-  const titleHandler = (text) => {
-    props.setRecipeObject(prevState => {
-      return ({ ...prevState, title: text })
-    })
-  };
+  const maxTitleLength = 100
+  const maxChefsNotesLength = 1000
 
-  const chefsNotesHandler = (text) => {
-    props.setRecipeObject(prevState => {
-      return ({ ...prevState, chefsNotes: text })
-    })
-  };
+  useEffect(() => {
+    if (title != null) {
+      props.setRecipeObject(prevState => {
+        return ({ ...prevState, title: title })
+      })
+    }
+  }, [title])
+
+  useEffect(() => {
+    if (chefsNotes != null) {
+      props.setRecipeObject(prevState => {
+        return ({ ...prevState, chefsNotes: chefsNotes })
+      })
+    }
+  }, [chefsNotes])
+
+  /*   const titleHandler = (text) => {
+      props.setRecipeObject(prevState => {
+        return ({ ...prevState, title: text })
+      })
+    };
+  
+    const chefsNotesHandler = (text) => {
+      props.setRecipeObject(prevState => {
+        return ({ ...prevState, chefsNotes: text })
+      })
+    }; */
 
   if (Platform.OS === 'android') {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -56,7 +77,11 @@ const RecipeUploadScreen1 = (props) => {
         <TextInput
           style={styles().textInputTitle}
           placeholder={"Let's name your masterpiece!"}
-          onChangeText={(text) => titleHandler(text)} />
+          onChangeText={(text) => setTitle(text)} 
+          maxLength={maxTitleLength}/>
+        <View style={styles().textInputCounterContainer}>
+          <Text style={[styles(maxTitleLength).textInputCounter, {color: title.length==maxTitleLength? 'red': '#ffffff90', fontWeight: title.length==maxTitleLength? 'bold': 'normal'}]}>{title.length}/{maxTitleLength}</Text>
+        </View>
       </View>
       <View style={styles().outerContainer}>
         <Text style={styles().header}>CHEF'S NOTES</Text>
@@ -65,14 +90,18 @@ const RecipeUploadScreen1 = (props) => {
           placeholder={"Let others know the story behind your recipe."}
           multiline
           textAlignVertical="top"
-          onChangeText={(text) => chefsNotesHandler(text)} />
+          onChangeText={(text) => setChefsNotes(text)} 
+          maxLength={maxChefsNotesLength}/>
+        <View style={styles().textInputCounterContainer}>
+          <Text style={[styles(maxChefsNotesLength).textInputCounter, {color: chefsNotes.length==maxChefsNotesLength? 'red': '#ffffff90', fontWeight: chefsNotes.length==maxChefsNotesLength? 'bold': 'normal'}]}>{chefsNotes.length}/{maxChefsNotesLength}</Text>
+        </View>
       </View>
       <View style={styles().outerContainer}>
         <RecipeTiming setRecipeObject={props.setRecipeObject} />
       </View>
       {imageUri == null ?
         <View
-          style={[{ alignItems: 'center', justifyContent: 'center' }, styles().section]}>
+          style={[{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }, styles().section]}>
           <Pressable
             style={styles(150).multimediaUploadContainer}
             onPress={galleryUploadHandler}>
@@ -135,6 +164,14 @@ const styles = (animatedValue) => StyleSheet.create({
     marginVertical: 10,
     borderWidth: 1.5,
     paddingHorizontal: 10
+  },
+  textInputCounterContainer: {
+    alignItems: 'flex-end',
+    width: '100%'
+  },
+  textInputCounter: {
+    fontSize: 14,
+    color: 'white'
   },
   multimediaUploadContainer: {
     marginTop: 10,
