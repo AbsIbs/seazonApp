@@ -13,7 +13,7 @@ import ShoppingPlan from "../screens/shoppingList";
 // components
 import DockHeader from "../components/dockHeader";
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const dockLabels = (focused, iconName) => {
   return (

@@ -1,22 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { UIManager, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressable, ImageBackground } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import RecipeTiming from "../../components/recipeTiming";
 
-const RecipeUploadScreen1 = (props) => {
+import { AddRecipeContext } from "../../../Global/AddRecipeContext";
+
+const RecipeUploadScreen1 = () => {
+
+  const { recipe, setRecipe } = useContext(AddRecipeContext);
 
   const [imageUri, setImageUri] = useState(null);
   const [title, setTitle] = useState('')
   const [chefsNotes, setChefsNotes] = useState('')
+
+  const tags = () => {
+    const regex = /#[^\s#]+/g
+    const matches = chefsNotes.match(regex)
+    if (matches) {
+      const hashtags = matches.map(match => match.substring(1))
+      setRecipe(prevState => {
+        return ({ ...prevState, tags: hashtags })
+      })
+    }
+  };
 
   const maxTitleLength = 100
   const maxChefsNotesLength = 1000
 
   useEffect(() => {
     if (title != null) {
-      props.setRecipeObject(prevState => {
+      setRecipe(prevState => {
         return ({ ...prevState, title: title })
       })
     }
@@ -24,23 +39,12 @@ const RecipeUploadScreen1 = (props) => {
 
   useEffect(() => {
     if (chefsNotes != null) {
-      props.setRecipeObject(prevState => {
+      tags()
+      setRecipe(prevState => {
         return ({ ...prevState, chefsNotes: chefsNotes })
       })
     }
   }, [chefsNotes])
-
-  /*   const titleHandler = (text) => {
-      props.setRecipeObject(prevState => {
-        return ({ ...prevState, title: text })
-      })
-    };
-  
-    const chefsNotesHandler = (text) => {
-      props.setRecipeObject(prevState => {
-        return ({ ...prevState, chefsNotes: text })
-      })
-    }; */
 
   if (Platform.OS === 'android') {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -62,7 +66,7 @@ const RecipeUploadScreen1 = (props) => {
       } else {
         /* Save the image */
         setImageUri({ uri: response.assets[0].uri })
-        props.setRecipeObject(prevState => {
+        setRecipe(prevState => {
           return ({ ...prevState, coverImage: { uri: response.assets[0].uri } })
         })
       }
@@ -77,10 +81,10 @@ const RecipeUploadScreen1 = (props) => {
         <TextInput
           style={styles().textInputTitle}
           placeholder={"Let's name your masterpiece!"}
-          onChangeText={(text) => setTitle(text)} 
-          maxLength={maxTitleLength}/>
+          onChangeText={(text) => setTitle(text)}
+          maxLength={maxTitleLength} />
         <View style={styles().textInputCounterContainer}>
-          <Text style={[styles(maxTitleLength).textInputCounter, {color: title.length==maxTitleLength? 'red': '#ffffff90', fontWeight: title.length==maxTitleLength? 'bold': 'normal'}]}>{title.length}/{maxTitleLength}</Text>
+          <Text style={[styles(maxTitleLength).textInputCounter, { color: title.length == maxTitleLength ? 'red' : '#ffffff90', fontWeight: title.length == maxTitleLength ? 'bold' : 'normal' }]}>{title.length}/{maxTitleLength}</Text>
         </View>
       </View>
       <View style={styles().outerContainer}>
@@ -90,14 +94,14 @@ const RecipeUploadScreen1 = (props) => {
           placeholder={"Let others know the story behind your recipe."}
           multiline
           textAlignVertical="top"
-          onChangeText={(text) => setChefsNotes(text)} 
-          maxLength={maxChefsNotesLength}/>
+          onChangeText={(text) => setChefsNotes(text)}
+          maxLength={maxChefsNotesLength} />
         <View style={styles().textInputCounterContainer}>
-          <Text style={[styles(maxChefsNotesLength).textInputCounter, {color: chefsNotes.length==maxChefsNotesLength? 'red': '#ffffff90', fontWeight: chefsNotes.length==maxChefsNotesLength? 'bold': 'normal'}]}>{chefsNotes.length}/{maxChefsNotesLength}</Text>
+          <Text style={[styles(maxChefsNotesLength).textInputCounter, { color: chefsNotes.length == maxChefsNotesLength ? 'red' : '#ffffff90', fontWeight: chefsNotes.length == maxChefsNotesLength ? 'bold' : 'normal' }]}>{chefsNotes.length}/{maxChefsNotesLength}</Text>
         </View>
       </View>
       <View style={styles().outerContainer}>
-        <RecipeTiming setRecipeObject={props.setRecipeObject} />
+        <RecipeTiming setRecipeObject={setRecipe} />
       </View>
       {imageUri == null ?
         <View

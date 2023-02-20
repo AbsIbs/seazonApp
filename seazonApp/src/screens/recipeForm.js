@@ -1,7 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import Swiper from 'react-native-web-swiper'
 import { Bar } from 'react-native-progress'
+
+import { AddRecipeContext } from '../../Global/AddRecipeContext'
 
 // slides
 import RecipeUploadScreen1 from "./recipeUpload/recipeUploadScreen1";
@@ -13,45 +15,25 @@ import RecipeUploadScreen5 from "./recipeUpload/recipeUploadScreen5";
 const RecipeForm = () => {
 
   const windowWidth = Dimensions.get('window').width;
+  const { recipe, setRecipe } = useContext(AddRecipeContext);
 
-  const [progress, setProgress] = useState(1/5);
+  const [progress, setProgress] = useState(1 / 5);
   const [index, setIndex] = useState(0);
-
-  const [recipeObject, setRecipeObject] = useState({
-    title: null,
-    chefsNotes: null,
-    prepTime: null,
-    cookingTime: null,
-    servings: null,
-    coverImage: null,
-    difficulty: null,
-    mealType: null,
-    dietary: [],
-    tags: [],
-    ingredients: [],
-    steps: null,
-    macros: {
-      calories: null,
-      carbs: null,
-      protein: null,
-      fat: null
-    }
-  });
 
   const swiperRef = useRef(null);
 
   const nextPageChange = () => {
     if (progress <= 1) {
       swiperRef.current.goToNext()
-      setProgress(progress + 1/5)
+      setProgress(progress + 1 / 5)
     }
-    console.log(recipeObject)
+    console.log(recipe)
   };
 
   const prevPageChange = () => {
     if (index != 0) {
       swiperRef.current.goToPrev()
-      setProgress(progress - 1/5)
+      setProgress(progress - 1 / 5)
     }
   };
 
@@ -78,9 +60,9 @@ const RecipeForm = () => {
           gesturesEnabled={() => false}
           onIndexChanged={index => setIndex(index)}>
           {/* slide 1 */}
-          <RecipeUploadScreen1 setRecipeObject={setRecipeObject} />
+          <RecipeUploadScreen1 />
           {/* slide 2 */}
-          <RecipeUploadScreen2 setRecipeObject={setRecipeObject} />
+          <RecipeUploadScreen2 />
           {/* slide 3 */}
           <RecipeUploadScreen3 />
           {/* slide 4 */}

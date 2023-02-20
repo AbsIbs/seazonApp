@@ -15,7 +15,8 @@ import { auth } from './firebase/firebase-config'
 import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/signUp/SignUpPage";
-import RecipeForm from "./src/screens/recipeForm";
+/* import RecipeForm from "./src/screens/recipeForm"; */
+import RecipeFormStack from "./src/routes/recipeFormStack";
 
 // Stacks
 import DrawerStack from "./src/routes/drawerStack";
@@ -40,7 +41,8 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              headerTitleAlign: 'center'
+              headerTitleAlign: 'center',
+              presentation: 'transparentModal'
             }}>
             {loggedIn ? (
               <Stack.Group>
@@ -52,31 +54,13 @@ function App() {
                   }}
                 />
                 <Stack.Screen
-                  name='Recipe Form'
-                  component={RecipeForm}
+                  name='Recipe Form Stack'
+                  component={RecipeFormStack}
                   options={{
-                    title: 'Upload a recipe',
+                    headerShown: false,
                     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-                    headerShown: true,
-                    headerTitle: 'Upload a recipe',
-                    headerBackImage: () => {
-                      return (
-                        <MaterialCommunityIcons
-                          name="chevron-left"
-                          size={35}
-                          color={'white'} />
-                      )
-                    },
-                    headerShadowVisible: false,
-                    headerTitleStyle: {
-                      fontSize: 14,
-                      color: 'white',
-                      fontWeight: 'bold'
-                    },
-                    headerStyle: {
-                      backgroundColor: 'black'
-                    }
-                  }} />
+                  }}
+                />
               </Stack.Group>
             ) : (
               <Stack.Group>
