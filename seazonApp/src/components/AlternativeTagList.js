@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   tagCounter: {
     alignSelf: 'flex-end',
     fontSize: 12,
-    paddingTop: 5,
+    paddingTop: 10,
     fontWeight: 'bold'
   }
 });

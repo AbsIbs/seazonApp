@@ -4,8 +4,6 @@ import uuid from 'react-native-uuid'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
-
-
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 const RecipeUploadScreen3 = () => {
@@ -34,14 +32,16 @@ const RecipeUploadScreen3 = () => {
     return (
       <View style={{ paddingVertical: 10 }} >
         <View style={styles.ingredientContainer}>
-          <View style={styles.ingredientImages}>
+          {/* Image */}
+          <View style={[styles.ingredientImages, { flex: 2 }]}>
             <View style={styles.ingredientTypeImageContainer}>
               <Image
                 source={recipeImages[props.type]}
                 style={{ height: 30, width: 30 }} />
             </View>
           </View>
-          <View style={{ paddingHorizontal: 10 }}>
+          {/* Ingredient Name and Alternatives */}
+          <View style={[{ flex: 5 }]}>
             <Text style={{ fontWeight: 'bold' }}>{props.name}</Text>
             {props.alternatives ?
               props.alternatives.map((item) => {
@@ -57,16 +57,17 @@ const RecipeUploadScreen3 = () => {
               }) : null
             }
           </View>
-          <View style={{ flex: 4, paddingHorizontal: 10, alignItems: 'flex-end' }}>
+          {/* Unit */}
+          <View style={{ alignItems: 'center', paddingHorizontal: 10, justifyContent: 'center' }}>
             <Text style={{ fontStyle: 'italic' }}>{props.amount} {props.measurement}</Text>
           </View>
-          <TouchableOpacity onPress={() => deleteIngredient(props.index)}>
+          {/* Delete */}
+          <TouchableOpacity onPress={() => deleteIngredient(props.index)} style={{ flex: 1 }}>
             <MaterialCommunityIcons
               name='delete'
               size={25}
               color={'white'} />
           </TouchableOpacity>
-
         </View>
       </View>
     )

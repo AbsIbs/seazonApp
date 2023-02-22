@@ -21,10 +21,10 @@ const RecipeAddIngredient = () => {
 
   const [ingredient, setIngredient] = useState({
     uuid: uuid.v4(),
-    name: null,
+    name: '',
     alternatives: [],
     type: null,
-    amount: null,
+    amount: '',
     measurement: null
   });
 
@@ -40,6 +40,9 @@ const RecipeAddIngredient = () => {
     'amount': setAmountError,
     'measurement': setMeasurementError
   };
+
+  const maxNameLength = 30
+  const maxAmountLength = 5
 
   const confirmHandler = () => {
     const errorArray = []
@@ -107,10 +110,13 @@ const RecipeAddIngredient = () => {
             <TextInput
               style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C' }]}
               placeholder={'Milk'}
-              onChangeText={(text) => setIngredient(prevState => {
-                return ({ ...prevState, name: text })
-              })} />
+              maxLength={maxNameLength}
+              onChangeText={(text) =>
+                setIngredient(prevState => {
+                  return ({ ...prevState, name: text })
+                })} />
           </View>
+          <Text style={[styles.counter, { color: ingredient.name.length == maxNameLength ? 'red' : null }]}>{ingredient.name.length}/{maxNameLength}</Text>
           {/* Type of ingredient component */}
           <View style={{ paddingTop: 20 }}>
             <Text style={[styles.modalTitle]}>TYPE OF INGREDIENT</Text>
@@ -128,7 +134,7 @@ const RecipeAddIngredient = () => {
               <TextInput
                 style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C' }]}
                 keyboardType={'numeric'}
-                maxLength={10}
+                maxLength={maxAmountLength}
                 placeholder={'50'}
                 onChangeText={(text) => setIngredient(prevState => {
                   return ({ ...prevState, amount: text })
@@ -295,6 +301,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14
+  },
+  counter: {
+    alignSelf: 'flex-end',
+    fontSize: 12,
+    fontWeight: 'bold'
   },
   modalContentContainer: {
     flex: 1,
