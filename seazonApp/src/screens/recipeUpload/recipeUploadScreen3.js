@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import uuid from 'react-native-uuid'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
+
 
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
@@ -11,6 +12,7 @@ const RecipeUploadScreen3 = () => {
 
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const recipeImages = {
     'Cereals and Pulses': require('../../../assets/img/recipeType/cerealsAndPulses.png'),
@@ -22,9 +24,15 @@ const RecipeUploadScreen3 = () => {
     'Seafood': require('../../../assets/img/recipeType/seafood.png')
   };
 
+  const deleteIngredient = (indexToRemove) => {
+    setRecipe(prevState => {
+      return ({ ...prevState, ingredients: [...prevState.ingredients.filter((_, index) => index !== indexToRemove)] })
+    })
+  };
+
   const Ingredient = (props) => {
     return (
-      <View style={{ paddingVertical: 10 }}>
+      <View style={{ paddingVertical: 10 }} >
         <View style={styles.ingredientContainer}>
           <View style={styles.ingredientImages}>
             <View style={styles.ingredientTypeImageContainer}>
@@ -42,8 +50,7 @@ const RecipeUploadScreen3 = () => {
                   <View key={key} style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Entypo
                       name={'ccw'}
-                      size={12}
-                    />
+                      size={12} />
                     <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{item}</Text>
                   </View>
                 )
@@ -51,8 +58,15 @@ const RecipeUploadScreen3 = () => {
             }
           </View>
           <View style={{ flex: 4, paddingHorizontal: 10, alignItems: 'flex-end' }}>
-            <Text style={{ fontStyle: 'italic' }}>{props.amount} {props.unit}</Text>
+            <Text style={{ fontStyle: 'italic' }}>{props.amount} {props.measurement}</Text>
           </View>
+          <TouchableOpacity onPress={() => deleteIngredient(props.index)}>
+            <MaterialCommunityIcons
+              name='delete'
+              size={25}
+              color={'white'} />
+          </TouchableOpacity>
+
         </View>
       </View>
     )
@@ -64,16 +78,17 @@ const RecipeUploadScreen3 = () => {
         <Text style={styles.desc}>Let's add some ingredients to your recipe!</Text>
         <ScrollView>
           {
-            recipe.ingredients.map((item) => {
+            recipe.ingredients.map((item, index) => {
               return (
                 <Ingredient
                   name={item.name}
                   key={item.uuid}
                   amount={item.amount}
-                  unit={item.unit}
+                  measurement={item.measurement}
                   image={item.image}
                   type={item.type}
-                  alternatives={item.alternatives} />
+                  alternatives={item.alternatives}
+                  index={index} />
               )
             })
           }
@@ -88,6 +103,7 @@ const RecipeUploadScreen3 = () => {
           <Text style={{ color: 'white', fontSize: 12 }}>Add an ingredient</Text>
         </TouchableOpacity>
       </View>
+
     </>
   )
 };

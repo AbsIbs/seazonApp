@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Pressable, StyleSheet, Text, ScrollView } from "react-native";
+import { View, TextInput, Pressable, StyleSheet, Text } from "react-native";
 import Entypo from 'react-native-vector-icons/Entypo';
+import ErrorModal from "./errorModal";
 
 const AlternativeTagList = (props) => {
 
   const [tags, setTags] = useState([]);
   const [inputText, setInputText] = useState('');
+  const [alternativesErrorModal, setAlternativesErrorModal] = useState(false)
 
   const maxLength = 3
 
@@ -34,7 +36,7 @@ const AlternativeTagList = (props) => {
       }
       setInputText('');
     } else {
-      alert('max reached')
+      setAlternativesErrorModal(true)
     }
   };
 
@@ -72,7 +74,8 @@ const AlternativeTagList = (props) => {
           value={inputText}
           maxLength={20} />
       </View>
-      <Text style={[styles.tagCounter, { color: tags.length < maxLength ? '#ffffff90' : '#E32828' }]}>Tags: {tags.length}/{maxLength} </Text>
+      <Text style={[styles.tagCounter, { color: tags.length < maxLength ? '#ffffff90' : '#E32828' }]}>Limit: {tags.length}/{maxLength} </Text>
+      <ErrorModal Title={'Hold on!'} Desc={"You've reached the maximum number of alternative ingredients."} visible={alternativesErrorModal} setVisible={setAlternativesErrorModal} />
     </>
   )
 };

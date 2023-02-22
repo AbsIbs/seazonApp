@@ -1,13 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, ScrollView, Pressable } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable } from "react-native";
 import uuid from 'react-native-uuid'
 import { useNavigation } from "@react-navigation/native";
 
-import Entypo from 'react-native-vector-icons/Entypo'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Picker } from 'react-native-wheel-pick';
 import Modal from 'react-native-modal'
+import SwitchSelector from "react-native-switch-selector"
 
+import ErrorModal from "../../components/errorModal";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import AlternativeTagList from "../../components/AlternativeTagList";
 
@@ -16,7 +17,6 @@ const RecipeAddIngredient = () => {
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
 
-  const unit = []
   const typeArray = ['Dairy', 'Cereals and Pulses', 'Fruits', 'Meat', 'Spices and Herbs', 'Vegetables', 'Seafood']
 
   const [ingredient, setIngredient] = useState({
@@ -25,18 +25,61 @@ const RecipeAddIngredient = () => {
     alternatives: [],
     type: null,
     amount: null,
-    unit: null
+    measurement: null
   });
 
-  const [tempTypeValue, setTempTypeValue] = useState('Dairy')
+  const [nameError, setNameError] = useState()
+  const [typeError, setTypeError] = useState()
+  const [amountError, setAmountError] = useState()
+  const [measurementError, setMeasurementError] = useState()
+  const [confirmErrorModal, setConfirmErrorModal] = useState(false)
+
+  const errorObject = {
+    'name': setNameError,
+    'type': setTypeError,
+    'amount': setAmountError,
+    'measurement': setMeasurementError
+  };
+
+  const confirmHandler = () => {
+    const errorArray = []
+    for (let prop in ingredient) {
+      if ((prop != 'uuid' && prop != 'alternatives')) {
+        if (ingredient[prop]) {
+          errorObject[prop](false)
+        } else {
+          errorObject[prop](true)
+          errorArray.push(prop)
+        }
+      }
+    };
+    if (errorArray.length == 0) {
+      setRecipe(prevState => {
+        return ({ ...prevState, ingredients: [...prevState.ingredients, ingredient] })
+      })
+      console.log('added ingredient')
+      navigation.goBack()
+    } else {
+      setConfirmErrorModal(true)
+    }
+  };
+
+  const [tempTypeValue, setTempTypeValue] = useState('Dairy');
   const [typeModalActive, setTypeModalActive] = useState(false);
 
-  const [tempUnitValue, setTempUnitValue] = useState('')
-  const [unitModalActive, setUnitModalActive] = useState(false);
+  const [tempMeasurementValue, setTempMeasurementValue] = useState('ml');
+  const [measurementModalActive, setMeasurementModalActive] = useState(false);
 
-  useEffect(() => {
-    console.log(ingredient)
-  }, [ingredient])
+  // Unit stuff
+  const [measurement, setMeasurement] = useState('metric');
+  const measurementOptions = [
+    { label: 'metric', value: 'metric' },
+    { label: 'imperial', value: 'imperial' }
+  ];
+  const measurementObject = {
+    'metric': ['ml', 'litre(s)', 'tsp', 'tbsp', 'unit(s)', 'mg', 'g', 'kg'],
+    'imperial': ['oz', 'lb(s)', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
+  };
 
   return (
     <>
@@ -53,39 +96,37 @@ const RecipeAddIngredient = () => {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Add ingredient</Text>
           <TouchableOpacity
-            style={{ borderRadius: 4, paddingVertical: 5, paddingHorizontal: 10, position: 'absolute', right: '5%', backgroundColor: '#E84A4A' }}
-            onPress={() => {
-              setRecipe(prevState => {
-                return ({ ...prevState, ingredients: [...prevState.ingredients, ingredient] })
-              })
-              navigation.goBack()
-            }}>
-            <Text style={{ textAlign: 'left', color: 'white', fontSize: 12 }}>Confirm</Text>
+            style={{ paddingVertical: 5, paddingHorizontal: 10, position: 'absolute', right: '5%' }}
+            onPress={() => confirmHandler()}>
+            <Text style={{ textAlign: 'left', color: '#E84A4A', fontSize: 12 }}>Confirm</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.modalContentContainer}>
           <View style={{ paddingTop: 20 }}>
             <Text style={styles.modalTitle}>INGREDIENT NAME</Text>
             <TextInput
-              style={styles.modalTextInput}
+              style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C' }]}
               placeholder={'Milk'}
               onChangeText={(text) => setIngredient(prevState => {
                 return ({ ...prevState, name: text })
               })} />
           </View>
+          {/* Type of ingredient component */}
           <View style={{ paddingTop: 20 }}>
             <Text style={[styles.modalTitle]}>TYPE OF INGREDIENT</Text>
-            <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center' }]} onPress={() => setTypeModalActive(true)}>
+            <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
               {ingredient.type == null ?
                 <Text style={{ color: '#ffffff80' }}>Dairy</Text>
                 : <Text style={{ color: '#ffffff' }}>{ingredient.type}</Text>}
             </TouchableOpacity>
           </View>
+          {/* Amount and unit container */}
           <View style={{ paddingTop: 20, flexDirection: 'row' }}>
+            {/* Amount component */}
             <View style={[{ flex: 1 }, { paddingRight: 5 }]}>
               <Text style={styles.modalTitle}>AMOUNT</Text>
               <TextInput
-                style={[styles.modalTextInput]}
+                style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C' }]}
                 keyboardType={'numeric'}
                 maxLength={10}
                 placeholder={'50'}
@@ -93,11 +134,26 @@ const RecipeAddIngredient = () => {
                   return ({ ...prevState, amount: text })
                 })} />
             </View>
+            {/* Unit component */}
             <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>
-              <Text style={styles.modalTitle}>UNIT</Text>
-              <TextInput
-                style={[styles.modalTextInput]}
-                placeholder={'ml'} />
+              <Text style={styles.modalTitle}>MEASUREMENT</Text>
+              <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: measurementError ? 'red' : '#2B303C' }]} onPress={() => setMeasurementModalActive(true)}>
+                {ingredient.measurement == null ?
+                  <Text style={{ color: '#ffffff80' }}>ml</Text>
+                  : <Text style={{ color: '#ffffff' }}>{ingredient.measurement}</Text>}
+              </TouchableOpacity>
+              <SwitchSelector
+                options={measurementOptions}
+                initial={0}
+                onPress={value => setMeasurement(value)}
+                textColor={'#d3d3d3'}
+                selectedColor={'#ffffff'}
+                borderColor={'#2B303C'}
+                buttonColor={'#2B303C'}
+                hasPadding
+                fontSize={12}
+                backgroundColor={'#121212'}
+              />
             </View>
           </View>
           <View style={{ paddingTop: 20 }}>
@@ -152,6 +208,51 @@ const RecipeAddIngredient = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Unit Modal */}
+      <Modal
+        isVisible={measurementModalActive}
+        onBackdropPress={() => setMeasurementModalActive(false)}
+        backdropTransitionOutTiming={0}
+        style={{ justifyContent: 'flex-end', margin: 0 }}
+        useNativeDriver
+        hideModalContentWhileAnimating>
+        <View style={styles.modalPickerContainer}>
+          <View style={styles.modalPickerSection}>
+            <Pressable
+              style={styles.modalPickerCloseButton}
+              onPress={() => setMeasurementModalActive(false)}
+              hitSlop={10}>
+            </Pressable>
+          </View>
+          <Text style={styles.modalPickerTitle}>Measurement</Text>
+          <Text style={styles.modalPickerDesc}>Please select the unit of measurement</Text>
+          <View style={styles.pickersContainer}>
+            <Picker
+              textColor="#d3d3d3"
+              textSize={20}
+              style={{ backgroundColor: '#00000000', width: 250 }}
+              selectedValue={tempMeasurementValue}
+              pickerData={measurementObject[measurement]}
+              onValueChange={value => setTempMeasurementValue(value)} />
+          </View>
+          <View style={styles.modalPickerSection}>
+            <TouchableOpacity
+              style={styles.modalPickerSaveButton}
+              onPress={() => {
+                setIngredient(prevState => {
+                  return ({ ...prevState, measurement: tempMeasurementValue })
+                })
+                setMeasurementModalActive(false)
+              }}
+              hitSlop={10}>
+              <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Error Modals */}
+      <ErrorModal Title={'Hold on!'} Desc={'Please fill out the required information.'} visible={confirmErrorModal} setVisible={setConfirmErrorModal} />
     </>
   )
 };
@@ -201,7 +302,6 @@ const styles = StyleSheet.create({
   },
   modalTextInput: {
     backgroundColor: '#121212',
-    borderColor: '#2B303C',
     height: 50,
     borderRadius: 6,
     marginVertical: 10,
@@ -239,7 +339,6 @@ const styles = StyleSheet.create({
   modalPickerContainer: {
     width: '100%',
     backgroundColor: '#121212',
-    /*        alignItems: 'center', */
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },

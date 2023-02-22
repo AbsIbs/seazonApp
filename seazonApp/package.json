@@ -63,6 +63,8 @@
     "react-native-simple-bottom-sheet": "^1.0.3",
     "react-native-step-indicator": "^1.0.3",
     "react-native-svg": "^13.4.0",
+    "react-native-switch": "^1.5.1",
+    "react-native-switch-selector": "^2.3.0",
     "react-native-tags-input": "^1.0.10",
     "react-native-twitter-textview": "^1.0.7",
     "react-native-uuid": "^2.0.1",
