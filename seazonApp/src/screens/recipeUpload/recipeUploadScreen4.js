@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Pressable, ScrollView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
@@ -12,7 +12,11 @@ const RecipeUploadScreen4 = () => {
 
   const renderItem = ({ item, drag, getIndex, isActive }) => {
     return (
-      <View>
+      <TouchableOpacity onPress={() => {
+        navigation.navigate('Edit Step', {
+          index: getIndex()
+        })
+      }} >
         <View style={styles.itemHeaderContainer}>
           <View style={{ flex: 1 }}>
             <View style={styles.itemIndexContainer}>
@@ -36,14 +40,22 @@ const RecipeUploadScreen4 = () => {
         </View>
         <View style={styles.itemContainer}>
           <View style={styles.itemImageContainer}>
-            <View style={styles.itemImage}>
-              {item.coverImage != null ?
+            {item.coverImage != null ?
+              <View style={[styles.itemImage]}>
                 <Image
                   source={item.coverImage}
-                  style={{height: '100%', width: '100%'}}
-                /> : null
-              }
-            </View>
+                  style={{ height: '100%', width: '100%', borderRadius: 4 }}
+                />
+              </View>
+              :
+              <View style={styles.itemDefaultImage}>
+                <MaterialCommunityIcons
+                  name='camera-image'
+                  color='#ffffff'
+                  size={35}
+                />
+              </View>
+            }
           </View>
           <View style={{ flex: 4 }}>
             <ScrollView style={styles.itemDescriptionContainer}>
@@ -51,14 +63,14 @@ const RecipeUploadScreen4 = () => {
             </ScrollView>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   };
 
   return (
     <View style={styles.container}>
-      <Text style={{ paddingBottom: 10 }}>You can also add the steps to your recipe.</Text>
-      <View style={{ paddingVertical: 20 }}>
+      <Text style={{ paddingBottom: 10 }}>Let's, now add some steps.</Text>
+      <View style={{ paddingVertical: 20, flex: 1 }}>
         <DraggableFlatList
           data={recipe.steps}
           keyExtractor={(item) => item.key}
@@ -173,22 +185,29 @@ const styles = StyleSheet.create({
   },
   itemImageContainer: {
     flex: 1,
-    marginRight: 20
+    borderWidth: 12,
+    paddingRight: 20
   },
   itemImage: {
     height: 75,
+    width: 75
+  },
+  itemDefaultImage: {
+    backgroundColor: '#121212',
+    borderColor: '#2B303C',
+    borderWidth: 0,
+    height: 75,
     width: 75,
-    borderWidth: 12,
-    paddingHorizontal: 5,
-    backgroundColor: 'red',
-    borderRadius: 18
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   itemDescriptionContainer: {
     backgroundColor: '#121212',
     borderColor: '#2B303C',
     borderRadius: 6,
     marginVertical: 10,
-    borderWidth: 1.5,
+    borderWidth: 0.5,
     padding: 10
   },
   itemDescription: {

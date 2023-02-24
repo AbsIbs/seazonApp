@@ -120,8 +120,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20
   },
   desc: {
-    fontSize: 12,
-    color: '#ffffff80',
     paddingBottom: 10
   },
   addIngredientButton: {

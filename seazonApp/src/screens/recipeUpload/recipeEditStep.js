@@ -7,9 +7,9 @@ import { useNavigation } from "@react-navigation/native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import CustomTagList from "../../components/customTagList";
 import ErrorModal from "../../components/errorModal";
-import uuid from 'react-native-uuid'
+import cloneDeep from "lodash.clonedeep";
 
-const RecipeAddStep = () => {
+const RecipeEditStep = (props) => {
 
   const { recipe, setRecipe } = useContext(AddRecipeContext);
   const maxInstructionsLength = 500;
@@ -18,12 +18,8 @@ const RecipeAddStep = () => {
   const [confirmErrorModal, setConfirmErrorModal] = useState(false);
   const [instructionsError, setInstructionsError] = useState(false)
 
-  const [step, setStep] = useState({
-    key: uuid.v4(),
-    coverImage: null,
-    instructions: '',
-    utensils: []
-  })
+  const stepToEdit = cloneDeep(recipe.steps[props.route.params.index])
+  const [step, setStep] = useState(stepToEdit)
 
   const [disabled, setDisabled] = useState(false)
 
@@ -31,7 +27,9 @@ const RecipeAddStep = () => {
     if (step.instructions.length != 0) {
       setDisabled(true);
       await setRecipe(prevState => {
-        return ({ ...prevState, steps: [...prevState.steps, step] })
+        const updatedStep = [...prevState.steps]
+        updatedStep[props.route.params.index] = step
+        return ({ ...prevState, steps: updatedStep })
       });
       console.log('added step');
       navigation.goBack();
@@ -77,7 +75,7 @@ const RecipeAddStep = () => {
               color={'white'}
               name={'cross'} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Add step</Text>
+          <Text style={styles.headerTitle}>Edit step</Text>
           <TouchableOpacity
             style={{ position: 'absolute', right: '5%' }}
             onPress={() => confirmHandler()}
@@ -112,10 +110,10 @@ const RecipeAddStep = () => {
             <Text style={styles.title}>INSTRUCTIONS</Text>
             <TextInput
               style={[styles.instructionsInput, { borderColor: instructionsError ? 'red' : '#2B303C' }]}
-              placeholder={'Give some detailed instructions to help others.'}
               onChangeText={(text) => setStep(prevState => {
                 return ({ ...prevState, instructions: text })
               })}
+              value={step.instructions}
               maxLength={maxInstructionsLength}
               multiline
               textAlignVertical="top" />
@@ -123,7 +121,7 @@ const RecipeAddStep = () => {
           <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
           <View style={{ paddingTop: 20 }}>
             <Text style={[styles.title, { paddingBottom: 10 }]}>UTENSILS</Text>
-            <CustomTagList placeholder={'Large Pot'} setFunction={setStep} target='utensils' maxLength={5} initialArray={[]} />
+            <CustomTagList placeholder={null} setFunction={setStep} target='utensils' maxLength={5} initialArray={step.utensils} />
           </View>
         </View>
       </View>
@@ -203,4 +201,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RecipeAddStep;
+export default RecipeEditStep;

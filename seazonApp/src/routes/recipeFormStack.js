@@ -9,6 +9,7 @@ import RecipeForm from "../screens/recipeForm";
 import RecipeAddIngredient from "../screens/recipeUpload/recipeAddIngredient";
 import RecipeAddStep from "../screens/recipeUpload/recipeAddStep";
 import RecipeEditIngredient from "../screens/recipeUpload/recipeEditIngredient";
+import RecipeEditStep from "../screens/recipeUpload/recipeEditStep";
 
 const RecipeFormStack = () => {
 
@@ -62,6 +63,12 @@ const RecipeFormStack = () => {
         <Stack.Screen
           name="Add Step"
           component={RecipeAddStep}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+          }} />
+        <Stack.Screen
+          name="Edit Step"
+          component={RecipeEditStep}
           options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
           }} />

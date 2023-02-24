@@ -63,7 +63,7 @@ const CustomTagList = (props) => {
           value={inputText}
           maxLength={20} />
       </View>
-      <Text style={[styles.tagCounter, { color: tags.length < props.maxLength ? '#ffffff90' : '#E32828' }]}>Limit: {tags.length}/{props.maxLength} </Text>
+      <Text style={[styles.tagCounter, { color: tags.length < props.maxLength ? '#ffffff90' : '#E32828' }]}>{tags.length}/{props.maxLength} </Text>
       <ErrorModal Title={'Hold on!'} Desc={"You've reached the maximum number of alternative ingredients."} visible={alternativesErrorModal} setVisible={setAlternativesErrorModal} />
     </>
   )
@@ -104,8 +104,7 @@ const styles = StyleSheet.create({
   tagCounter: {
     alignSelf: 'flex-end',
     fontSize: 12,
-    paddingTop: 10,
-    fontWeight: 'bold'
+    paddingTop: 10
   }
 });
 
