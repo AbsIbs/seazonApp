@@ -1,29 +1,14 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Modal, TextInput, Image, Pressable, ScrollView } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, Pressable, ScrollView, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { launchImageLibrary } from "react-native-image-picker"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import Entypo from 'react-native-vector-icons/Entypo'
+import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 const RecipeUploadScreen4 = () => {
 
-  const [modalState, setModalState] = useState(false);
-  const [imageUri, setImageUri] = useState(null);
-
-  const [data, setData] = useState([
-    {
-      key: "123",
-      picture: '',
-      description: "Chop some onions",
-      utensils: []
-    },
-    {
-      key: "124",
-      picture: '',
-      description: "Boil the eggs",
-      utensils: []
-    }
-  ]);
+  const navigation = useNavigation();
+  const { recipe, setRecipe } = useContext(AddRecipeContext);
 
   const renderItem = ({ item, drag, getIndex, isActive }) => {
     return (
@@ -52,77 +37,18 @@ const RecipeUploadScreen4 = () => {
         <View style={styles.itemContainer}>
           <View style={styles.itemImageContainer}>
             <View style={styles.itemImage}>
-
+              {item.coverImage != null ?
+                <Image
+                  source={item.coverImage}
+                  style={{height: '100%', width: '100%'}}
+                /> : null
+              }
             </View>
           </View>
           <View style={{ flex: 4 }}>
             <ScrollView style={styles.itemDescriptionContainer}>
-              <Text style={styles.itemDescription}>{item.description}</Text>
+              <Text style={styles.itemDescription}>{item.instructions}</Text>
             </ScrollView>
-          </View>
-        </View>
-      </View>
-    )
-  };
-
-  const galleryUploadHandler = () => {
-    let options = {
-      storageOption: {
-        path: 'images',
-        mediaType: 'photo',
-      },
-      includeBase64: false
-    };
-    launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        null
-      } else {
-        /* Save the image */
-        setImageUri({ uri: response.assets[0].uri })
-      }
-    });
-  };
-
-  const AddStepModal = () => {
-
-    const [utelnsils, setUtensils] = useState([]);
-
-    return (
-      <View style={styles.modalContainer}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={{ position: 'absolute', left: '5%' }}
-            onPress={() => setModalState(false)}>
-            <Entypo
-              size={25}
-              color={'white'}
-              name={'cross'} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Add step</Text>
-          <Text style={{ position: 'absolute', right: '5%', textAlign: 'left', color: '#E84A4A' }}>Confirm</Text>
-        </View>
-        <View style={styles.modalContentContainer}>
-          <TouchableOpacity
-            style={styles.multimediaUploadContainer}
-            onPress={galleryUploadHandler}>
-            <MaterialCommunityIcons
-              name='camera-plus-outline'
-              color='#ffffff'
-              size={35}
-            />
-            <Text style={styles.multimediaUploadTitle}>Upload an image</Text>
-          </TouchableOpacity>
-          <View style={{ paddingTop: 20 }}>
-            <Text style={styles.modalTitle}>INSTRUCTIONS</Text>
-            <TextInput
-              style={styles.modalTextInput}
-              placeholder={'Give some detailed instructions to help others.'} />
-          </View>
-          <View style={{ paddingTop: 20 }}>
-            <Text style={[styles.modalTitle]}>UTENSILS</Text>
-            <TextInput
-              style={[styles.modalTextInput]}
-              placeholder={'Peeler'} />
           </View>
         </View>
       </View>
@@ -134,24 +60,22 @@ const RecipeUploadScreen4 = () => {
       <Text style={{ paddingBottom: 10 }}>You can also add the steps to your recipe.</Text>
       <View style={{ paddingVertical: 20 }}>
         <DraggableFlatList
-          data={data}
+          data={recipe.steps}
           keyExtractor={(item) => item.key}
           renderItem={renderItem}
-          onDragEnd={({ data }) => setData(data)} />
+          onDragEnd={({ data }) => {
+            setRecipe(prevState => {
+              return ({ ...prevState, steps: data })
+            })
+          }} />
       </View>
-      <TouchableOpacity style={styles.addStepButton} onPress={() => { setModalState(true) }} >
+      <TouchableOpacity style={styles.addStepButton} onPress={() => navigation.navigate('Add Step')} >
         <MaterialCommunityIcons
           name={'plus'}
           size={20}
           color={'white'} />
         <Text style={{ color: 'white', fontSize: 12 }}>Add a step</Text>
       </TouchableOpacity>
-      <Modal
-        useNativeDriver
-        visible={modalState}
-        animationType={'fade'}>
-        <AddStepModal />
-      </Modal>
     </View>
   )
 };

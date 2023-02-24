@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable } from "react-native";
-import uuid from 'react-native-uuid'
+import cloneDeep from "lodash.clonedeep";
 import { useNavigation } from "@react-navigation/native";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -12,21 +12,15 @@ import ErrorModal from "../../components/errorModal";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import CustomTagList from "../../components/customTagList";
 
-const RecipeAddIngredient = () => {
+const RecipeEditIngredient = (props) => {
 
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
 
   const typeArray = ['Dairy', 'Cereals and Pulses', 'Fruits', 'Meat', 'Spices and Herbs', 'Vegetables', 'Seafood']
 
-  const [ingredient, setIngredient] = useState({
-    uuid: uuid.v4(),
-    name: '',
-    alternatives: [],
-    type: null,
-    amount: '',
-    measurement: null
-  });
+  const ingredientToEdit = cloneDeep(recipe.ingredients[props.route.params.index])
+  const [ingredient, setIngredient] = useState(ingredientToEdit)
 
   const [nameError, setNameError] = useState()
   const [typeError, setTypeError] = useState()
@@ -61,7 +55,9 @@ const RecipeAddIngredient = () => {
     if (errorArray.length == 0) {
       setDisabled(true);
       await setRecipe(prevState => {
-        return ({ ...prevState, ingredients: [...prevState.ingredients, ingredient] })
+        const updatedIngredient = [...prevState.ingredients]
+        updatedIngredient[props.route.params.index] = ingredient
+        return ({ ...prevState, ingredients: updatedIngredient })
       })
       console.log('added ingredient')
       navigation.goBack()
@@ -100,7 +96,7 @@ const RecipeAddIngredient = () => {
               color={'white'}
               name={'chevron-left'} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Add ingredient</Text>
+          <Text style={styles.headerTitle}>Edit ingredient</Text>
           <TouchableOpacity
             style={{ paddingVertical: 5, paddingHorizontal: 10, position: 'absolute', right: '5%' }}
             onPress={() => confirmHandler()}
@@ -113,8 +109,8 @@ const RecipeAddIngredient = () => {
             <Text style={styles.modalTitle}>INGREDIENT NAME</Text>
             <TextInput
               style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C' }]}
-              placeholder={'Milk'}
               maxLength={maxNameLength}
+              value={ingredient.name}
               onChangeText={(text) =>
                 setIngredient(prevState => {
                   return ({ ...prevState, name: text })
@@ -139,7 +135,7 @@ const RecipeAddIngredient = () => {
                 style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C' }]}
                 keyboardType={'numeric'}
                 maxLength={maxAmountLength}
-                placeholder={'50'}
+                value={ingredient.amount}
                 onChangeText={(text) => setIngredient(prevState => {
                   return ({ ...prevState, amount: text })
                 })} />
@@ -169,7 +165,7 @@ const RecipeAddIngredient = () => {
           <View style={{ paddingTop: 20 }}>
             <Text style={[styles.modalTitle]}>ALTERNATIVES</Text>
             <View style={{ paddingTop: 10 }}>
-              <CustomTagList placeholder={'Soya Milk'} setFunction={setIngredient} target='alternatives' maxLength={3} initialArray={[]} />
+              <CustomTagList placeHolder={null} setFunction={setIngredient} target='alternatives' maxLength={3} initialArray={ingredientToEdit.alternatives} />
             </View>
           </View>
         </View>
@@ -405,4 +401,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RecipeAddIngredient;
+export default RecipeEditIngredient;

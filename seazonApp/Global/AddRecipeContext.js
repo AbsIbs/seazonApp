@@ -17,7 +17,7 @@ const AddRecipeProvider = ({ children }) => {
     dietary: [],
     tags: [],
     ingredients: [],
-    steps: null,
+    steps: [],
     macros: {
       calories: null,
       carbs: null,

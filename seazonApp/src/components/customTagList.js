@@ -3,13 +3,13 @@ import { View, TextInput, Pressable, StyleSheet, Text } from "react-native";
 import Entypo from 'react-native-vector-icons/Entypo';
 import ErrorModal from "./errorModal";
 
-const AlternativeTagList = (props) => {
+const CustomTagList = (props) => {
 
-  const [tags, setTags] = useState([]);
+  const initialArray = props.initialArray
+
+  const [tags, setTags] = useState(initialArray);
   const [inputText, setInputText] = useState('');
   const [alternativesErrorModal, setAlternativesErrorModal] = useState(false)
-
-  const maxLength = 3
 
   const TagsListFunction = () => {
     return tags.map((tag, index) => {
@@ -29,7 +29,7 @@ const AlternativeTagList = (props) => {
   };
 
   const addTagSubmit = (event) => {
-    if (tags.length < maxLength) {
+    if (tags.length < props.maxLength) {
       const textSubmitList = event.nativeEvent.text.trim().split('')
       if (textSubmitList.length != 0) {
         setTags([...tags, event.nativeEvent.text.trim().toLowerCase()]);
@@ -41,25 +41,14 @@ const AlternativeTagList = (props) => {
   };
 
   useEffect(() => {
-    props.setIngredient(prevState => {
-      return ({ ...prevState, alternatives: tags })
+    props.setFunction(prevState => {
+      return ({ ...prevState, [props.target]: tags })
     })
   }, [tags])
 
   const deleteTag = (indexToRemove) => {
     setTags([...tags.filter((_, index) => index !== indexToRemove)]);
   };
-
-  /*     const addTag = (text) => {
-        const textList = text.trimStart().split('')
-        if (textList[textList.length -1] === " ") {
-            if (textList[0] != '#') {
-                setTags([...tags, '#' + text.trim().toLowerCase()]);    
-            } else {
-                setTags([...tags, text.trim().toLowerCase()]);
-            }
-        };   
-    } */
 
   return (
     <>
@@ -74,7 +63,7 @@ const AlternativeTagList = (props) => {
           value={inputText}
           maxLength={20} />
       </View>
-      <Text style={[styles.tagCounter, { color: tags.length < maxLength ? '#ffffff90' : '#E32828' }]}>Limit: {tags.length}/{maxLength} </Text>
+      <Text style={[styles.tagCounter, { color: tags.length < props.maxLength ? '#ffffff90' : '#E32828' }]}>Limit: {tags.length}/{props.maxLength} </Text>
       <ErrorModal Title={'Hold on!'} Desc={"You've reached the maximum number of alternative ingredients."} visible={alternativesErrorModal} setVisible={setAlternativesErrorModal} />
     </>
   )
@@ -120,4 +109,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AlternativeTagList;
+export default CustomTagList;

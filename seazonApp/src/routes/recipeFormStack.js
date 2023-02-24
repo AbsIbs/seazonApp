@@ -7,6 +7,8 @@ import { AddRecipeProvider } from "../../Global/AddRecipeContext";
 
 import RecipeForm from "../screens/recipeForm";
 import RecipeAddIngredient from "../screens/recipeUpload/recipeAddIngredient";
+import RecipeAddStep from "../screens/recipeUpload/recipeAddStep";
+import RecipeEditIngredient from "../screens/recipeUpload/recipeEditIngredient";
 
 const RecipeFormStack = () => {
 
@@ -18,7 +20,7 @@ const RecipeFormStack = () => {
         screenOptions={{
           headerShown: false,
           presentation: "transparentModal"
-        }}  >
+        }}>
         <Stack.Screen
           name='Recipe Form'
           component={RecipeForm}
@@ -48,6 +50,18 @@ const RecipeFormStack = () => {
         <Stack.Screen
           name="Add Ingredient"
           component={RecipeAddIngredient}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+          }} />
+        <Stack.Screen
+          name="Edit Ingredient"
+          component={RecipeEditIngredient}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+          }} />
+        <Stack.Screen
+          name="Add Step"
+          component={RecipeAddStep}
           options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
           }} />

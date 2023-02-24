@@ -30,7 +30,11 @@ const RecipeUploadScreen3 = () => {
 
   const Ingredient = (props) => {
     return (
-      <View style={{ paddingVertical: 10 }} >
+      <TouchableOpacity style={{ paddingVertical: 10 }} onPress={() => {
+        navigation.navigate('Edit Ingredient', {
+          index: props.index
+        })
+      }}>
         <View style={styles.ingredientContainer}>
           {/* Image */}
           <View style={[styles.ingredientImages, { flex: 2 }]}>
@@ -69,7 +73,7 @@ const RecipeUploadScreen3 = () => {
               color={'white'} />
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   };
 
