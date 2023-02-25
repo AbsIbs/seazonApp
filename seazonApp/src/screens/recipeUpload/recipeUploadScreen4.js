@@ -4,19 +4,30 @@ import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
+import uuid from 'react-native-uuid'
 
 const RecipeUploadScreen4 = () => {
 
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
 
+
   const renderItem = ({ item, drag, getIndex, isActive }) => {
+
+    const deleteStep = (indexToRemove) => {
+      setRecipe(prevState => {
+        return ({ ...prevState, steps: [...prevState.steps.filter((_, index) => index !== indexToRemove)] })
+      })
+    };
+
     return (
-      <TouchableOpacity onPress={() => {
-        navigation.navigate('Edit Step', {
-          index: getIndex()
-        })
-      }} >
+      <TouchableOpacity
+        style={{ borderBottomColor: '#ffffff20', borderBottomWidth: 1, paddingVertical: 10 }}
+        onPress={() => {
+          navigation.navigate('Edit Step', {
+            index: getIndex()
+          })
+        }} >
         <View style={styles.itemHeaderContainer}>
           <View style={{ flex: 1 }}>
             <View style={styles.itemIndexContainer}>
@@ -24,7 +35,9 @@ const RecipeUploadScreen4 = () => {
             </View>
           </View>
           <View style={{ flex: 1, justifyContent: 'flex-end', flexDirection: 'row' }}>
-            <Pressable style={{ marginHorizontal: 15 }}>
+            <Pressable
+              onPress={() => deleteStep(getIndex())}
+              style={{ marginHorizontal: 15 }}>
               <MaterialCommunityIcons
                 name='delete'
                 size={25}
@@ -41,7 +54,7 @@ const RecipeUploadScreen4 = () => {
         <View style={styles.itemContainer}>
           <View style={styles.itemImageContainer}>
             {item.coverImage != null ?
-              <View style={[styles.itemImage]}>
+              <View style={styles.itemImage}>
                 <Image
                   source={item.coverImage}
                   style={{ height: '100%', width: '100%', borderRadius: 4 }}
@@ -62,6 +75,19 @@ const RecipeUploadScreen4 = () => {
               <Text style={styles.itemDescription}>{item.instructions}</Text>
             </ScrollView>
           </View>
+        </View>
+        {/* Utensils */}
+        <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
+          {item.utensils ?
+            item.utensils.map((utensil) => {
+              const key = uuid.v4()
+              return (
+                <View key={key} style={styles.stepUtensilsContainer}>
+                  <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{utensil}</Text>
+                </View>
+              )
+            }) : null
+          }
         </View>
       </TouchableOpacity>
     )
@@ -130,6 +156,18 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '90%'
   },
+  stepUtensilsContainer: {
+    alignItems: 'center',
+    borderColor: '#2B303C',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    marginVertical: 10,
+    marginHorizontal: 5
+  },
   modalTextInput: {
     backgroundColor: '#121212',
     borderColor: '#2B303C',
@@ -178,14 +216,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 125,
     width: '100%',
-    borderBottomColor: '#ffffff20',
-    borderBottomWidth: 1,
-    marginVertical: 15,
-    paddingBottom: 10
+    marginTop: 10
   },
   itemImageContainer: {
     flex: 1,
-    borderWidth: 12,
     paddingRight: 20
   },
   itemImage: {
@@ -206,7 +240,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     borderColor: '#2B303C',
     borderRadius: 6,
-    marginVertical: 10,
     borderWidth: 0.5,
     padding: 10
   },

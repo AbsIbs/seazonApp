@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import uuid from 'react-native-uuid'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -10,7 +10,6 @@ const RecipeUploadScreen3 = () => {
 
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
-  const [deleteModal, setDeleteModal] = useState(false);
 
   const recipeImages = {
     'Cereals and Pulses': require('../../../assets/img/recipeType/cerealsAndPulses.png'),
@@ -30,48 +29,54 @@ const RecipeUploadScreen3 = () => {
 
   const Ingredient = (props) => {
     return (
-      <TouchableOpacity style={{ paddingVertical: 10 }} onPress={() => {
+      <TouchableOpacity style={styles.ingredientOuterContainer} onPress={() => {
         navigation.navigate('Edit Ingredient', {
           index: props.index
         })
       }}>
-        <View style={styles.ingredientContainer}>
-          {/* Image */}
-          <View style={[styles.ingredientImages, { flex: 2 }]}>
-            <View style={styles.ingredientTypeImageContainer}>
-              <Image
-                source={recipeImages[props.type]}
-                style={{ height: 30, width: 30 }} />
+        <View style={styles.ingredientInnerContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Image */}
+            <View style={[styles.ingredientImages, { flex: 2 }]}>
+              <View style={styles.ingredientTypeImageContainer}>
+                <Image
+                  source={recipeImages[props.type]}
+                  style={{ height: 30, width: 30 }} />
+              </View>
             </View>
+            {/* Ingredient Name */}
+            <View style={[{ flex: 5 }]}>
+              <Text style={{ fontWeight: 'bold' }}>{props.name}</Text>
+            </View>
+            {/* Unit */}
+            <View style={{ alignItems: 'center', paddingHorizontal: 10, justifyContent: 'center' }}>
+              <Text>{props.amount} {props.measurement}</Text>
+            </View>
+            {/* Delete */}
+            <TouchableOpacity onPress={() => deleteIngredient(props.index)} style={{ flex: 1 }}>
+              <MaterialCommunityIcons
+                name='delete'
+                size={25}
+                color={'white'} />
+            </TouchableOpacity>
           </View>
-          {/* Ingredient Name and Alternatives */}
-          <View style={[{ flex: 5 }]}>
-            <Text style={{ fontWeight: 'bold' }}>{props.name}</Text>
+          {/* Alternatives */}
+          <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
             {props.alternatives ?
               props.alternatives.map((item) => {
                 const key = uuid.v4()
                 return (
-                  <View key={key} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View key={key} style={styles.ingredientAlternativesContainer}>
                     <Entypo
                       name={'ccw'}
-                      size={12} />
+                      size={12}
+                      style={{ paddingRight: 5 }} />
                     <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{item}</Text>
                   </View>
                 )
               }) : null
             }
           </View>
-          {/* Unit */}
-          <View style={{ alignItems: 'center', paddingHorizontal: 10, justifyContent: 'center' }}>
-            <Text style={{ fontStyle: 'italic' }}>{props.amount} {props.measurement}</Text>
-          </View>
-          {/* Delete */}
-          <TouchableOpacity onPress={() => deleteIngredient(props.index)} style={{ flex: 1 }}>
-            <MaterialCommunityIcons
-              name='delete'
-              size={25}
-              color={'white'} />
-          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     )
@@ -82,21 +87,19 @@ const RecipeUploadScreen3 = () => {
       <View style={styles.container}>
         <Text style={styles.desc}>Let's add some ingredients to your recipe!</Text>
         <ScrollView>
-          {
-            recipe.ingredients.map((item, index) => {
-              return (
-                <Ingredient
-                  name={item.name}
-                  key={item.uuid}
-                  amount={item.amount}
-                  measurement={item.measurement}
-                  image={item.image}
-                  type={item.type}
-                  alternatives={item.alternatives}
-                  index={index} />
-              )
-            })
-          }
+          {recipe.ingredients.map((item, index) => {
+            return (
+              <Ingredient
+                name={item.name}
+                key={item.uuid}
+                amount={item.amount}
+                measurement={item.measurement}
+                image={item.image}
+                type={item.type}
+                alternatives={item.alternatives}
+                index={index} />
+            )
+          })}
         </ScrollView>
         <TouchableOpacity style={styles.addIngredientButton} onPress={() => {
           navigation.navigate('Add Ingredient')
@@ -108,7 +111,6 @@ const RecipeUploadScreen3 = () => {
           <Text style={{ color: 'white', fontSize: 12 }}>Add an ingredient</Text>
         </TouchableOpacity>
       </View>
-
     </>
   )
 };
@@ -132,9 +134,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
-  modalContainer: {
-    backgroundColor: 'black',
-    alignItems: 'center'
+  ingredientAlternativesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#2B303C',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    marginTop: 10,
+    marginHorizontal: 5
   },
   header: {
     height: 60,
@@ -149,37 +160,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14
   },
-  modalContentContainer: {
-    flex: 1,
-    width: '90%'
+  ingredientOuterContainer: {
+    paddingVertical: 10,
+    borderBottomColor: '#ffffff20',
+    borderBottomWidth: 1
   },
-  modalTextInput: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    height: 50,
-    borderRadius: 6,
-    marginVertical: 10,
-    borderWidth: 1.5,
-    paddingHorizontal: 10
-  },
-  modalTitle: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold'
-  },
-  ingredientContainer: {
+  ingredientInnerContainer: {
     minHeight: 50,
     width: '100%',
-    borderRadius: 8,
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#2B303C',
-    padding: 10
+    paddingVertical: 10
   },
   ingredientImages: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 5
   },
   ingredientTypeImageContainer: {
@@ -190,58 +183,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  modalPickerContainer: {
-    width: '100%',
-    backgroundColor: '#121212',
-    /*        alignItems: 'center', */
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  modalPickerSection: {
-    alignItems: 'center',
-    paddingVertical: 20,
-  },
-  modalPickerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    paddingLeft: 20,
-    color: '#ffffff'
-  },
-  modalPickerDesc: {
-    fontSize: 12,
-    color: '#ffffff50',
-    paddingVertical: 10,
-    paddingHorizontal: 20
-  },
-  modalPickerCloseButton: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    height: 5,
-    width: 50,
-    marginVertical: 10
-  },
   pickersContainer: {
     flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  modalPickerLabelContainer: {
-    width: 75,
-    justifyContent: 'center',
-  },
-  modalPickerLabel: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    borderColor: '#ffffff10',
-    backgroundColor: '#8080801A',
-    borderTopWidth: 1.1,
-    borderBottomWidth: 1.1,
-    paddingVertical: 4,
-  },
-  modalPickerSaveButton: {
-    width: '50%',
-    height: 35,
-    borderRadius: 20,
-    backgroundColor: '#E32828',
     justifyContent: 'center'
   }
 });

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable } from "react-native";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable, ScrollView } from "react-native";
 import cloneDeep from "lodash.clonedeep";
 import { useNavigation } from "@react-navigation/native";
 
@@ -105,69 +105,71 @@ const RecipeEditIngredient = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.modalContentContainer}>
-          <View style={{ paddingTop: 20 }}>
-            <Text style={styles.modalTitle}>INGREDIENT NAME</Text>
-            <TextInput
-              style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C' }]}
-              maxLength={maxNameLength}
-              value={ingredient.name}
-              onChangeText={(text) =>
-                setIngredient(prevState => {
-                  return ({ ...prevState, name: text })
-                })} />
-          </View>
-          <Text style={[styles.counter, { color: ingredient.name.length == maxNameLength ? 'red' : null }]}>{ingredient.name.length}/{maxNameLength}</Text>
-          {/* Type of ingredient component */}
-          <View style={{ paddingTop: 20 }}>
-            <Text style={[styles.modalTitle]}>TYPE OF INGREDIENT</Text>
-            <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
-              {ingredient.type == null ?
-                <Text style={{ color: '#ffffff80' }}>Dairy</Text>
-                : <Text style={{ color: '#ffffff' }}>{ingredient.type}</Text>}
-            </TouchableOpacity>
-          </View>
-          {/* Amount and unit container */}
-          <View style={{ paddingTop: 20, flexDirection: 'row' }}>
-            {/* Amount component */}
-            <View style={[{ flex: 1 }, { paddingRight: 5 }]}>
-              <Text style={styles.modalTitle}>AMOUNT</Text>
+          <ScrollView>
+            <View style={{ paddingTop: 20 }}>
+              <Text style={styles.modalTitle}>INGREDIENT NAME</Text>
               <TextInput
-                style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C' }]}
-                keyboardType={'numeric'}
-                maxLength={maxAmountLength}
-                value={ingredient.amount}
-                onChangeText={(text) => setIngredient(prevState => {
-                  return ({ ...prevState, amount: text })
-                })} />
+                style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C' }]}
+                maxLength={maxNameLength}
+                value={ingredient.name}
+                onChangeText={(text) =>
+                  setIngredient(prevState => {
+                    return ({ ...prevState, name: text })
+                  })} />
             </View>
-            {/* Unit component */}
-            <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>
-              <Text style={styles.modalTitle}>MEASUREMENT</Text>
-              <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: measurementError ? 'red' : '#2B303C' }]} onPress={() => setMeasurementModalActive(true)}>
-                {ingredient.measurement == null ?
-                  <Text style={{ color: '#ffffff80' }}>ml</Text>
-                  : <Text style={{ color: '#ffffff' }}>{ingredient.measurement}</Text>}
+            <Text style={[styles.counter, { color: ingredient.name.length == maxNameLength ? 'red' : null }]}>{ingredient.name.length}/{maxNameLength}</Text>
+            {/* Type of ingredient component */}
+            <View style={{ paddingTop: 20 }}>
+              <Text style={[styles.modalTitle]}>TYPE OF INGREDIENT</Text>
+              <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
+                {ingredient.type == null ?
+                  <Text style={{ color: '#ffffff80' }}>Dairy</Text>
+                  : <Text style={{ color: '#ffffff' }}>{ingredient.type}</Text>}
               </TouchableOpacity>
-              <SwitchSelector
-                options={measurementOptions}
-                initial={0}
-                onPress={value => setMeasurement(value)}
-                textColor={'#d3d3d3'}
-                selectedColor={'#ffffff'}
-                borderColor={'#2B303C'}
-                buttonColor={'#2B303C'}
-                hasPadding
-                fontSize={12}
-                backgroundColor={'#121212'}
-              />
             </View>
-          </View>
-          <View style={{ paddingTop: 20 }}>
-            <Text style={[styles.modalTitle]}>ALTERNATIVES</Text>
-            <View style={{ paddingTop: 10 }}>
-              <CustomTagList placeHolder={null} setFunction={setIngredient} target='alternatives' maxLength={3} initialArray={ingredientToEdit.alternatives} />
+            {/* Amount and unit container */}
+            <View style={{ paddingTop: 20, flexDirection: 'row' }}>
+              {/* Amount component */}
+              <View style={[{ flex: 1 }, { paddingRight: 5 }]}>
+                <Text style={styles.modalTitle}>AMOUNT</Text>
+                <TextInput
+                  style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C' }]}
+                  keyboardType={'numeric'}
+                  maxLength={maxAmountLength}
+                  value={ingredient.amount}
+                  onChangeText={(text) => setIngredient(prevState => {
+                    return ({ ...prevState, amount: text })
+                  })} />
+              </View>
+              {/* Unit component */}
+              <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>
+                <Text style={styles.modalTitle}>MEASUREMENT</Text>
+                <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: measurementError ? 'red' : '#2B303C' }]} onPress={() => setMeasurementModalActive(true)}>
+                  {ingredient.measurement == null ?
+                    <Text style={{ color: '#ffffff80' }}>ml</Text>
+                    : <Text style={{ color: '#ffffff' }}>{ingredient.measurement}</Text>}
+                </TouchableOpacity>
+                <SwitchSelector
+                  options={measurementOptions}
+                  initial={0}
+                  onPress={value => setMeasurement(value)}
+                  textColor={'#d3d3d3'}
+                  selectedColor={'#ffffff'}
+                  borderColor={'#2B303C'}
+                  buttonColor={'#2B303C'}
+                  hasPadding
+                  fontSize={12}
+                  backgroundColor={'#121212'}
+                />
+              </View>
             </View>
-          </View>
+            <View style={{ paddingTop: 20 }}>
+              <Text style={[styles.modalTitle]}>ALTERNATIVES</Text>
+              <View style={{ paddingTop: 10 }}>
+                <CustomTagList placeHolder={'Soya Milk'} setFunction={setIngredient} target='alternatives' maxLength={3} initialArray={ingredientToEdit.alternatives} />
+              </View>
+            </View>
+          </ScrollView>
         </View>
         {/* </ScrollView> */}
       </View>

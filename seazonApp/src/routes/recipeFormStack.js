@@ -41,9 +41,9 @@ const RecipeFormStack = () => {
             headerTitleStyle: {
               fontSize: 14,
               color: 'white',
-              fontWeight: 'bold',
-              textAlign: 'center'
+              fontWeight: 'bold'
             },
+            headerTitleAlign: 'center',
             headerStyle: {
               backgroundColor: 'black'
             }

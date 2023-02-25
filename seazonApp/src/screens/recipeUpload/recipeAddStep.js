@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, ImageBackground, ScrollView } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -86,45 +86,47 @@ const RecipeAddStep = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.contentContainer}>
-          {step.coverImage == null ?
-            <TouchableOpacity
-              style={styles.multimediaUploadContainer}
-              onPress={galleryUploadHandler}>
-              <MaterialCommunityIcons
-                name='camera-plus-outline'
-                color='#ffffff'
-                size={35}
-              />
-              <Text style={styles.multimediaUploadTitle}>Upload an image</Text>
-            </TouchableOpacity>
-            :
-            <TouchableOpacity
-              style={styles.multimediaUploadContainer}
-              onPress={galleryUploadHandler}>
-              <ImageBackground
-                source={step.coverImage}
-                resizeMode='cover'
-                style={{ height: '100%', width: '100%' }}
-                imageStyle={{ borderRadius: 8 }}>
-              </ImageBackground>
-            </TouchableOpacity>}
-          <View style={{ paddingTop: 20 }}>
-            <Text style={styles.title}>INSTRUCTIONS</Text>
-            <TextInput
-              style={[styles.instructionsInput, { borderColor: instructionsError ? 'red' : '#2B303C' }]}
-              placeholder={'Give some detailed instructions to help others.'}
-              onChangeText={(text) => setStep(prevState => {
-                return ({ ...prevState, instructions: text })
-              })}
-              maxLength={maxInstructionsLength}
-              multiline
-              textAlignVertical="top" />
-          </View>
-          <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
-          <View style={{ paddingTop: 20 }}>
-            <Text style={[styles.title, { paddingBottom: 10 }]}>UTENSILS</Text>
-            <CustomTagList placeholder={'Large Pot'} setFunction={setStep} target='utensils' maxLength={5} initialArray={[]} />
-          </View>
+          <ScrollView>
+            {step.coverImage == null ?
+              <TouchableOpacity
+                style={styles.multimediaUploadContainer}
+                onPress={galleryUploadHandler}>
+                <MaterialCommunityIcons
+                  name='camera-plus-outline'
+                  color='#ffffff'
+                  size={35}
+                />
+                <Text style={styles.multimediaUploadTitle}>Upload an image</Text>
+              </TouchableOpacity>
+              :
+              <TouchableOpacity
+                style={[styles.multimediaUploadContainer, {borderColor: '#ffffff00'}]}
+                onPress={galleryUploadHandler}>
+                <ImageBackground
+                  source={step.coverImage}
+                  resizeMode='cover'
+                  style={{ height: '100%', width: '100%' }}
+                  imageStyle={{ borderRadius: 8 }}>
+                </ImageBackground>
+              </TouchableOpacity>}
+            <View style={{ paddingTop: 20 }}>
+              <Text style={styles.title}>INSTRUCTIONS</Text>
+              <TextInput
+                style={[styles.instructionsInput, { borderColor: instructionsError ? 'red' : '#2B303C' }]}
+                placeholder={'Give some detailed instructions to help others.'}
+                onChangeText={(text) => setStep(prevState => {
+                  return ({ ...prevState, instructions: text })
+                })}
+                maxLength={maxInstructionsLength}
+                multiline
+                textAlignVertical="top" />
+            </View>
+            <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
+            <View style={{ paddingTop: 20 }}>
+              <Text style={[styles.title, { paddingBottom: 10 }]}>UTENSILS</Text>
+              <CustomTagList placeholder={'Large Pot'} setFunction={setStep} target='utensils' maxLength={5} initialArray={[]} />
+            </View>
+          </ScrollView>
         </View>
       </View>
       <ErrorModal Title={'Hold on!'} Desc={'Please enter the instructions for your step.'} visible={confirmErrorModal} setVisible={setConfirmErrorModal} />
