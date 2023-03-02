@@ -26,7 +26,7 @@ const RecipeMacros = (props) => {
                   })
                 })
               }}
-              style={{ color: '#E84A4A', fontWeight: 'bold', textAlign: 'right', flex: 1 }}
+              style={{ color: '#E84A4A', textAlign: 'right', flex: 1, fontFamily: 'Poppins-Medium' }}
               placeholderTextColor='#E84A4A' />
           </View>
         </View>
@@ -60,11 +60,12 @@ const styles = (title) => StyleSheet.create({
   },
   title: {
     fontSize: 13,
-    color: '#ffffff'
+    color: '#ffffff',
+    fontFamily: 'Poppins-Regular'
   },
   desc: {
     fontSize: 11,
-    color: '#757882'
+    fontFamily: 'Poppins-ExtraLight'
   }
 });
 

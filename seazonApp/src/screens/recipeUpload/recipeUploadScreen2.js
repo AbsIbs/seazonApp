@@ -1,16 +1,11 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import RecipeMealType from "../../components/recipeMealType";
 import RecipeDietary from "../../components/recipeDietary";
 import RecipeDifficulty from "../../components/recipeDifficulty";
 
-import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-
 const RecipeUploadScreen2 = () => {
-
-  const [tagCount, setTagCount] = useState(0);
-  const { recipe, setRecipe } = useContext(AddRecipeContext);
 
   return (
     <ScrollView>
@@ -18,19 +13,19 @@ const RecipeUploadScreen2 = () => {
         <View style={styles().outerCategoryContainer}>
           <View style={styles().innerCategoryContainer}>
             <Text style={styles().sectionSubheader}>Difficulty</Text>
-            <RecipeDifficulty setRecipeObject={setRecipe} />
+            <RecipeDifficulty />
           </View>
         </View>
         <View style={styles().outerCategoryContainer}>
           <View style={styles().innerCategoryContainer}>
             <Text style={styles().sectionSubheader}>Meal Type</Text>
-            <RecipeMealType setRecipeObject={setRecipe} />
+            <RecipeMealType />
           </View>
         </View>
         <View style={styles().outerCategoryContainer}>
           <View style={styles().innerCategoryContainer}>
             <Text style={styles().sectionSubheader}>Dietary</Text>
-            <RecipeDietary setRecipeObject={setRecipe} />
+            <RecipeDietary />
           </View>
         </View>
       </View>
@@ -42,19 +37,11 @@ const styles = () => StyleSheet.create({
   section: {
     paddingVertical: 10
   },
-  sectionTitle: {
-    fontSize: 16,
-    color: '#ffffff',
-    paddingTop: 10,
-    fontWeight: 'bold',
-    paddingLeft: 20,
-    paddingBottom: 10
-  },
   sectionSubheader: {
     fontSize: 14,
-    fontWeight: 'bold',
     paddingBottom: 10,
-    color: '#ffffff'
+    color: '#ffffff',
+    fontFamily: 'Poppins-Medium'
   },
   outerCategoryContainer: {
     alignItems: 'center'

@@ -2,20 +2,26 @@ import React, { useState, useRef, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import Swiper from 'react-native-web-swiper'
 import { Bar } from 'react-native-progress'
+import { useNavigation } from "@react-navigation/native";
 
-import { AddRecipeContext } from '../../Global/AddRecipeContext'
+import { AddRecipeContext } from '../../../Global/AddRecipeContext'
 
 // slides
-import RecipeUploadScreen1 from "./recipeUpload/recipeUploadScreen1";
-import RecipeUploadScreen2 from "./recipeUpload/recipeUploadScreen2";
-import RecipeUploadScreen3 from "./recipeUpload/recipeUploadScreen3";
-import RecipeUploadScreen4 from "./recipeUpload/recipeUploadScreen4";
-import RecipeUploadScreen5 from "./recipeUpload/recipeUploadScreen5";
+import RecipeUploadScreen1 from "./recipeUploadScreen1";
+import RecipeUploadScreen2 from "./recipeUploadScreen2";
+import RecipeUploadScreen3 from "./recipeUploadScreen3";
+import RecipeUploadScreen4 from "./recipeUploadScreen4";
+import RecipeUploadScreen5 from "./recipeUploadScreen5";
+
+/* Components */
+import ErrorModal from "../../components/errorModal";
 
 const RecipeForm = () => {
 
+  const navigation = useNavigation();
   const windowWidth = Dimensions.get('window').width;
-  const { recipe, setRecipe } = useContext(AddRecipeContext);
+  const { recipe, errorRecipe, setErrorRecipe } = useContext(AddRecipeContext);
+  const [errorModal, setErrorModal] = useState(false)
 
   const [progress, setProgress] = useState(1 / 5);
   const [index, setIndex] = useState(0);
@@ -26,7 +32,38 @@ const RecipeForm = () => {
     if (progress < 1) {
       swiperRef.current.goToNext()
       setProgress(progress + 1 / 5)
+      /* navigation.navigate('Preview Recipe') */
     }
+    if (index == 4) {
+      const tempErrorRecipe = {
+        title: false,
+        chefsNotes: false,
+        prepTime: false,
+        cookingTime: false,
+        servings: false,
+        coverImage: false,
+        difficulty: false,
+        mealType: false,
+        ingredients: false,
+        steps: false,
+      }
+
+      for (const [key, value] of Object.entries(tempErrorRecipe)) {
+        if (!recipe[key] || ((Array.isArray(recipe[key]) && recipe[key].length === 0))) {
+          tempErrorRecipe[key] = true
+        }
+      }
+
+      const someTruthy = Object.values(tempErrorRecipe).some(val => val === true)
+      setErrorRecipe(tempErrorRecipe)
+      navigation.navigate('Preview Recipe')
+
+      /*       if (someTruthy) {
+              setErrorModal(true)
+            } else {
+              navigation.navigate('Preview Recipe')
+            } */
+    };
     console.log(recipe)
   };
 
@@ -76,17 +113,18 @@ const RecipeForm = () => {
           <TouchableOpacity
             style={styles('prev').button}
             onPress={() => prevPageChange()}>
-            <Text>Back</Text>
+            <Text style={{ fontFamily: 'Poppins-Regular' }}>Back</Text>
           </TouchableOpacity>
         </View>
         <View style={styles().buttonContainer}>
           <TouchableOpacity
             style={styles('next').button}
             onPress={() => nextPageChange()}>
-            <Text style={{ color: '#ffffff' }}>Next</Text>
+            <Text style={{ color: '#ffffff', fontFamily: 'Poppins-Regular' }}>{index == 4 ? 'Preview' : 'Next'}</Text>
           </TouchableOpacity>
         </View>
       </View>
+      <ErrorModal Title={'Hold on!'} Desc={'Please go back and fill out the missing information.'} visible={errorModal} setVisible={setErrorModal} />
     </View>
   )
 };
@@ -138,19 +176,6 @@ const styles = (button) => StyleSheet.create({
     borderRadius: 2,
     borderColor: button == 'next' ? '' : '#757882',
     borderWidth: button == 'next' ? 0 : 0.5
-  },
-  nutrientsTitle: {
-    fontSize: 16,
-    color: '#ffffff',
-    paddingTop: 10,
-    fontWeight: 'bold',
-    paddingLeft: 20,
-    paddingBottom: 10
-  },
-  nutrientsOptional: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#ffffff'
   }
 });
 

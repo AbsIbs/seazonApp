@@ -93,11 +93,11 @@ const RecipeEditStep = (props) => {
                 color='#ffffff'
                 size={35}
               />
-              <Text style={styles.multimediaUploadTitle}>Upload an image</Text>
+              <Text style={[styles.multimediaUploadTitle, { borderWidth: 1.5 }]}>Upload an image</Text>
             </TouchableOpacity>
             :
             <TouchableOpacity
-              style={styles.multimediaUploadContainer}
+              style={[styles.multimediaUploadContainer]}
               onPress={galleryUploadHandler}>
               <ImageBackground
                 source={step.coverImage}
@@ -107,7 +107,7 @@ const RecipeEditStep = (props) => {
               </ImageBackground>
             </TouchableOpacity>}
           <View style={{ paddingTop: 20 }}>
-            <Text style={styles.title}>INSTRUCTIONS</Text>
+            <Text style={styles.title}>Instrcutions</Text>
             <TextInput
               style={[styles.instructionsInput, { borderColor: instructionsError ? 'red' : '#2B303C' }]}
               onChangeText={(text) => setStep(prevState => {
@@ -120,7 +120,7 @@ const RecipeEditStep = (props) => {
           </View>
           <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
           <View style={{ paddingTop: 20 }}>
-            <Text style={[styles.title, { paddingBottom: 10 }]}>UTENSILS</Text>
+            <Text style={[styles.title, { paddingBottom: 10 }]}>Utensils</Text>
             <CustomTagList placeholder={null} setFunction={setStep} target='utensils' maxLength={5} initialArray={step.utensils} />
           </View>
         </View>
@@ -175,14 +175,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold'
+    fontSize: 13,
+    fontFamily: 'Poppins-Medium'
   },
   multimediaUploadContainer: {
     marginTop: 10,
     backgroundColor: '#121212',
     borderColor: '#2B303C',
-    borderWidth: 1.5,
     height: 250,
     width: '100%',
     justifyContent: 'center',
@@ -193,11 +192,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ffffff',
     paddingTop: 10,
-    fontWeight: 'bold'
+    fontFamily: 'Poppins-Medium'
   },
   counter: {
     alignSelf: 'flex-end',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular'
   }
 });
 

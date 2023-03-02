@@ -1,5 +1,4 @@
 import React, { useState, createContext } from "react";
-import uuid from 'react-native-uuid'
 
 const AddRecipeContext = createContext();
 
@@ -26,9 +25,24 @@ const AddRecipeProvider = ({ children }) => {
     }
   });
 
+  const [errorRecipe, setErrorRecipe] = useState({
+    title: false,
+    chefsNotes: false,
+    prepTime: false,
+    cookingTime: false,
+    servings: false,
+    coverImage: false,
+    difficulty: false,
+    mealType: false,
+    dietary: false,
+    ingredients: false,
+    steps: false,
+  })
+
+
   return (
     <AddRecipeContext.Provider
-      value={{ recipe, setRecipe }}>
+      value={{ recipe, setRecipe, errorRecipe, setErrorRecipe }}>
       {children}
     </AddRecipeContext.Provider>
   )

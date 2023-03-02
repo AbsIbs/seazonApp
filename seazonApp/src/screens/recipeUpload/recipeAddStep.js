@@ -36,8 +36,9 @@ const RecipeAddStep = () => {
       console.log('added step');
       navigation.goBack();
     } else {
-      setInstructionsError(true);
-      setConfirmErrorModal(true);
+      setInstructionsError(true, () => {
+        setConfirmErrorModal(true);
+      });
     }
   };
 
@@ -100,7 +101,7 @@ const RecipeAddStep = () => {
               </TouchableOpacity>
               :
               <TouchableOpacity
-                style={[styles.multimediaUploadContainer, {borderColor: '#ffffff00'}]}
+                style={[styles.multimediaUploadContainer, { borderColor: '#ffffff00' }]}
                 onPress={galleryUploadHandler}>
                 <ImageBackground
                   source={step.coverImage}
@@ -110,7 +111,7 @@ const RecipeAddStep = () => {
                 </ImageBackground>
               </TouchableOpacity>}
             <View style={{ paddingTop: 20 }}>
-              <Text style={styles.title}>INSTRUCTIONS</Text>
+              <Text style={styles.title}>Instructions</Text>
               <TextInput
                 style={[styles.instructionsInput, { borderColor: instructionsError ? 'red' : '#2B303C' }]}
                 placeholder={'Give some detailed instructions to help others.'}
@@ -123,7 +124,7 @@ const RecipeAddStep = () => {
             </View>
             <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
             <View style={{ paddingTop: 20 }}>
-              <Text style={[styles.title, { paddingBottom: 10 }]}>UTENSILS</Text>
+              <Text style={[styles.title, { paddingBottom: 10 }]}>Utensils</Text>
               <CustomTagList placeholder={'Large Pot'} setFunction={setStep} target='utensils' maxLength={5} initialArray={[]} />
             </View>
           </ScrollView>
@@ -175,12 +176,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 10,
     borderWidth: 1.5,
-    padding: 10
+    padding: 10,
+    fontFamily: 'Poppins-Regular'
   },
   title: {
     color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold'
+    fontSize: 13,
+    fontFamily: 'Poppins-Medium'
   },
   multimediaUploadContainer: {
     marginTop: 10,
@@ -197,11 +199,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ffffff',
     paddingTop: 10,
-    fontWeight: 'bold'
+    fontFamily: 'Poppins-Medium'
   },
   counter: {
     alignSelf: 'flex-end',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular'
   }
 });
 

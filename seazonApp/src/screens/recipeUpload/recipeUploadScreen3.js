@@ -46,11 +46,11 @@ const RecipeUploadScreen3 = () => {
             </View>
             {/* Ingredient Name */}
             <View style={[{ flex: 5 }]}>
-              <Text style={{ fontWeight: 'bold' }}>{props.name}</Text>
+              <Text style={{ fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{props.name}</Text>
             </View>
             {/* Unit */}
             <View style={{ alignItems: 'center', paddingHorizontal: 10, justifyContent: 'center' }}>
-              <Text>{props.amount} {props.measurement}</Text>
+              <Text style={{ fontFamily: 'Poppins-Light', paddingTop: 1.5, paddingBottom: 0 }} >{props.amount} {props.measurement}</Text>
             </View>
             {/* Delete */}
             <TouchableOpacity onPress={() => deleteIngredient(props.index)} style={{ flex: 1 }}>
@@ -85,22 +85,31 @@ const RecipeUploadScreen3 = () => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.desc}>Let's add some ingredients to your recipe!</Text>
-        <ScrollView>
-          {recipe.ingredients.map((item, index) => {
-            return (
-              <Ingredient
-                name={item.name}
-                key={item.uuid}
-                amount={item.amount}
-                measurement={item.measurement}
-                image={item.image}
-                type={item.type}
-                alternatives={item.alternatives}
-                index={index} />
-            )
-          })}
-        </ScrollView>
+        {recipe.ingredients.length > 0 ?
+          <ScrollView>
+            {recipe.ingredients.map((item, index) => {
+              return (
+                <Ingredient
+                  name={item.name}
+                  key={item.uuid}
+                  amount={item.amount}
+                  measurement={item.measurement}
+                  image={item.image}
+                  type={item.type}
+                  alternatives={item.alternatives}
+                  index={index} />
+              )
+            })}
+          </ScrollView> :
+          <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <MaterialCommunityIcons
+              name={'food'}
+              color={'white'}
+              size={50}
+            />
+            <Text style={{ paddingVertical: 10, fontFamily: 'Poppins-Regular' }}>Let's add some ingredients to your recipe</Text>
+          </View>
+        }
         <TouchableOpacity style={styles.addIngredientButton} onPress={() => {
           navigation.navigate('Add Ingredient')
         }}>
@@ -108,7 +117,7 @@ const RecipeUploadScreen3 = () => {
             name={'plus'}
             size={20}
             color={'white'} />
-          <Text style={{ color: 'white', fontSize: 12 }}>Add an ingredient</Text>
+          <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>Add an ingredient</Text>
         </TouchableOpacity>
       </View>
     </>

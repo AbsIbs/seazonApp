@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Pressable, TouchableOpacity } from "react-native";
 import Modal from 'react-native-modal'
 import { Picker } from 'react-native-wheel-pick';
+import { AddRecipeContext } from "../../Global/AddRecipeContext";
 
 const RecipeTiming = (props) => {
+
+  const { errorRecipe } = useContext(AddRecipeContext)
 
   const [prepTimeModalActive, setPrepTimeModal] = useState(false)
   const [cookingTimeModalActive, setCookingTimeModal] = useState(false)
@@ -53,7 +56,7 @@ const RecipeTiming = (props) => {
         <View style={{ flex: 1, paddingHorizontal: 2.5 }}>
           <Text style={styles().title}>Prep Time</Text>
           <TouchableOpacity
-            style={styles().inputContainer}
+            style={[styles().inputContainer, { borderColor: errorRecipe.prepTime? 'red': '#2B303C'}]}
             onPress={() => {
               setPrepTimeModal(true)
             }}>
@@ -65,7 +68,7 @@ const RecipeTiming = (props) => {
         <View style={{ flex: 1, paddingHorizontal: 2.5 }}>
           <Text style={styles().title}>Cooking Time</Text>
           <TouchableOpacity
-            style={styles().inputContainer}
+            style={[styles().inputContainer, { borderColor: errorRecipe.cookingTime? 'red': '#2B303C'}]}
             onPress={() => {
               setCookingTimeModal(true)
             }}>
@@ -77,7 +80,7 @@ const RecipeTiming = (props) => {
         <View style={{ flex: 1, paddingHorizontal: 2.5 }}>
           <Text style={styles().title}>Servings</Text>
           <TouchableOpacity
-            style={styles().inputContainer}
+            style={[styles().inputContainer, { borderColor: errorRecipe.servings? 'red': '#2B303C'}]}
             onPress={() => {
               setServingsModal(true)
             }}>
@@ -246,25 +249,25 @@ const styles = (label) => StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontWeight: 'bold',
     color: '#ffffff',
-    fontSize: 13
+    fontSize: 13,
+    fontFamily: 'Poppins-Medium'
   },
   inputContainer: {
     borderWidth: 1,
-    borderColor: '#2B303C',
     backgroundColor: '#121212',
     height: 45,
     width: '100%',
     borderRadius: 6,
-    marginVertical: 12,
+    marginTop: 5,
     justifyContent: 'center'
   },
   inputText: {
     fontSize: 14,
     color: '#E84A4A',
     fontWeight: 'bold',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    fontFamily: 'Poppins-Regular'
   },
   modalSection: {
     alignItems: 'center',
@@ -281,13 +284,15 @@ const styles = (label) => StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     paddingLeft: 20,
-    color: '#ffffff'
+    color: '#ffffff',
+    fontFamily: 'Poppins-Regular'
   },
   modalDesc: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#ffffff50',
     paddingVertical: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    fontFamily: 'Poppins-Regular'
   },
   modalCloseButton: {
     backgroundColor: 'white',

@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Pressable, ScrollView, Image 
 import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import uuid from 'react-native-uuid'
 
@@ -83,7 +84,7 @@ const RecipeUploadScreen4 = () => {
               const key = uuid.v4()
               return (
                 <View key={key} style={styles.stepUtensilsContainer}>
-                  <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{utensil}</Text>
+                  <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5, fontFamily: 'Poppins-Light' }}>{utensil}</Text>
                 </View>
               )
             }) : null
@@ -95,24 +96,33 @@ const RecipeUploadScreen4 = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ paddingBottom: 10 }}>Let's, now add some steps.</Text>
-      <View style={{ paddingVertical: 20, flex: 1 }}>
-        <DraggableFlatList
-          data={recipe.steps}
-          keyExtractor={(item) => item.key}
-          renderItem={renderItem}
-          onDragEnd={({ data }) => {
-            setRecipe(prevState => {
-              return ({ ...prevState, steps: data })
-            })
-          }} />
-      </View>
+      {recipe.steps.length > 0 ?
+        <View style={{ flex: 1 }}>
+          <DraggableFlatList
+            data={recipe.steps}
+            keyExtractor={(item) => item.key}
+            renderItem={renderItem}
+            onDragEnd={({ data }) => {
+              setRecipe(prevState => {
+                return ({ ...prevState, steps: data })
+              })
+            }} />
+        </View> :
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <FontAwesome5
+            name={'tasks'}
+            color={'white'}
+            size={50}
+          />
+          <Text style={{ paddingVertical: 10, fontFamily: 'Poppins-Regular' }}>And now, the steps to your recipe</Text>
+        </View>
+      }
       <TouchableOpacity style={styles.addStepButton} onPress={() => navigation.navigate('Add Step')} >
         <MaterialCommunityIcons
           name={'plus'}
           size={20}
           color={'white'} />
-        <Text style={{ color: 'white', fontSize: 12 }}>Add a step</Text>
+        <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>Add a step</Text>
       </TouchableOpacity>
     </View>
   )
@@ -134,11 +144,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center'
-  },
   header: {
     height: 60,
     width: '100%',
@@ -152,10 +157,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14
   },
-  modalContentContainer: {
-    flex: 1,
-    width: '90%'
-  },
   stepUtensilsContainer: {
     alignItems: 'center',
     borderColor: '#2B303C',
@@ -167,37 +168,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 10,
     marginHorizontal: 5
-  },
-  modalTextInput: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    height: 50,
-    borderRadius: 6,
-    marginVertical: 10,
-    borderWidth: 1.5,
-    paddingHorizontal: 10
-  },
-  modalTitle: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: 'bold'
-  },
-  multimediaUploadContainer: {
-    marginTop: 10,
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderWidth: 1.5,
-    height: 250,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10
-  },
-  multimediaUploadTitle: {
-    fontSize: 12,
-    color: '#ffffff',
-    paddingTop: 10,
-    fontWeight: 'bold'
   },
   itemHeaderContainer: {
     flexDirection: 'row'
@@ -245,7 +215,8 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     fontSize: 12,
-    color: '#ffffff'
+    color: '#ffffff',
+    fontFamily: 'Poppins-Regular'
   }
 });
 

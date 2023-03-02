@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%'
   },
   nutrientsTitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#ffffff',
     paddingTop: 10,
-    fontWeight: 'bold',
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontFamily: 'Poppins-Medium'
   },
   nutrientsOptional: {
     fontSize: 12,

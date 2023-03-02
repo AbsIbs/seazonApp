@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const RecipeDifficulty = (props) => {
+import { AddRecipeContext } from "../../Global/AddRecipeContext";
+
+const RecipeDifficulty = () => {
+
+  const { setRecipe, errorRecipe } = useContext(AddRecipeContext);
 
   const [activeIndex, setActiveIndex] = useState({
     'Simple': false,
@@ -25,7 +29,7 @@ const RecipeDifficulty = (props) => {
   };
 
   useEffect(() => {
-    props.setRecipeObject(prevState => {
+    setRecipe(prevState => {
       return ({ ...prevState, difficulty: Object.keys(activeIndex).find(key => activeIndex[key] === true) })
     })
   }, [activeIndex]);
@@ -35,21 +39,21 @@ const RecipeDifficulty = (props) => {
       <View style={styles().innerContainer}>
         <View style={styles().difficultContainer}>
           <TouchableOpacity
-            style={styles(activeIndex['Simple']).difficulty}
+            style={[styles(activeIndex['Simple']).difficulty, { borderColor: errorRecipe.difficulty? 'red': '#2B303C'}]}
             onPress={() => toggleColor('Simple')}>
             <Text style={styles(activeIndex['Simple']).difficultyName}>Simple</Text>
           </TouchableOpacity>
         </View>
         <View style={styles().difficultContainer}>
           <TouchableOpacity
-            style={styles(activeIndex['Intermediate']).difficulty}
+            style={[styles(activeIndex['Intermediate']).difficulty, { borderColor: errorRecipe.difficulty? 'red': '#2B303C'}]}
             onPress={() => toggleColor('Intermediate')}>
             <Text style={styles(activeIndex['Intermediate']).difficultyName}>Intermediate</Text>
           </TouchableOpacity>
         </View>
         <View style={styles().difficultContainer}>
           <TouchableOpacity
-            style={styles(activeIndex['Advanced']).difficulty}
+            style={[styles(activeIndex['Advanced']).difficulty, { borderColor: errorRecipe.difficulty? 'red': '#2B303C'}]}
             onPress={() => toggleColor('Advanced')}>
             <Text style={styles(activeIndex['Advanced']).difficultyName}>Advanced</Text>
           </TouchableOpacity>
@@ -75,7 +79,6 @@ const styles = (state) => StyleSheet.create({
   difficulty: {
     width: '95%',
     borderWidth: state == true ? 0 : 1,
-    borderColor: '#2B303C',
     backgroundColor: state == true ? '#ffffff' : '#121212',
     justifyContent: 'center',
     alignItems: 'center',

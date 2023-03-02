@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { AddRecipeContext } from "../../Global/AddRecipeContext";
 
-const RecipeMealType = (props) => {
+const RecipeMealType = () => {
+
+    const { setRecipe, errorRecipe } = useContext(AddRecipeContext)
 
     const [activeIndex, setActiveIndex] = useState({
         'Breakfast': false,
@@ -29,7 +32,7 @@ const RecipeMealType = (props) => {
 
     // Extract cooking frequency
     useEffect(() => {
-        props.setRecipeObject(prevState => {
+        setRecipe(prevState => {
             return ({ ...prevState, mealType: Object.keys(activeIndex).find(key => activeIndex[key] === true) })
         })
     }, [activeIndex]);
@@ -39,21 +42,21 @@ const RecipeMealType = (props) => {
             <View style={styles().innerContainer}>
                 <View style={styles().mealTypeContainer}>
                     <TouchableOpacity
-                        style={styles(activeIndex['Breakfast']).mealType}
+                        style={[styles(activeIndex['Breakfast']).mealType, { borderColor: errorRecipe.mealType? 'red': '#2B303C' }]}
                         onPress={() => toggleColor('Breakfast')}>
                         <Text style={styles(activeIndex['Breakfast']).mealTypeLabel}>Breakfast</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().mealTypeContainer}>
                     <TouchableOpacity
-                        style={styles(activeIndex['Lunch']).mealType}
+                        style={[styles(activeIndex['Lunch']).mealType, { borderColor: errorRecipe.mealType? 'red': '#2B303C' }]}
                         onPress={() => toggleColor('Lunch')}>
                         <Text style={styles(activeIndex['Lunch']).mealTypeLabel}>Lunch</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().mealTypeContainer}>
                     <TouchableOpacity
-                        style={styles(activeIndex['Dinner']).mealType}
+                        style={[styles(activeIndex['Dinner']).mealType, { borderColor: errorRecipe.mealType? 'red': '#2B303C' }]}
                         onPress={() => toggleColor('Dinner')}>
                         <Text style={styles(activeIndex['Dinner']).mealTypeLabel}>Dinner</Text>
                     </TouchableOpacity>
@@ -62,21 +65,21 @@ const RecipeMealType = (props) => {
             <View style={[styles().innerContainer, { paddingTop: 10 }]}>
                 <View style={styles().mealTypeContainer}>
                     <TouchableOpacity
-                        style={styles(activeIndex['Dessert']).mealType}
+                        style={[styles(activeIndex['Dessert']).mealType, { borderColor: errorRecipe.mealType? 'red': '#2B303C' }]}
                         onPress={() => toggleColor('Dessert')}>
                         <Text style={styles(activeIndex['Dessert']).mealTypeLabel}>Dessert</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().mealTypeContainer}>
                     <TouchableOpacity
-                        style={styles(activeIndex['Beverages']).mealType}
+                        style={[styles(activeIndex['Beverages']).mealType, { borderColor: errorRecipe.mealType? 'red': '#2B303C' }]}
                         onPress={() => toggleColor('Beverages')}>
                         <Text style={styles(activeIndex['Beverages']).mealTypeLabel}>Beverages</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles().mealTypeContainer}>
                     <TouchableOpacity
-                        style={styles(activeIndex['Soups']).mealType}
+                        style={[styles(activeIndex['Soups']).mealType, { borderColor: errorRecipe.mealType? 'red': '#2B303C' }]}
                         onPress={() => toggleColor('Soups')}>
                         <Text style={styles(activeIndex['Soups']).mealTypeLabel}>Soups</Text>
                     </TouchableOpacity>
@@ -102,7 +105,6 @@ const styles = (state) => StyleSheet.create({
     mealType: {
         width: '95%',
         borderWidth: state == true ? 0 : 1,
-        borderColor: '#2B303C',
         backgroundColor: state == true ? '#ffffff' : '#121212',
         justifyContent: 'center',
         alignItems: 'center',

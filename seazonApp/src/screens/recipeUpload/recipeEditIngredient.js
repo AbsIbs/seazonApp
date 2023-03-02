@@ -107,9 +107,9 @@ const RecipeEditIngredient = (props) => {
         <View style={styles.modalContentContainer}>
           <ScrollView>
             <View style={{ paddingTop: 20 }}>
-              <Text style={styles.modalTitle}>INGREDIENT NAME</Text>
+              <Text style={styles.modalTitle}>Ingredient Name</Text>
               <TextInput
-                style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C' }]}
+                style={[styles.modalTextInput, { borderColor: nameError ? 'red' : '#2B303C', paddingTop: 1.5, paddingBottom: 0 }]}
                 maxLength={maxNameLength}
                 value={ingredient.name}
                 onChangeText={(text) =>
@@ -120,20 +120,20 @@ const RecipeEditIngredient = (props) => {
             <Text style={[styles.counter, { color: ingredient.name.length == maxNameLength ? 'red' : null }]}>{ingredient.name.length}/{maxNameLength}</Text>
             {/* Type of ingredient component */}
             <View style={{ paddingTop: 20 }}>
-              <Text style={[styles.modalTitle]}>TYPE OF INGREDIENT</Text>
+              <Text style={[styles.modalTitle]}>Type of ingredient</Text>
               <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
                 {ingredient.type == null ?
-                  <Text style={{ color: '#ffffff80' }}>Dairy</Text>
-                  : <Text style={{ color: '#ffffff' }}>{ingredient.type}</Text>}
+                  <Text style={{ color: '#ffffff80', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>Dairy</Text>
+                  : <Text style={{ color: '#ffffff80', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{ingredient.type}</Text>}
               </TouchableOpacity>
             </View>
             {/* Amount and unit container */}
             <View style={{ paddingTop: 20, flexDirection: 'row' }}>
               {/* Amount component */}
               <View style={[{ flex: 1 }, { paddingRight: 5 }]}>
-                <Text style={styles.modalTitle}>AMOUNT</Text>
+                <Text style={styles.modalTitle}>Amount</Text>
                 <TextInput
-                  style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C' }]}
+                  style={[styles.modalTextInput, { borderColor: amountError ? 'red' : '#2B303C', paddingTop: 1.5, paddingBottom: 0 }]}
                   keyboardType={'numeric'}
                   maxLength={maxAmountLength}
                   value={ingredient.amount}
@@ -143,7 +143,7 @@ const RecipeEditIngredient = (props) => {
               </View>
               {/* Unit component */}
               <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>
-                <Text style={styles.modalTitle}>MEASUREMENT</Text>
+                <Text style={styles.modalTitle}>Measurement</Text>
                 <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: measurementError ? 'red' : '#2B303C' }]} onPress={() => setMeasurementModalActive(true)}>
                   {ingredient.measurement == null ?
                     <Text style={{ color: '#ffffff80' }}>ml</Text>
@@ -164,7 +164,7 @@ const RecipeEditIngredient = (props) => {
               </View>
             </View>
             <View style={{ paddingTop: 20 }}>
-              <Text style={[styles.modalTitle]}>ALTERNATIVES</Text>
+              <Text style={[styles.modalTitle]}>Alternatives</Text>
               <View style={{ paddingTop: 10 }}>
                 <CustomTagList placeHolder={'Soya Milk'} setFunction={setIngredient} target='alternatives' maxLength={3} initialArray={ingredientToEdit.alternatives} />
               </View>
@@ -275,7 +275,8 @@ const styles = StyleSheet.create({
   desc: {
     fontSize: 12,
     color: '#ffffff80',
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontFamily: 'Poppins-Regular'
   },
   addIngredientButton: {
     height: 45,
@@ -301,12 +302,13 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: 'white',
-    fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular'
   },
   counter: {
     alignSelf: 'flex-end',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular'
   },
   modalContentContainer: {
     flex: 1,
@@ -318,12 +320,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 10,
     borderWidth: 1.5,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    fontFamily: 'Poppins-Regular'
   },
   modalTitle: {
     color: 'white',
     fontSize: 12,
-    fontWeight: 'bold'
+    fontFamily: 'Poppins-Medium'
   },
   ingredientContainer: {
     minHeight: 50,
@@ -360,15 +363,16 @@ const styles = StyleSheet.create({
   },
   modalPickerTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Medium',
     paddingLeft: 20,
     color: '#ffffff'
   },
   modalPickerDesc: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#ffffff50',
     paddingVertical: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    fontFamily: 'Poppins-Regular'
   },
   modalPickerCloseButton: {
     backgroundColor: 'white',
@@ -386,7 +390,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalPickerLabel: {
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Medium',
     fontSize: 16,
     borderColor: '#ffffff10',
     backgroundColor: '#8080801A',

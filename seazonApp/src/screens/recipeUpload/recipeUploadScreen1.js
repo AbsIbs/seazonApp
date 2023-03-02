@@ -9,7 +9,7 @@ import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 const RecipeUploadScreen1 = () => {
 
-  const { recipe, setRecipe } = useContext(AddRecipeContext);
+  const { setRecipe, errorRecipe } = useContext(AddRecipeContext);
 
   const [imageUri, setImageUri] = useState(null);
   const [title, setTitle] = useState('')
@@ -77,9 +77,9 @@ const RecipeUploadScreen1 = () => {
     <ScrollView>
       {/* Image Uploader */}
       <View style={styles().outerContainer}>
-        <Text style={styles().header}>RECIPE NAME</Text>
+        <Text style={styles().header}>Recipe Name</Text>
         <TextInput
-          style={styles().textInputTitle}
+          style={[styles().textInputTitle, { borderColor: errorRecipe.title ? 'red' : '#2B303C' }]}
           placeholder={"Let's name your masterpiece!"}
           onChangeText={(text) => setTitle(text)}
           maxLength={maxTitleLength} />
@@ -88,10 +88,10 @@ const RecipeUploadScreen1 = () => {
         </View>
       </View>
       <View style={styles().outerContainer}>
-        <Text style={styles().header}>CHEF'S NOTES</Text>
+        <Text style={styles().header}>Chef's Notes</Text>
         <TextInput
-          style={styles().textInputDescription}
-          placeholder={"Let others know the story behind your recipe."}
+          style={[styles().textInputDescription, { borderColor: errorRecipe.chefsNotes ? 'red' : '#2B303C' }]}
+          placeholder={"Let others know the story behind your recipe. Feel free to use hashtags!"}
           multiline
           textAlignVertical="top"
           onChangeText={(text) => setChefsNotes(text)}
@@ -107,7 +107,7 @@ const RecipeUploadScreen1 = () => {
         <View
           style={[{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }, styles().section]}>
           <Pressable
-            style={styles(150).multimediaUploadContainer}
+            style={[styles(150).multimediaUploadContainer, { borderColor: errorRecipe.coverImage ? 'red' : '#2B303C' }]}
             onPress={galleryUploadHandler}>
             <MaterialCommunityIcons
               name='camera-plus-outline'
@@ -121,7 +121,7 @@ const RecipeUploadScreen1 = () => {
         <View style={[{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }, styles().section]}>
           <Pressable
             onPress={LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)}
-            style={[styles(225).multimediaUploadContainer]}>
+            style={[styles(225).multimediaUploadContainer, { borderColor: '#2B303C' }]}>
             <ImageBackground
               source={imageUri}
               resizeMode='cover'
@@ -147,18 +147,21 @@ const styles = (animatedValue) => StyleSheet.create({
     paddingHorizontal: '2.5%'
   },
   header: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: 'white'
+    fontSize: 14,
+    color: 'white',
+    fontFamily: 'Poppins-Medium'
   },
   textInputTitle: {
     backgroundColor: '#121212',
-    borderColor: '#2B303C',
     height: 45,
     borderRadius: 6,
     marginVertical: 10,
     borderWidth: 1.5,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    fontFamily: 'Poppins-Regular',
+    alignItems: 'center',
+    paddingTop: 1.5,
+    paddingBottom: 0
   },
   textInputDescription: {
     backgroundColor: '#121212',
@@ -167,7 +170,8 @@ const styles = (animatedValue) => StyleSheet.create({
     borderRadius: 6,
     marginVertical: 10,
     borderWidth: 1.5,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    fontFamily: 'Poppins-Regular'
   },
   textInputCounterContainer: {
     alignItems: 'flex-end',
@@ -175,12 +179,12 @@ const styles = (animatedValue) => StyleSheet.create({
   },
   textInputCounter: {
     fontSize: 12,
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Poppins-Regular'
   },
   multimediaUploadContainer: {
     marginTop: 10,
     backgroundColor: '#121212',
-    borderColor: '#2B303C',
     borderWidth: animatedValue == 225 ? 0 : 1.5,
     height: animatedValue,
     width: '95%',
@@ -192,7 +196,7 @@ const styles = (animatedValue) => StyleSheet.create({
     fontSize: 12,
     color: '#ffffff',
     paddingTop: 10,
-    fontWeight: 'bold'
+    fontFamily: 'Poppins-Medium'
   }
 });
 
