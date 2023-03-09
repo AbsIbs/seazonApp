@@ -64,7 +64,7 @@ const RecipeForm = () => {
               navigation.navigate('Preview Recipe')
             } */
     };
-    console.log(recipe)
+    console.log(recipe.ingredients)
   };
 
   const prevPageChange = () => {

@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
+import Collapsible from 'react-native-collapsible';
 
 const RecipeUploadScreen3 = () => {
 
@@ -71,7 +72,7 @@ const RecipeUploadScreen3 = () => {
                       name={'ccw'}
                       size={12}
                       style={{ paddingRight: 5 }} />
-                    <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{item}</Text>
+                    <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{item.name}</Text>
                   </View>
                 )
               }) : null

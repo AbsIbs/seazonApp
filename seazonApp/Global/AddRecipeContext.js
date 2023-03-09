@@ -15,6 +15,7 @@ const AddRecipeProvider = ({ children }) => {
     mealType: null,
     dietary: [],
     tags: [],
+    tempAlternatives: [],
     ingredients: [],
     steps: [],
     macros: {

@@ -15,7 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 const RecipeAddAlternative = () => {
 
   const navigation = useNavigation();
-  const { setTempAlternativeIngredient } = useContext(AddRecipeContext);
+  const { setRecipe } = useContext(AddRecipeContext);
 
   const [ingredient, setIngredient] = useState({
     uuid: uuid.v4(),
@@ -54,8 +54,8 @@ const RecipeAddAlternative = () => {
     };
     if (errorArray.length == 0) {
       setDisabled(true);
-      await setTempAlternativeIngredient(prevState => {
-        return ([...prevState, ingredient])
+      await setRecipe(prevState => {
+        return ({ ...prevState, tempAlternatives: [...prevState.tempAlternatives, ingredient] })
       })
       console.log('added alternative ingredient')
       navigation.goBack()
