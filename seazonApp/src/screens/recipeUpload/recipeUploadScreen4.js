@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderColor: '#E84A4A',
-    borderRadius: 10,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'

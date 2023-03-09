@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
-import { View, StyleSheet, Text, ImageBackground, Pressable } from "react-native";
-import uuid from 'react-native-uuid'
-import Swiper from 'react-native-web-swiper'
+import { StyleSheet, View, Text } from "react-native";
+import { TabbedHeaderPager } from 'react-native-sticky-parallax-header';
 
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
@@ -12,64 +11,49 @@ import RecipePreviewScreenSteps from "./recipePreviewScreenSteps";
 const RecipePreview = () => {
 
   const { recipe } = useContext(AddRecipeContext);
-  const swiperRef = useRef(null);
-  const [swiperIndex, setSwiperIndex] = useState(0);
+  const pagerRef = useRef(null);
 
-  const docks = ['Details', 'Ingredients', 'Steps']
+  const docks = [
+    {
+      title: 'Details'
+    },
+    {
+      title: 'Ingredients'
+    },
+    {
+      title: 'Steps'
+    }
+  ]
 
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.imageContainer}>
-        <ImageBackground
-          source={recipe.coverImage}
-          resizeMode='cover'
-          style={{ height: '100%', width: '100%' }}>
-        </ImageBackground>
-      </View>
-      <View style={styles.swiperContainer}>
-        <Swiper
-          controlsProps={{
-            prevPos: false,
-            dotsPos: false,
-            nextPos: false
-          }}
-          ref={swiperRef}
-          gesturesEnabled={() => false}
-          onIndexChanged={index => setSwiperIndex(index)}>
-          {/* Details Slide */}
+    <>
+      <View style={{ flex: 1 }}>
+        <TabbedHeaderPager
+          ref={pagerRef}
+          backgroundColor={'black'}
+          initialPage={0}
+          backgroundImage={recipe.coverImage}
+          rememberTabScrollPosition
+          headerHeight={200}
+          showsVerticalScrollIndicator={false}
+          tabs={docks.map((section) => ({
+            title: section.title
+          }))}
+          tabsContainerHorizontalPadding={0}
+          tabWrapperStyle={{ borderBottomColor: '#2B303C', borderBottomWidth: 1 }}
+          tabTextStyle={{ fontFamily: 'Poppins-Light', fontSize: 12, paddingVertical: 5 }}
+          tabTextActiveStyle={{ fontFamily: 'Poppins-Regular', fontSize: 12, paddingVertical: 5 }}
+          tabTextContainerActiveStyle={{backgroundColor: '#000000'}}
+          tabUnderlineColor={'#E32828'}
+          pageContainerStyle={{ flex: 1 }}
+          parallaxHeight>
           <RecipePreviewScreenDetails />
           <RecipePreviewScreenIngredients />
           <RecipePreviewScreenSteps />
-        </Swiper>
+        </TabbedHeaderPager>
       </View>
-      <View style={styles.bottomDockContainer} >
-        {docks.map((item, index) => {
-          const key = uuid.v4()
-          const active = index == swiperIndex? true: false
-          return (
-            <Pressable hitSlop={10} key={key} onPress={() => {
-              swiperRef.current.goTo(index)
-            }} >
-              <Text style={[styles.dock, { color: active ? '#E32828' : 'white', fontFamily: active? 'Poppins-Bold': 'Poppins-Regular' }]}>{item}</Text>
-            </Pressable>
-          )
-        })}
-        {/* {props.alternatives ?
-              props.alternatives.map((item) => {
-                const key = uuid.v4()
-                return (
-                  <View key={key} style={styles.ingredientAlternativesContainer}>
-                    <Entypo
-                      name={'ccw'}
-                      size={12}
-                      style={{ paddingRight: 5 }} />
-                    <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5 }}>{item}</Text>
-                  </View>
-                )
-              }) : null
-            } */}
-      </View>
-    </View>
+    </>
+
   )
 };
 
@@ -79,22 +63,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black'
   },
-  imageContainer: {
-    height: 250,
-    width: '100%'
-  },
   swiperContainer: {
     flex: 1
-  },
-  bottomDockContainer: {
-    backgroundColor: '#121212',
-    padding: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  dock: {
-    fontSize: 13,
-    fontFamily: 'Poppins-Medium'
   },
   /* Ingredients */
   ingredientAlternativesContainer: {
@@ -103,7 +73,6 @@ const styles = StyleSheet.create({
     borderColor: '#2B303C',
     borderWidth: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 6,

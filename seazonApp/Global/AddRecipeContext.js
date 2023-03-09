@@ -39,10 +39,11 @@ const AddRecipeProvider = ({ children }) => {
     steps: false,
   })
 
+  const [tempAlternativeIngredient, setTempAlternativeIngredient] = useState([])
 
   return (
     <AddRecipeContext.Provider
-      value={{ recipe, setRecipe, errorRecipe, setErrorRecipe }}>
+      value={{ recipe, setRecipe, errorRecipe, setErrorRecipe, tempAlternativeIngredient, setTempAlternativeIngredient }}>
       {children}
     </AddRecipeContext.Provider>
   )

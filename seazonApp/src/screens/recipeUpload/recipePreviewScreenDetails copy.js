@@ -1,32 +1,14 @@
-import React, { useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const RecipePreviewScreenDetails = () => {
 
   const { recipe } = useContext(AddRecipeContext);
 
-  const Info = (props) => {
-    return (
-      <View style={styles.infoContainer} >
-        <View style={styles.infoImageContainer} >
-          <MaterialCommunityIcons
-            name={props.image}
-            size={25}
-            color={'white'}
-          />
-        </View>
-        <View style={{ paddingVertical: 2.5, paddingLeft: 10 }} >
-          <Text style={styles.infoTitle} >{props.title}{props.time ? 'mins' : ''} {props.serving ? (recipe.servings > 1 ? 'people' : 'person') : ''}</Text>
-          <Text style={styles.infoDesc} >{props.desc}</Text>
-        </View>
-      </View>
-    )
-  }
-
   return (
     <View style={styles.container}>
+      {/* <ScrollView style={{ paddingHorizontal: '5%' }} > */}
       <View style={{ flexDirection: 'row', paddingTop: 30 }}>
         <View style={{ flex: 1 }}>
           <Text style={styles.recipeTitle}>{/* {recipe.title} */}Spaghetti and rice with some pasta</Text>
@@ -38,32 +20,20 @@ const RecipePreviewScreenDetails = () => {
           </View>
         </View>
       </View>
-      <View>
-        <View style={styles.timingsOuterContainer}>
-          <View style={{ flexDirection: 'row' }}>
-            <Info title={recipe.prepTime} desc={'Prep time'} time image='timer-sand' />
-            <Info title={recipe.cookingTime} desc={'Cooking time'} time image='timer' />
-          </View>
-          <View style={{ flexDirection: 'row', paddingTop: 15 }} >
-            <Info title={recipe.servings} desc={'Servings'} serving image='account-multiple' />
-            <Info title={recipe.difficulty} desc={'Difficulty'} image='star' />
-          </View>
-        </View>
-      </View>
-      {/*       <View style={styles.timingsOuterContainer}>
+      <View style={styles.timingsOuterContainer}>
         <View>
           <Text style={styles.timingsHeader}>Prep Time</Text>
-          <Text style={styles.timingsValue}>{12}mins</Text>
+          <Text style={styles.timingsValue}>{/* {recipe.prepTime} */}{12}mins</Text>
         </View>
         <View>
           <Text style={styles.timingsHeader}>Cooking Time</Text>
-          <Text style={styles.timingsValue}>{20}mins</Text>
+          <Text style={styles.timingsValue}>{/* {recipe.cookingTime} */}{20}mins</Text>
         </View>
         <View>
           <Text style={styles.timingsHeader}>Servings</Text>
-          <Text style={styles.timingsValue}>{1}person(s)</Text>
+          <Text style={styles.timingsValue}>{/* {recipe.servings} */}{1}person(s)</Text>
         </View>
-      </View> */}
+      </View>
       <Text style={styles.chefsNotes}>{recipe.chefsNotes}
         We know, spaghetti and meatballs is a classic for a reason, but sometimes you want to upgrade your usual weeknight dinner. Whether you're preparing for a fancy date night or a dinner party night amongst friends, we've got all the ways you can liven up your spaghetti game.
 
@@ -75,6 +45,7 @@ const RecipePreviewScreenDetails = () => {
 
         Looking for more pasta recipes? Try these baked pasta recipes, our favorite summer pasta dishes, and all the best pasta salad recipes.
       </Text>
+      {/*  </ScrollView> */}
     </View>
   )
 };
@@ -96,10 +67,11 @@ const styles = StyleSheet.create({
   chefsNotes: {
     fontSize: 14,
     paddingBottom: 20,
-    lineHeight: 25,
+    lineHeight: 20,
     fontFamily: 'Poppins-Regular'
   },
   timingsOuterContainer: {
+    flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
     paddingVertical: 20,
@@ -108,48 +80,24 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1
   },
-  /* Info Styles */
-  infoContainer: {
-    height: 50,
-    flexDirection: 'row',
-    flex: 1
+  timingsHeader: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular'
   },
-  infoImageContainer: {
-    height: 45,
-    width: 45,
-    borderRadius: 8,
-    backgroundColor: '#2B303C',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  infoTitle: {
-    fontFamily: 'Poppins-Medium',
+  timingsValue: {
+    color: 'white',
     fontSize: 14,
-    color: 'white'
+    fontFamily: 'Poppins-Medium'
   },
-  infoDesc: {
-    fontFamily: 'Poppins-Light',
-    fontSize: 12
+  recipeInfoContainer: {
+    borderColor: '#2B303C',
+    borderWidth: 0.5,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    marginHorizontal: 5
   },
-
-  /*   timingsHeader: {
-      fontSize: 12,
-      fontFamily: 'Poppins-Regular'
-    },
-    timingsValue: {
-      color: 'white',
-      fontSize: 14,
-      fontFamily: 'Poppins-Medium'
-    },
-    recipeInfoContainer: {
-      borderColor: '#2B303C',
-      borderWidth: 0.5,
-      height: 30,
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 15,
-      marginHorizontal: 5
-    }, */
 });
 
 export default RecipePreviewScreenDetails;

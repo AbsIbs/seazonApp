@@ -173,7 +173,7 @@ const styles = (button) => StyleSheet.create({
     backgroundColor: button == 'next' ? '#E32828' : '#00000000',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 2,
+    borderRadius: 20,
     borderColor: button == 'next' ? '' : '#757882',
     borderWidth: button == 'next' ? 0 : 0.5
   }

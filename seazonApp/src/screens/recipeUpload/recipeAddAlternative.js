@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable } from "react-native";
 import uuid from 'react-native-uuid'
 import { useNavigation } from "@react-navigation/native";
@@ -12,32 +12,25 @@ import ErrorModal from "../../components/errorModal";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import { ScrollView } from "react-native-gesture-handler";
 
-const RecipeAddIngredient = () => {
+const RecipeAddAlternative = () => {
 
   const navigation = useNavigation();
-  const { setRecipe, tempAlternativeIngredient, setTempAlternativeIngredient } = useContext(AddRecipeContext);
-
-  const typeArray = ['Dairy', 'Cereals and Pulses', 'Fruits', 'Meat', 'Spices and Herbs', 'Vegetables', 'Seafood']
+  const { setTempAlternativeIngredient } = useContext(AddRecipeContext);
 
   const [ingredient, setIngredient] = useState({
     uuid: uuid.v4(),
     name: '',
-    alternatives: [],
-    type: null,
     amount: '',
     measurement: null
   });
 
   const [nameError, setNameError] = useState()
-  const [typeError, setTypeError] = useState()
   const [amountError, setAmountError] = useState()
   const [measurementError, setMeasurementError] = useState()
   const [confirmErrorModal, setConfirmErrorModal] = useState(false)
-  const [editModal, setEditModal] = useState({ state: false });
 
   const errorObject = {
     'name': setNameError,
-    'type': setTypeError,
     'amount': setAmountError,
     'measurement': setMeasurementError
   };
@@ -50,7 +43,7 @@ const RecipeAddIngredient = () => {
   const confirmHandler = async () => {
     const errorArray = []
     for (let prop in ingredient) {
-      if ((prop != 'uuid' && prop != 'alternatives')) {
+      if ((prop != 'uuid')) {
         if (ingredient[prop]) {
           errorObject[prop](false)
         } else {
@@ -61,18 +54,15 @@ const RecipeAddIngredient = () => {
     };
     if (errorArray.length == 0) {
       setDisabled(true);
-      await setRecipe(prevState => {
-        return ({ ...prevState, ingredients: [...prevState.ingredients, ingredient] })
+      await setTempAlternativeIngredient(prevState => {
+        return ([...prevState, ingredient])
       })
-      console.log('added ingredient')
+      console.log('added alternative ingredient')
       navigation.goBack()
     } else {
       setConfirmErrorModal(true)
     }
   };
-
-  const [tempTypeValue, setTempTypeValue] = useState('Dairy');
-  const [typeModalActive, setTypeModalActive] = useState(false);
 
   const [tempMeasurementValue, setTempMeasurementValue] = useState('ml');
   const [measurementModalActive, setMeasurementModalActive] = useState(false);
@@ -88,36 +78,6 @@ const RecipeAddIngredient = () => {
     'imperial': ['oz', 'lb(s)', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
   };
 
-  // Alternative Ingredients UI
-  const AlternativeIngredient = (props) => {
-    return (
-      <TouchableOpacity style={styles.alternativeIngredient}
-        onPress={() => setEditModal({
-          state: true,
-          index: props.index
-        })} >
-        <View style={{ flex: 8 }}>
-          <Text style={{ fontFamily: 'Poppins-Light', fontSize: 12 }} >{props.name}</Text>
-        </View>
-        <View style={{ flex: 2 }}>
-          <Text style={{ fontFamily: 'Poppins-Light', fontSize: 12 }} >{props.amount} {props.measurement}</Text>
-        </View>
-      </TouchableOpacity>
-    )
-  };
-
-  const deleteAlternativeIngredient = async (indexToRemove) => {
-    await setTempAlternativeIngredient(prevState => {
-      return ([...prevState.filter((_, index) => index !== indexToRemove)])
-    })
-    setEditModal({ state: false })
-  };
-
-  useEffect(() => {
-    setTempAlternativeIngredient([])
-    console.log('refreshed')
-  }, [])
-
   return (
     <>
       <View style={[styles.modalContainer, { flex: 1 }]}>
@@ -130,7 +90,7 @@ const RecipeAddIngredient = () => {
               color={'white'}
               name={'chevron-left'} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Add ingredient</Text>
+          <Text style={styles.headerTitle}>Add alternative ingredient</Text>
           <TouchableOpacity
             style={{ paddingVertical: 5, paddingHorizontal: 10, position: 'absolute', right: '5%' }}
             onPress={() => confirmHandler()}
@@ -152,15 +112,6 @@ const RecipeAddIngredient = () => {
                   })} />
             </View>
             <Text style={[styles.counter, { color: ingredient.name.length == maxNameLength ? 'red' : null }]}>{ingredient.name.length}/{maxNameLength}</Text>
-            {/* Type of ingredient component */}
-            <View style={{ paddingTop: 20 }}>
-              <Text style={[styles.modalTitle]}>Type of ingredient</Text>
-              <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
-                {ingredient.type == null ?
-                  <Text style={{ color: '#ffffff80', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>Dairy</Text>
-                  : <Text style={{ color: '#ffffff', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{ingredient.type}</Text>}
-              </TouchableOpacity>
-            </View>
             {/* Amount and unit container */}
             <View style={{ paddingTop: 20, flexDirection: 'row' }}>
               {/* Amount component */}
@@ -197,79 +148,9 @@ const RecipeAddIngredient = () => {
                 />
               </View>
             </View>
-            {/* Alternatives */}
-            <View style={{ paddingTop: 20 }}>
-              <Text style={[styles.modalTitle]}>Alternatives ({tempAlternativeIngredient.length}/3) </Text>
-              {tempAlternativeIngredient.length > 0 ?
-                tempAlternativeIngredient.map((item, index) => {
-                  const key = uuid.v4()
-                  return (
-                    <AlternativeIngredient
-                      key={key} name={item.name}
-                      amount={item.amount}
-                      measurement={item.measurement}
-                      index={index} />
-                  )
-                }) : null
-              }
-              {tempAlternativeIngredient.length < 3 ?
-                <View style={{ paddingTop: 10 }}>
-                  <TouchableOpacity style={styles.addAlternativeIngredient} onPress={() => navigation.navigate('Add Alternative')}>
-                    <MaterialCommunityIcons
-                      name={'plus'}
-                      size={20}
-                      color={'#ffffff90'} />
-                    <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, paddingTop: 2 }} >Add an alternative ingredient</Text>
-                  </TouchableOpacity>
-                </View> : null
-              }
-            </View>
           </ScrollView>
         </View>
       </View>
-
-      {/* Type Modal */}
-      <Modal
-        isVisible={typeModalActive}
-        onBackdropPress={() => setTypeModalActive(false)}
-        backdropTransitionOutTiming={0}
-        style={{ justifyContent: 'flex-end', margin: 0 }}
-        useNativeDriver
-        hideModalContentWhileAnimating>
-        <View style={styles.modalPickerContainer}>
-          <View style={styles.modalPickerSection}>
-            <Pressable
-              style={styles.modalPickerCloseButton}
-              onPress={() => setTypeModalActive(false)}
-              hitSlop={10}>
-            </Pressable>
-          </View>
-          <Text style={styles.modalPickerTitle}>Type</Text>
-          <Text style={styles.modalPickerDesc}>Please select the type of ingredient</Text>
-          <View style={styles.pickersContainer}>
-            <Picker
-              textColor="#d3d3d3"
-              textSize={20}
-              style={{ backgroundColor: '#00000000', width: 250 }}
-              selectedValue={tempTypeValue}
-              pickerData={typeArray}
-              onValueChange={value => setTempTypeValue(value)} />
-          </View>
-          <View style={styles.modalPickerSection}>
-            <TouchableOpacity
-              style={styles.modalPickerSaveButton}
-              onPress={() => {
-                setIngredient(prevState => {
-                  return ({ ...prevState, type: tempTypeValue })
-                })
-                setTypeModalActive(false)
-              }}
-              hitSlop={10}>
-              <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
 
       {/* Unit Modal */}
       <Modal
@@ -313,50 +194,6 @@ const RecipeAddIngredient = () => {
           </View>
         </View>
       </Modal>
-
-      {/* Edit Modal */}
-      <Modal
-        isVisible={editModal.state}
-        onBackdropPress={() => setEditModal({ state: false })}
-        backdropTransitionOutTiming={0}
-        style={{ justifyContent: 'flex-end', margin: 0 }}
-        useNativeDriver
-        hideModalContentWhileAnimating>
-        <View style={styles.editModalContainer}>
-          {/* Edit button */}
-          <TouchableOpacity
-            style={styles.editModalButton}
-            onPress={() => {
-              navigation.navigate('Edit Alternative', {
-                index: editModal.index
-              })
-              setEditModal({ state: false })
-            }}>
-            <MaterialCommunityIcons
-              name={'file-document-edit'}
-              color={'#ffffff'}
-              size={22.5}
-              style={{ marginLeft: '7.5%', position: 'absolute' }} />
-            <View style={{ alignItems: 'center', flex: 1 }}>
-              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Edit ingredient</Text>
-            </View>
-          </TouchableOpacity>
-          {/* Delete button */}
-          <TouchableOpacity
-            style={[styles.editModalButton, { backgroundColor: '#800000', borderWidth: 0 }]}
-            onPress={() => deleteAlternativeIngredient(editModal.index)}>
-            <MaterialCommunityIcons
-              name={'delete'}
-              color={'#ffffff'}
-              size={22.5}
-              style={{ marginLeft: '7.5%', position: 'absolute' }} />
-            <View style={{ alignItems: 'center', flex: 1 }}>
-              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Delete ingredient</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-
       {/* Error Modals */}
       <ErrorModal Title={'Hold on!'} Desc={'Please fill out the required information.'} visible={confirmErrorModal} setVisible={setConfirmErrorModal} />
     </>
@@ -513,33 +350,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'
-  },
-  alternativeIngredient: {
-    flex: 1,
-    flexDirection: 'row',
-    borderBottomColor: '#2B303C',
-    borderBottomWidth: 1,
-    paddingVertical: 10
-  },
-  editModalContainer: {
-    paddingVertical: 10,
-    height: '20%',
-    backgroundColor: '#151515',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  editModalButton: {
-    width: '80%',
-    height: 45,
-    borderWidth: 0.5,
-    borderColor: 'white',
-    borderRadius: 25,
-    marginVertical: 7.5,
-    flexDirection: 'row',
-    alignItems: 'center'
   }
 });
 
-export default RecipeAddIngredient;
+export default RecipeAddAlternative;
