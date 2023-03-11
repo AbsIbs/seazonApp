@@ -1,130 +1,208 @@
-import React, { useContext } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Pressable, ScrollView, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import DraggableFlatList from "react-native-draggable-flatlist";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import { AddRecipeContext } from "../../../Global/AddRecipeContext";
+import React, { useContext, useState } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import uuid from 'react-native-uuid'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
+import { useNavigation } from "@react-navigation/native";
+import { AddRecipeContext } from "../../../Global/AddRecipeContext";
+import Modal from 'react-native-modal'
 
 const RecipeUploadScreen4 = () => {
 
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
 
+  const [editModal, setEditModal] = useState({ state: false });
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState({ state: false });
 
-  const renderItem = ({ item, drag, getIndex, isActive }) => {
+  const recipeImages = {
+    'Cereals and Pulses': require('../../../assets/img/recipeType/cerealsAndPulses.png'),
+    'Dairy': require('../../../assets/img/recipeType/dairy.png'),
+    'Fruits': require('../../../assets/img/recipeType/fruits.png'),
+    'Meat': require('../../../assets/img/recipeType/meat.png'),
+    'Spices and Herbs': require('../../../assets/img/recipeType/spicesAndHerbs.png'),
+    'Vegetables': require('../../../assets/img/recipeType/vegetables.png'),
+    'Seafood': require('../../../assets/img/recipeType/seafood.png')
+  };
 
-    const deleteStep = (indexToRemove) => {
-      setRecipe(prevState => {
-        return ({ ...prevState, steps: [...prevState.steps.filter((_, index) => index !== indexToRemove)] })
-      })
-    };
+  const deleteIngredient = async (indexToRemove) => {
+    await setRecipe(prevState => {
+      return ({ ...prevState, ingredients: [...prevState.ingredients.filter((_, index) => index !== indexToRemove)] })
+    })
+    setDeleteConfirmModal({ state: false })
+  };
 
+  const Ingredient = (props) => {
     return (
-      <TouchableOpacity
-        style={{ borderBottomColor: '#ffffff20', borderBottomWidth: 1, paddingVertical: 10 }}
-        onPress={() => {
-          navigation.navigate('Edit Step', {
-            index: getIndex()
-          })
-        }} >
-        <View style={styles.itemHeaderContainer}>
-          <View style={{ flex: 1 }}>
-            <View style={styles.itemIndexContainer}>
-              <Text>{getIndex() + 1}</Text>
+      <TouchableOpacity style={styles.ingredientOuterContainer} onPress={() => {
+        setEditModal({
+          state: true,
+          index: props.index
+        })
+      }}>
+        <View style={styles.ingredientInnerContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {/* Image */}
+            <View style={[styles.ingredientImages, { flex: 1.5 }]}>
+              <View style={styles.ingredientTypeImageContainer}>
+                <Image
+                  source={recipeImages[props.type]}
+                  style={{ height: 30, width: 30 }} />
+              </View>
+            </View>
+            {/* Ingredient Name */}
+            <View style={[{ flex: 5 }]}>
+              <Text style={{ fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{props.name}</Text>
+            </View>
+            {/* Unit */}
+            <View style={{ alignItems: 'center', paddingHorizontal: 10, justifyContent: 'center' }}>
+              <Text style={{ fontFamily: 'Poppins-Light', paddingTop: 1.5, paddingBottom: 0 }} >{props.amount} {props.measurement}</Text>
             </View>
           </View>
-          <View style={{ flex: 1, justifyContent: 'flex-end', flexDirection: 'row' }}>
-            <Pressable
-              onPress={() => deleteStep(getIndex())}
-              style={{ marginHorizontal: 15 }}>
-              <MaterialCommunityIcons
-                name='delete'
-                size={25}
-                color={'white'} />
-            </Pressable>
-            <Pressable onPressIn={drag}>
-              <MaterialCommunityIcons
-                name='menu'
-                size={25}
-                color={'white'} />
-            </Pressable>
-          </View>
-        </View>
-        <View style={styles.itemContainer}>
-          <View style={styles.itemImageContainer}>
-            {item.coverImage != null ?
-              <View style={styles.itemImage}>
-                <Image
-                  source={item.coverImage}
-                  style={{ height: '100%', width: '100%', borderRadius: 4 }}
-                />
+          {/* Alternatives */}
+          {props.alternatives.length > 0 ?
+            (
+              <View>
+                <Text style={{ fontFamily: 'Poppins-Light', fontSize: 12.5, paddingTop: 15, paddingBottom: 5 }}>Can be <Text style={{ fontFamily: 'Poppins-Medium' }}>substituted</Text> with:</Text>
+                {props.alternatives.map((item) => {
+                  const key = uuid.v4()
+                  return (
+                    <View style={{ flexDirection: 'row' }} key={key} >
+                      <View style={{ alignItems: 'center', flex: 1, flexDirection: 'row' }} >
+                        <Text style={{ fontFamily: 'Poppins-Light', fontSize: 12.5 }} >{item.name}</Text>
+                        <Entypo
+                          name={'ccw'}
+                          size={12}
+                          style={{ paddingLeft: 5 }} />
+                      </View>
+                      <View style={{ alignItems: 'flex-end', flex: 1 }} >
+                        <Text style={{ fontFamily: 'Poppins-Light', fontSize: 12.5 }} >{item.amount} {item.measurement} </Text>
+                      </View>
+                    </View>
+                  )
+                })}
               </View>
-              :
-              <View style={styles.itemDefaultImage}>
-                <MaterialCommunityIcons
-                  name='camera-image'
-                  color='#ffffff'
-                  size={35}
-                />
-              </View>
-            }
-          </View>
-          <View style={{ flex: 4 }}>
-            <ScrollView style={styles.itemDescriptionContainer}>
-              <Text style={styles.itemDescription}>{item.instructions}</Text>
-            </ScrollView>
-          </View>
-        </View>
-        {/* Utensils */}
-        <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
-          {item.utensils ?
-            item.utensils.map((utensil) => {
-              const key = uuid.v4()
-              return (
-                <View key={key} style={styles.stepUtensilsContainer}>
-                  <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5, fontFamily: 'Poppins-Light' }}>{utensil}</Text>
-                </View>
-              )
-            }) : null
-          }
+            ) : null}
         </View>
       </TouchableOpacity>
     )
   };
 
   return (
-    <View style={styles.container}>
-      {recipe.steps.length > 0 ?
-        <View style={{ flex: 1 }}>
-          <DraggableFlatList
-            data={recipe.steps}
-            keyExtractor={(item) => item.key}
-            renderItem={renderItem}
-            onDragEnd={({ data }) => {
-              setRecipe(prevState => {
-                return ({ ...prevState, steps: data })
+    <>
+      <View style={styles.container}>
+        {recipe.ingredients.length > 0 ?
+          <ScrollView>
+            {recipe.ingredients.map((item, index) => {
+              return (
+                <Ingredient
+                  name={item.name}
+                  key={item.uuid}
+                  amount={item.amount}
+                  measurement={item.measurement}
+                  image={item.image}
+                  type={item.type}
+                  alternatives={item.alternatives}
+                  index={index} />
+              )
+            })}
+          </ScrollView> :
+          <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <MaterialCommunityIcons
+              name={'food'}
+              color={'white'}
+              size={50}
+            />
+            <Text style={{ paddingVertical: 10, fontFamily: 'Poppins-Regular' }}>Let's add some ingredients to your recipe</Text>
+          </View>
+        }
+        <TouchableOpacity style={styles.addIngredientButton} onPress={() => {
+          navigation.navigate('Add Ingredient')
+        }}>
+          <MaterialCommunityIcons
+            name={'plus'}
+            size={20}
+            color={'white'} />
+          <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>Add an ingredient</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Edit Modal */}
+      <Modal
+        isVisible={editModal.state}
+        onBackdropPress={() => setEditModal({ state: false })}
+        backdropTransitionOutTiming={0}
+        style={{ justifyContent: 'flex-end', margin: 0 }}
+        useNativeDriver
+        hideModalContentWhileAnimating>
+        <View style={styles.editModalContainer}>
+          {/* Edit button */}
+          <TouchableOpacity
+            style={styles.editModalButton}
+            onPress={() => {
+              navigation.navigate('Edit Ingredient', {
+                index: editModal.index
               })
-            }} />
-        </View> :
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-          <FontAwesome5
-            name={'tasks'}
-            color={'white'}
-            size={50}
-          />
-          <Text style={{ paddingVertical: 10, fontFamily: 'Poppins-Regular' }}>And now, the steps to your recipe</Text>
+              setEditModal({ state: false })
+            }}>
+            <MaterialCommunityIcons
+              name={'file-document-edit'}
+              color={'#ffffff'}
+              size={22.5}
+              style={{ marginLeft: '7.5%', position: 'absolute' }} />
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Edit ingredient</Text>
+            </View>
+          </TouchableOpacity>
+          {/* Delete button */}
+          <TouchableOpacity
+            style={[styles.editModalButton, { backgroundColor: '#800000', borderWidth: 0 }]}
+            onPress={() => {
+              setEditModal({ state: false })
+              setDeleteConfirmModal({ state: true, index: editModal.index })
+            }}>
+            <MaterialCommunityIcons
+              name={'delete'}
+              color={'#ffffff'}
+              size={22.5}
+              style={{ marginLeft: '7.5%', position: 'absolute' }} />
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Delete ingredient</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      }
-      <TouchableOpacity style={styles.addStepButton} onPress={() => navigation.navigate('Add Step')} >
-        <MaterialCommunityIcons
-          name={'plus'}
-          size={20}
-          color={'white'} />
-        <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>Add a step</Text>
-      </TouchableOpacity>
-    </View>
+      </Modal>
+
+      {/* Delete confirm Modal */}
+      <Modal
+        isVisible={deleteConfirmModal.state}
+        onBackdropPress={() => setDeleteConfirmModal({ state: false })}
+        backdropTransitionOutTiming={0}
+        style={{ justifyContent: 'flex-end', margin: 0 }}
+        useNativeDriver
+        hideModalContentWhileAnimating>
+        <View style={styles.editModalContainer}>
+          <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 14, paddingVertical: 10, paddingHorizontal: '10%' }}>Are you sure you would like to delete this alternate ingredient?</Text>
+          {/* Confirm button */}
+          <TouchableOpacity
+            style={[styles.editModalButton, { backgroundColor: '#800000', borderWidth: 0 }]}
+            onPress={() => deleteIngredient(deleteConfirmModal.index)}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Yes</Text>
+            </View>
+          </TouchableOpacity>
+          {/* Refuse button */}
+          <TouchableOpacity
+            style={styles.editModalButton}
+            onPress={() => setDeleteConfirmModal({ state: false })}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >No</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+    </>
   )
 };
 
@@ -134,7 +212,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
     paddingVertical: 20
   },
-  addStepButton: {
+  desc: {
+    paddingBottom: 10
+  },
+  addIngredientButton: {
     height: 45,
     width: '100%',
     borderWidth: 1,
@@ -157,67 +238,51 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14
   },
-  stepUtensilsContainer: {
-    alignItems: 'center',
-    borderColor: '#2B303C',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-    marginVertical: 10,
-    marginHorizontal: 5
+  ingredientOuterContainer: {
+    paddingVertical: 10,
+    borderBottomColor: '#ffffff20',
+    borderBottomWidth: 1
   },
-  itemHeaderContainer: {
-    flexDirection: 'row'
-  },
-  itemIndexContainer: {
-    height: 30,
-    width: 30,
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderRadius: 15,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  itemContainer: {
-    flexDirection: 'row',
-    height: 125,
+  ingredientInnerContainer: {
+    minHeight: 50,
     width: '100%',
-    marginTop: 10
+    paddingVertical: 10
   },
-  itemImageContainer: {
+  ingredientImages: {
     flex: 1,
-    paddingRight: 20
+    justifyContent: 'center'
   },
-  itemImage: {
-    height: 75,
-    width: 75
-  },
-  itemDefaultImage: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderWidth: 0,
-    height: 75,
-    width: 75,
-    borderRadius: 6,
+  ingredientTypeImageContainer: {
+    height: 45,
+    width: 45,
+    borderRadius: 8,
+    backgroundColor: '#D9D9D9',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  itemDescriptionContainer: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderRadius: 6,
-    borderWidth: 0.5,
-    padding: 10
+  pickersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
-  itemDescription: {
-    fontSize: 12,
-    color: '#ffffff',
-    fontFamily: 'Poppins-Regular'
+  editModalContainer: {
+    paddingVertical: 10,
+    backgroundColor: '#151515',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  editModalButton: {
+    width: '80%',
+    height: 45,
+    borderWidth: 0.5,
+    borderColor: 'white',
+    borderRadius: 25,
+    marginVertical: 7.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5
   }
 });
 
-export default RecipeUploadScreen4
+export default RecipeUploadScreen4;

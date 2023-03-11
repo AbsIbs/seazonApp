@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@eliav2/react-native-collapsible-view": "^1.4.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
@@ -41,7 +42,6 @@
     "react-native-bottomsheet-reanimated": "^0.3.1",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-circular-progress": "^1.3.7",
-    "react-native-collapsible": "^1.6.0",
     "react-native-design-system": "^2.0.3",
     "react-native-draggable-flatlist": "^4.0.0",
     "react-native-fade-in-image": "^1.6.1",
@@ -70,15 +70,18 @@
     "react-native-switch": "^1.5.1",
     "react-native-switch-selector": "^2.3.0",
     "react-native-tags-input": "^1.0.10",
+    "react-native-thumbnail-video": "^0.1.2",
     "react-native-twitter-textview": "^1.0.7",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web-swiper": "^2.2.3",
     "react-native-webview": "^11.23.1",
     "react-native-wheel-pick": "^1.2.0",
+    "react-native-youtube-iframe": "^2.2.2",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "rn-android-keyboard-adjust": "^2.1.2"
   },
   "devDependencies": {
     "@babel/core": "7.18.13",

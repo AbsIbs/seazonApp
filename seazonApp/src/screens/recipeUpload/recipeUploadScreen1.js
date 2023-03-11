@@ -103,37 +103,6 @@ const RecipeUploadScreen1 = () => {
       <View style={styles().outerContainer}>
         <RecipeTiming setRecipeObject={setRecipe} />
       </View>
-      {imageUri == null ?
-        <View
-          style={[{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }, styles().section]}>
-          <Pressable
-            style={[styles(150).multimediaUploadContainer, { borderColor: errorRecipe.coverImage ? 'red' : '#2B303C' }]}
-            onPress={galleryUploadHandler}>
-            <MaterialCommunityIcons
-              name='camera-plus-outline'
-              color='#ffffff'
-              size={35}
-            />
-            <Text style={styles().multimediaUploadTitle}>Choose a cover image</Text>
-          </Pressable>
-        </View>
-        :
-        <View style={[{ alignItems: 'center', justifyContent: 'center', paddingBottom: 20 }, styles().section]}>
-          <Pressable
-            onPress={LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)}
-            style={[styles(225).multimediaUploadContainer, { borderColor: '#2B303C' }]}>
-            <ImageBackground
-              source={imageUri}
-              resizeMode='cover'
-              style={{ height: '100%', width: '100%' }}
-              imageStyle={{ borderRadius: 8 }}>
-            </ImageBackground>
-            <Pressable
-              style={{ position: 'absolute', height: '100%', width: '100%' }}
-              onPress={galleryUploadHandler}>
-            </Pressable>
-          </Pressable>
-        </View>}
     </ScrollView>
   )
 };

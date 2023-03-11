@@ -133,7 +133,12 @@ const RecipeEditIngredient = (props) => {
         <View style={styles.header}>
           <TouchableOpacity
             style={{ position: 'absolute', left: '5%' }}
-            onPress={() => navigation.goBack()}>
+            onPress={() => {
+              setRecipe(prevState => {
+                return ({ ...prevState, tempAlternatives: [] })
+              })
+              navigation.goBack()
+            }}>
             <MaterialCommunityIcons
               size={35}
               color={'white'}
@@ -167,7 +172,7 @@ const RecipeEditIngredient = (props) => {
               <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
                 {ingredient.type == null ?
                   <Text style={{ color: '#ffffff80', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>Dairy</Text>
-                  : <Text style={{ color: '#ffffff80', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{ingredient.type}</Text>}
+                  : <Text style={{ color: '#ffffff', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{ingredient.type}</Text>}
               </TouchableOpacity>
             </View>
             {/* Amount and unit container */}
@@ -184,7 +189,7 @@ const RecipeEditIngredient = (props) => {
                     return ({ ...prevState, amount: text })
                   })} />
               </View>
-              {/* Unit component */}
+              {/* Measurement component */}
               <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>
                 <Text style={styles.modalTitle}>Measurement</Text>
                 <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: measurementError ? 'red' : '#2B303C' }]} onPress={() => setMeasurementModalActive(true)}>

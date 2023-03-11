@@ -12,6 +12,7 @@ import RecipeUploadScreen2 from "./recipeUploadScreen2";
 import RecipeUploadScreen3 from "./recipeUploadScreen3";
 import RecipeUploadScreen4 from "./recipeUploadScreen4";
 import RecipeUploadScreen5 from "./recipeUploadScreen5";
+import RecipeUploadScreen6 from "./recipeUploadScreen6";
 
 /* Components */
 import ErrorModal from "../../components/errorModal";
@@ -23,7 +24,7 @@ const RecipeForm = () => {
   const { recipe, errorRecipe, setErrorRecipe } = useContext(AddRecipeContext);
   const [errorModal, setErrorModal] = useState(false)
 
-  const [progress, setProgress] = useState(1 / 5);
+  const [progress, setProgress] = useState(1 / 6);
   const [index, setIndex] = useState(0);
 
   const swiperRef = useRef(null);
@@ -31,10 +32,10 @@ const RecipeForm = () => {
   const nextPageChange = () => {
     if (progress < 1) {
       swiperRef.current.goToNext()
-      setProgress(progress + 1 / 5)
+      setProgress(progress + 1 / 6)
       /* navigation.navigate('Preview Recipe') */
     }
-    if (index == 4) {
+    if (index == 5) {
       const tempErrorRecipe = {
         title: false,
         chefsNotes: false,
@@ -64,13 +65,13 @@ const RecipeForm = () => {
               navigation.navigate('Preview Recipe')
             } */
     };
-    console.log(recipe.ingredients)
+    console.log(recipe)
   };
 
   const prevPageChange = () => {
     if (index != 0) {
       swiperRef.current.goToPrev()
-      setProgress(progress - 1 / 5)
+      setProgress(progress - 1 / 6)
     }
   };
 
@@ -106,6 +107,8 @@ const RecipeForm = () => {
           <RecipeUploadScreen4 />
           {/* slide 5 */}
           <RecipeUploadScreen5 />
+          {/* slide 6 */}
+          <RecipeUploadScreen6 />
         </Swiper>
       </View>
       <View style={styles().buttonSection}>
@@ -120,7 +123,7 @@ const RecipeForm = () => {
           <TouchableOpacity
             style={styles('next').button}
             onPress={() => nextPageChange()}>
-            <Text style={{ color: '#ffffff', fontFamily: 'Poppins-Regular' }}>{index == 4 ? 'Preview' : 'Next'}</Text>
+            <Text style={{ color: '#ffffff', fontFamily: 'Poppins-Regular' }}>{index == 5 ? 'Preview' : 'Next'}</Text>
           </TouchableOpacity>
         </View>
       </View>

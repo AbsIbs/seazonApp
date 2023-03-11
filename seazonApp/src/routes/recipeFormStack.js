@@ -8,6 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { AddRecipeProvider } from "../../Global/AddRecipeContext";
 
 import RecipeForm from "../screens/recipeUpload/recipeForm";
+import RecipeAddVideoLink from "../screens/recipeUpload/recipeAddVideoLink";
 import RecipeAddIngredient from "../screens/recipeUpload/recipeAddIngredient";
 import RecipeAddStep from "../screens/recipeUpload/recipeAddStep";
 import RecipeEditIngredient from "../screens/recipeUpload/recipeEditIngredient";
@@ -79,6 +80,12 @@ const RecipeFormStack = () => {
             headerStyle: {
               backgroundColor: 'black'
             }
+          }} />
+        <Stack.Screen
+          name="Add Video Link"
+          component={RecipeAddVideoLink}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
           }} />
         <Stack.Screen
           name="Add Ingredient"
