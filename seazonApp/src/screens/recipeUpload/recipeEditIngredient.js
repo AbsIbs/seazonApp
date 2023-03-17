@@ -82,8 +82,8 @@ const RecipeEditIngredient = (props) => {
     { label: 'imperial', value: 'imperial' }
   ];
   const measurementObject = {
-    'metric': ['ml', 'litre(s)', 'tsp', 'tbsp', 'unit(s)', 'mg', 'g', 'kg'],
-    'imperial': ['oz', 'lb(s)', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
+    'metric': ['ml', 'l', 'g', 'kg', 'tsp', 'Tbsp', 'unit(s)'],
+    'imperial': ['oz', 'lb', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
   };
 
   useEffect(() => {

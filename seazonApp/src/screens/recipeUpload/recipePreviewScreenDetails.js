@@ -3,8 +3,8 @@ import { View, StyleSheet, Text } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const RecipePreviewScreenDetails = () => {
 
+const RecipePreviewScreenDetails = () => {
   const { recipe } = useContext(AddRecipeContext);
 
   const Info = (props) => {
@@ -14,8 +14,7 @@ const RecipePreviewScreenDetails = () => {
           <MaterialCommunityIcons
             name={props.image}
             size={25}
-            color={'white'}
-          />
+            color={'white'} />
         </View>
         <View style={{ paddingVertical: 2.5, paddingLeft: 10 }} >
           <Text style={styles.infoTitle} >{props.title}{props.time ? 'mins' : ''} {props.serving ? (recipe.servings > 1 ? 'people' : 'person') : ''}</Text>
@@ -23,7 +22,7 @@ const RecipePreviewScreenDetails = () => {
         </View>
       </View>
     )
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -34,7 +33,6 @@ const RecipePreviewScreenDetails = () => {
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
           <View style={{ backgroundColor: '#2B303C', height: 50, width: 50, borderRadius: 25 }}>
-
           </View>
         </View>
       </View>

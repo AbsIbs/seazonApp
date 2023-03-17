@@ -32,10 +32,18 @@ const RecipeAddIngredient = () => {
   const [typeError, setTypeError] = useState()
   const [amountError, setAmountError] = useState()
   const [measurementError, setMeasurementError] = useState()
-  
+
   const [confirmErrorModal, setConfirmErrorModal] = useState(false)
   const [editModal, setEditModal] = useState({ state: false });
   const [deleteConfirmModal, setDeleteConfirmModal] = useState({ state: false });
+
+  // Unit stuff
+  const [measurement, setMeasurement] = useState('metric');
+  const measurementOptions = [
+    { label: 'metric', value: 'metric' },
+    { label: 'imperial', value: 'imperial' }
+  ];
+
 
   const errorObject = {
     'name': setNameError,
@@ -86,15 +94,9 @@ const RecipeAddIngredient = () => {
   const [tempMeasurementValue, setTempMeasurementValue] = useState('ml');
   const [measurementModalActive, setMeasurementModalActive] = useState(false);
 
-  // Unit stuff
-  const [measurement, setMeasurement] = useState('metric');
-  const measurementOptions = [
-    { label: 'metric', value: 'metric' },
-    { label: 'imperial', value: 'imperial' }
-  ];
   const measurementObject = {
-    'metric': ['ml', 'litre(s)', 'tsp', 'tbsp', 'unit(s)', 'mg', 'g', 'kg'],
-    'imperial': ['oz', 'lb(s)', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
+    'metric': ['ml', 'l', 'g', 'kg', 'tsp', 'Tbsp', 'unit(s)'],
+    'imperial': ['oz', 'lb', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
   };
 
   // Alternative Ingredients UI
@@ -441,9 +443,8 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: 'white',
-    fontWeight: 'bold',
     fontSize: 14,
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Medium'
   },
   counter: {
     alignSelf: 'flex-end',

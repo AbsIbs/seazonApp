@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 const dockLabels = (focused, iconName, dockName) => {

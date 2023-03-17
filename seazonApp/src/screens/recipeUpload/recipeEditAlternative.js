@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable } from "react-native";
-import uuid from 'react-native-uuid'
 import { useNavigation } from "@react-navigation/native";
 import cloneDeep from "lodash.clonedeep";
 

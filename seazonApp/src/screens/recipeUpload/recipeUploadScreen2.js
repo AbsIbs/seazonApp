@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UIManager, TouchableOpacity, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressable, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker"
@@ -42,7 +42,7 @@ const RecipeUploadScreen2 = () => {
 
   const Social = (props) => {
 
-    const nav = props.socialName.toLowerCase()+'URL'
+    const nav = props.socialName.toLowerCase() + 'URL'
 
     return (
       <Pressable style={styles().socialOuterContainer}>
@@ -66,8 +66,10 @@ const RecipeUploadScreen2 = () => {
             })} >
             <Text style={{ fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0, color: 'black' }}>Add</Text>
           </TouchableOpacity> :
-          <TouchableOpacity style={styles().urlContainer} >
-            <Text>{recipe[nav]}</Text>
+          <TouchableOpacity style={styles().socialButton} >
+            <Text style={{ fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0, color: 'black' }}>
+              Video linked  <MaterialCommunityIcons name={'check-bold'} size={15} color={'black'} />
+            </Text>
           </TouchableOpacity>}
       </Pressable >
     )

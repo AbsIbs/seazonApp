@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'

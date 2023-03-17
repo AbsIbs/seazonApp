@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UIManager, LayoutAnimation, View, Text, StyleSheet, ScrollView, Pressable, ImageBackground } from "react-native";
+import { UIManager, View, Text, StyleSheet, ScrollView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { launchImageLibrary } from "react-native-image-picker"
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import RecipeTiming from "../../components/recipeTiming";
 
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
@@ -10,9 +8,8 @@ import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 const RecipeUploadScreen1 = () => {
 
   const { setRecipe, errorRecipe } = useContext(AddRecipeContext);
-
-  const [imageUri, setImageUri] = useState(null);
   const [title, setTitle] = useState('')
+
   const [chefsNotes, setChefsNotes] = useState('')
 
   const tags = () => {
@@ -50,27 +47,6 @@ const RecipeUploadScreen1 = () => {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
-  };
-
-  const galleryUploadHandler = () => {
-    let options = {
-      storageOption: {
-        path: 'images',
-        mediaType: 'photo',
-      },
-      includeBase64: false
-    };
-    launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        null
-      } else {
-        /* Save the image */
-        setImageUri({ uri: response.assets[0].uri })
-        setRecipe(prevState => {
-          return ({ ...prevState, coverImage: { uri: response.assets[0].uri } })
-        })
-      }
-    });
   };
 
   return (

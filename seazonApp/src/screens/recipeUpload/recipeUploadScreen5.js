@@ -1,34 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Pressable, ScrollView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import uuid from 'react-native-uuid'
+import Modal from 'react-native-modal'
 
 const RecipeUploadScreen5 = () => {
 
   const navigation = useNavigation();
   const { recipe, setRecipe } = useContext(AddRecipeContext);
 
+  const [editModal, setEditModal] = useState({ state: false });
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState({ state: false });
+
+  const deleteStep = async (indexToRemove) => {
+    await setRecipe(prevState => {
+      return ({ ...prevState, steps: [...prevState.steps.filter((_, index) => index !== indexToRemove)] })
+    })
+    setDeleteConfirmModal({state: false})
+  };
 
   const renderItem = ({ item, drag, getIndex, isActive }) => {
-
-    const deleteStep = (indexToRemove) => {
-      setRecipe(prevState => {
-        return ({ ...prevState, steps: [...prevState.steps.filter((_, index) => index !== indexToRemove)] })
-      })
-    };
-
     return (
-      <TouchableOpacity
-        style={{ borderBottomColor: '#ffffff20', borderBottomWidth: 1, paddingVertical: 10 }}
-        onPress={() => {
-          navigation.navigate('Edit Step', {
-            index: getIndex()
-          })
-        }} >
+      <View style={{ borderBottomColor: '#ffffff20', borderBottomWidth: 1, paddingVertical: 10 }} >
         <View style={styles.itemHeaderContainer}>
           <View style={{ flex: 1 }}>
             <View style={styles.itemIndexContainer}>
@@ -37,10 +35,15 @@ const RecipeUploadScreen5 = () => {
           </View>
           <View style={{ flex: 1, justifyContent: 'flex-end', flexDirection: 'row' }}>
             <Pressable
-              onPress={() => deleteStep(getIndex())}
+              onPress={() => {
+                setEditModal({
+                  state: true,
+                  index: getIndex()
+                })
+              }}
               style={{ marginHorizontal: 15 }}>
-              <MaterialCommunityIcons
-                name='delete'
+              <SimpleLineIcons
+                name='options'
                 size={25}
                 color={'white'} />
             </Pressable>
@@ -90,12 +93,13 @@ const RecipeUploadScreen5 = () => {
             }) : null
           }
         </View>
-      </TouchableOpacity>
+      </View>
     )
   };
 
   return (
     <View style={styles.container}>
+      {/* Steps list */}
       {recipe.steps.length > 0 ?
         <View style={{ flex: 1 }}>
           <DraggableFlatList
@@ -124,6 +128,81 @@ const RecipeUploadScreen5 = () => {
           color={'white'} />
         <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>Add a step</Text>
       </TouchableOpacity>
+
+      {/* Edit Modal */}
+      <Modal
+        isVisible={editModal.state}
+        onBackdropPress={() => setEditModal({ state: false })}
+        backdropTransitionOutTiming={0}
+        style={{ justifyContent: 'flex-end', margin: 0 }}
+        useNativeDriver
+        hideModalContentWhileAnimating>
+        <View style={styles.editModalContainer}>
+          {/* Edit button */}
+          <TouchableOpacity
+            style={styles.editModalButton}
+            onPress={() => {
+              navigation.navigate('Edit Step', {
+                index: editModal.index
+              })
+              setEditModal({ state: false })
+            }}>
+            <MaterialCommunityIcons
+              name={'file-document-edit'}
+              color={'#ffffff'}
+              size={22.5}
+              style={{ marginLeft: '7.5%', position: 'absolute' }} />
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Edit step</Text>
+            </View>
+          </TouchableOpacity>
+          {/* Delete button */}
+          <TouchableOpacity
+            style={[styles.editModalButton, { backgroundColor: '#800000', borderWidth: 0 }]}
+            onPress={() => {
+              setEditModal({ state: false })
+              setDeleteConfirmModal({ state: true, index: editModal.index })
+            }}>
+            <MaterialCommunityIcons
+              name={'delete'}
+              color={'#ffffff'}
+              size={22.5}
+              style={{ marginLeft: '7.5%', position: 'absolute' }} />
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Delete step</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      {/* Delete confirm Modal */}
+      <Modal
+        isVisible={deleteConfirmModal.state}
+        onBackdropPress={() => setDeleteConfirmModal({ state: false })}
+        backdropTransitionOutTiming={0}
+        style={{ justifyContent: 'flex-end', margin: 0 }}
+        useNativeDriver
+        hideModalContentWhileAnimating>
+        <View style={styles.editModalContainer}>
+          <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 14, paddingVertical: 10, paddingHorizontal: '10%' }}>Are you sure you would like to delete this step?</Text>
+          {/* Confirm button */}
+          <TouchableOpacity
+            style={[styles.editModalButton, { backgroundColor: '#800000', borderWidth: 0 }]}
+            onPress={() => deleteStep(deleteConfirmModal.index)}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >Yes</Text>
+            </View>
+          </TouchableOpacity>
+          {/* Refuse button */}
+          <TouchableOpacity
+            style={styles.editModalButton}
+            onPress={() => setDeleteConfirmModal({ state: false })}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >No</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   )
 };
@@ -217,6 +296,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ffffff',
     fontFamily: 'Poppins-Regular'
+  },
+  editModalContainer: {
+    paddingVertical: 10,
+    backgroundColor: '#151515',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  editModalButton: {
+    width: '80%',
+    height: 45,
+    borderWidth: 0.5,
+    borderColor: 'white',
+    borderRadius: 25,
+    marginVertical: 7.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5
   }
 });
 
