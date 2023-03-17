@@ -27,6 +27,11 @@ const AddRecipeProvider = ({ children }) => {
     }
   });
 
+  const units = {
+    'imperial': ['cup', 'gal', 'lb', 'st', 'units', 'tsp', 'Tbsp'],
+    'metric': ['ml', 'l', 'g', 'kg', 'units', 'tsp', 'Tbsp']
+  };
+
   const [errorRecipe, setErrorRecipe] = useState({
     title: false,
     chefsNotes: false,
@@ -45,7 +50,7 @@ const AddRecipeProvider = ({ children }) => {
 
   return (
     <AddRecipeContext.Provider
-      value={{ recipe, setRecipe, errorRecipe, setErrorRecipe, tempAlternativeIngredient, setTempAlternativeIngredient }}>
+      value={{ recipe, setRecipe, errorRecipe, setErrorRecipe, tempAlternativeIngredient, setTempAlternativeIngredient, units }}>
       {children}
     </AddRecipeContext.Provider>
   )

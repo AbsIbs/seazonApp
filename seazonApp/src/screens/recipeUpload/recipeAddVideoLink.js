@@ -65,7 +65,7 @@ const RecipeAddVideoLink = (props) => {
         <View style={styles.ContentContainer}>
           <ScrollView>
             <View style={{ paddingTop: 20 }}>
-              <Text style={styles.Title}>{props.route.params.socialName.lower + 'URL'} Link</Text>
+              <Text style={styles.Title}>{props.route.params.socialName} Link</Text>
               <TextInput
                 style={[styles.TextInput, { borderColor: urlError ? 'red' : '#2B303C', paddingTop: 1.5, paddingBottom: 0 }]}
                 placeholder={'https://www.youtube.com/watch?v=jNQXAC9IVRw'}

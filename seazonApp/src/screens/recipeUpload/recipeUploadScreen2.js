@@ -3,14 +3,16 @@ import { UIManager, TouchableOpacity, LayoutAnimation, View, Text, StyleSheet, S
 import { useNavigation } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker"
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Modal from 'react-native-modal'
 
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 const RecipeUploadScreen2 = () => {
 
   const { recipe, setRecipe, errorRecipe } = useContext(AddRecipeContext);
-
   const navigation = useNavigation();
+
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState({ state: false });
   const [imageUri, setImageUri] = useState(null);
 
   if (Platform.OS === 'android') {
@@ -19,6 +21,7 @@ const RecipeUploadScreen2 = () => {
     }
   };
 
+  /* Upload image */
   const galleryUploadHandler = () => {
     let options = {
       storageOption: {
@@ -38,6 +41,16 @@ const RecipeUploadScreen2 = () => {
         })
       }
     });
+  };
+
+  const deleteLink = async (nav) => {
+    await setRecipe(prevState => {
+      return ({
+        ...prevState,
+        [nav]: ''
+      })
+    })
+    setDeleteConfirmModal({ state: false })
   };
 
   const Social = (props) => {
@@ -62,20 +75,20 @@ const RecipeUploadScreen2 = () => {
           <TouchableOpacity
             style={styles().socialButton}
             onPress={() => navigation.navigate('Add Video Link', {
-              socialName: props.socialName
+              socialName: nav
             })} >
             <Text style={{ fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0, color: 'black' }}>Add</Text>
           </TouchableOpacity> :
-          <TouchableOpacity style={styles().socialButton} >
+          <TouchableOpacity
+            style={styles().socialButton}
+            onPress={() => setDeleteConfirmModal({ state: true, nav: nav })} >
             <Text style={{ fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0, color: 'black' }}>
-              Video linked  <MaterialCommunityIcons name={'check-bold'} size={15} color={'black'} />
+              Linked  <MaterialCommunityIcons name={'check-bold'} size={15} color={'black'} />
             </Text>
           </TouchableOpacity>}
       </Pressable >
     )
   };
-
-
 
   return (
     <ScrollView>
@@ -112,9 +125,38 @@ const RecipeUploadScreen2 = () => {
           </Pressable>
         </View>}
       <View style={styles().outerContainer}>
-        <Text style={styles().header}>Social Links (optional) </Text>
-        <Social socialName='YouTube' icon='youtube' />
+        <Text style={styles().header}>Social Links (optional)</Text>
+        <Social socialName='YouTube' icon='youtube' index={0} />
       </View>
+
+      {/* Delete confirm Modal */}
+      <Modal
+        isVisible={deleteConfirmModal.state}
+        onBackdropPress={() => setDeleteConfirmModal({ state: false })}
+        backdropTransitionOutTiming={0}
+        style={{ justifyContent: 'flex-end', margin: 0 }}
+        useNativeDriver
+        hideModalContentWhileAnimating>
+        <View style={styles().editModalContainer}>
+          <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 14, paddingVertical: 10, paddingHorizontal: '10%' }}>Are you sure you would like to delete this alternate ingredient?</Text>
+          {/* Confirm button */}
+          <TouchableOpacity
+            style={[styles().editModalButton, { backgroundColor: '#800000', borderWidth: 0 }]}
+            onPress={() => deleteLink(deleteConfirmModal.nav)}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>Yes</Text>
+            </View>
+          </TouchableOpacity>
+          {/* Refuse button */}
+          <TouchableOpacity
+            style={styles().editModalButton}
+            onPress={() => setDeleteConfirmModal({ state: false })}>
+            <View style={{ alignItems: 'center', flex: 1 }}>
+              <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }} >No</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </ScrollView>
   )
 };
@@ -133,19 +175,6 @@ const styles = (animatedValue) => StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     paddingBottom: 10
   },
-  textInputTitle: {
-    backgroundColor: '#121212',
-    height: 45,
-    borderRadius: 6,
-    marginVertical: 10,
-    borderWidth: 1.5,
-    paddingHorizontal: 10,
-    fontFamily: 'Poppins-Regular',
-    alignItems: 'center',
-    paddingTop: 1.5,
-    paddingBottom: 0,
-    borderColor: '#2B303C'
-  },
   multimediaUploadContainer: {
     marginTop: 10,
     backgroundColor: '#121212',
@@ -162,16 +191,6 @@ const styles = (animatedValue) => StyleSheet.create({
     paddingTop: 10,
     fontFamily: 'Poppins-Medium'
   },
-  addVideoLinkButton: {
-    height: 45,
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#E84A4A',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
   socialOuterContainer: {
     paddingVertical: 10,
     borderBottomColor: '#2B303C',
@@ -183,14 +202,6 @@ const styles = (animatedValue) => StyleSheet.create({
     justifyContent: 'center',
     paddingRight: 5
   },
-  socialTypeImageContainer: {
-    height: 45,
-    width: 45,
-    borderRadius: 8,
-    backgroundColor: '#D9D9D9',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   socialButton: {
     alignItems: 'center',
     paddingHorizontal: 10,
@@ -199,16 +210,24 @@ const styles = (animatedValue) => StyleSheet.create({
     borderRadius: 4,
     height: 25
   },
-  urlContainer: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    height: 50,
-    flex: 1,
-    borderRadius: 6,
-    marginVertical: 10,
-    borderWidth: 1.5,
-    paddingHorizontal: 10,
-    justifyContent: 'center'
+  editModalContainer: {
+    paddingVertical: 10,
+    backgroundColor: '#151515',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  editModalButton: {
+    width: '80%',
+    height: 45,
+    borderWidth: 0.5,
+    borderColor: 'white',
+    borderRadius: 25,
+    marginVertical: 7.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5
   }
 });
 

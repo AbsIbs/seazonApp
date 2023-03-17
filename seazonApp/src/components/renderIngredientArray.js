@@ -6,7 +6,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import SwitchSelector from "react-native-switch-selector";
 
 const RenderingIngredientArray = (props) => {
-
   const convert = require('convert-units')
   const [servings, setServings] = useState({
     value: 1,
@@ -29,6 +28,11 @@ const RenderingIngredientArray = (props) => {
 
   const [updatedObject, setUpdatedObject] = useState(props.array)
 
+  const measurementOptions = [
+    { label: 'metric', value: 'metric' },
+    { label: 'imperial', value: 'imperial' }
+  ];
+
   const unitObject = {
     'imperial': {
       'ml': 'cup',
@@ -44,45 +48,79 @@ const RenderingIngredientArray = (props) => {
     }
   };
 
-  const measurementOptions = [
-    { label: 'metric', value: 'metric' },
-    { label: 'imperial', value: 'imperial' }
-  ];
-
+  /* On initial render, we force all of the ingredients into metric format */
   useEffect(() => {
     setUpdatedObject(prevState => {
       const updatedArray = prevState.map((item, index) => {
+        let updatedItem = { ...item };
+        /* We firstly deal with the main ingredients */
         if (item.measurement in unitObject['metric']) {
-          return {
+          updatedItem = {
             ...item,
-            amount: Math.round(convert(item.amount).from(item.measurement).to(unitObject[currentUnit][item.measurement]) * 10) / 10,
-            measurement: unitObject[currentUnit][item.measurement]
-          };
-        } else {
-          return item;
+            amount: Math.round(convert(item.amount).from(item.measurement).to(unitObject['metric'][item.measurement]) * 10) / 10,
+            measurement: unitObject['metric'][item.measurement]
+          }
         }
+        /* And then the alternatives */
+        if (item.alternatives.length > 0) {
+          let updatedAlternatives = item.alternatives.map((alternative) => {
+            if (alternative.measurement in unitObject['metric']) {
+              return {
+                ...alternative,
+                amount: Math.round(convert(alternative.amount).from(alternative.measurement).to(unitObject['metric'][alternative.measurement]) * 10) / 10,
+                measurement: unitObject['metric'][alternative.measurement]
+              }
+            } else {
+              return { ...alternative }
+            }
+          });
+          updatedItem = {
+            ...updatedItem,
+            alternatives: updatedAlternatives
+          };
+        }
+        return updatedItem;
       });
       return updatedArray;
     })
   }, [])
 
-
+  /* When we toggle the imperial and metric switch, the ingredient informtion changes */
   useEffect(() => {
     if (initialUnitChange.current) {
       setUpdatedObject(prevState => {
         const updatedArray = prevState.map((item, index) => {
+          let updatedItem = { ...item };
+          /* We firstly deal with the main ingredients */
           if (item.measurement in unitObject.imperial || item.measurement in unitObject.metric) {
-            return {
-              ...item,
+            updatedItem = {
+              ...updatedItem,
               amount: Math.round(convert(item.amount).from(item.measurement).to(unitObject[currentUnit][item.measurement]) * 10) / 10,
               measurement: unitObject[currentUnit][item.measurement]
-            }
-          } else {
-            return {...item}
+            };
           }
+          /* And then with the alternative ingredients */
+          if (item.alternatives) {
+            let updatedAlternatives = item.alternatives.map((alternative) => {
+              if (alternative.measurement in unitObject.imperial || alternative.measurement in unitObject.metric) {
+                return {
+                  ...alternative,
+                  amount: Math.round(convert(alternative.amount).from(alternative.measurement).to(unitObject[currentUnit][alternative.measurement]) * 10) / 10,
+                  measurement: unitObject[currentUnit][alternative.measurement]
+                }
+              } else {
+                return { ...alternative }
+              }
+            });
+            updatedItem = {
+              ...updatedItem,
+              alternatives: updatedAlternatives
+            };
+          }
+          return updatedItem;
         });
-        return updatedArray
-      })
+        return updatedArray;
+      });
     }
     else {
       initialUnitChange.current = true
@@ -92,16 +130,31 @@ const RenderingIngredientArray = (props) => {
   useEffect(() => {
     if (initialServingsChange.current) {
       setUpdatedObject(prevState => {
-        const updatedArray = prevState.map((item, index) => ({
-          ...item, amount: Math.round(((item.amount / (servings.value + servings.sign)) * (servings.value)) * 10) / 10
-        }));
+        const updatedArray = prevState.map((item, index) => {
+          const updatedItem = { ...item };
+          if (item.measurement in unitObject.imperial || item.measurement in unitObject.metric) {
+            updatedItem.amount = Math.round(((item.amount / (servings.value + servings.sign)) * (servings.value)) * 10) / 10;
+          }
+          if (item.alternatives) {
+            const updatedAlternatives = item.alternatives.map((alternative) => {
+              const updatedAlternative = { ...alternative };
+              if (alternative.measurement in unitObject.imperial || alternative.measurement in unitObject.metric) {
+                updatedAlternative.amount = Math.round(((alternative.amount / (servings.value + servings.sign)) * (servings.value)) * 10) / 10;
+              }
+              return updatedAlternative;
+            });
+            updatedItem.alternatives = updatedAlternatives;
+          }
+          return updatedItem;
+        });
         return updatedArray;
-      })
+      });
     }
     else {
-      initialServingsChange.current = true
+      initialServingsChange.current = true;
     }
-  }, [servings.value])
+  }, [servings.value]);
+
 
   /* Ingredient Component */
   const Ingredient = (props) => {

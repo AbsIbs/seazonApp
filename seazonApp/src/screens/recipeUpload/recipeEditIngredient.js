@@ -15,7 +15,7 @@ import uuid from 'react-native-uuid'
 const RecipeEditIngredient = (props) => {
 
   const navigation = useNavigation();
-  const { recipe, setRecipe } = useContext(AddRecipeContext);
+  const { recipe, setRecipe, units } = useContext(AddRecipeContext);
 
   const typeArray = ['Dairy', 'Cereals and Pulses', 'Fruits', 'Meat', 'Spices and Herbs', 'Vegetables', 'Seafood']
 
@@ -81,10 +81,6 @@ const RecipeEditIngredient = (props) => {
     { label: 'metric', value: 'metric' },
     { label: 'imperial', value: 'imperial' }
   ];
-  const measurementObject = {
-    'metric': ['ml', 'l', 'g', 'kg', 'tsp', 'Tbsp', 'unit(s)'],
-    'imperial': ['oz', 'lb', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
-  };
 
   useEffect(() => {
     if (recipe.tempAlternatives.length > 0) {
@@ -310,7 +306,7 @@ const RecipeEditIngredient = (props) => {
               textSize={20}
               style={{ backgroundColor: '#00000000', width: 250 }}
               selectedValue={tempMeasurementValue}
-              pickerData={measurementObject[measurement]}
+              pickerData={units[measurement]}
               onValueChange={value => setTempMeasurementValue(value)} />
           </View>
           <View style={styles.modalPickerSection}>

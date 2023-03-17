@@ -15,7 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 const RecipeAddAlternative = () => {
 
   const navigation = useNavigation();
-  const { setRecipe } = useContext(AddRecipeContext);
+  const { setRecipe, units } = useContext(AddRecipeContext);
 
   const [ingredient, setIngredient] = useState({
     uuid: uuid.v4(),
@@ -73,10 +73,6 @@ const RecipeAddAlternative = () => {
     { label: 'metric', value: 'metric' },
     { label: 'imperial', value: 'imperial' }
   ];
-  const measurementObject = {
-    'metric': ['ml', 'litre(s)', 'tsp', 'tbsp', 'unit(s)', 'mg', 'g', 'kg'],
-    'imperial': ['oz', 'lb(s)', 'st', 'pint', 'gal', 'tsp', 'Tbsp', 'unit(s)']
-  };
 
   return (
     <>
@@ -176,7 +172,7 @@ const RecipeAddAlternative = () => {
               textSize={20}
               style={{ backgroundColor: '#00000000', width: 250 }}
               selectedValue={tempMeasurementValue}
-              pickerData={measurementObject[measurement]}
+              pickerData={units[measurement]}
               onValueChange={value => setTempMeasurementValue(value)} />
           </View>
           <View style={styles.modalPickerSection}>
