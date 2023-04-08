@@ -7,6 +7,7 @@ import { theme, ThemeProvider } from "react-native-design-system";
 
 // Global states
 import { AuthProvider } from "./Global/AuthContext";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 // Firebase
 import { auth } from './firebase/firebase-config'
@@ -15,7 +16,6 @@ import { auth } from './firebase/firebase-config'
 import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/signUp/SignUpPage";
-/* import RecipeForm from "./src/screens/recipeForm"; */
 import RecipeFormStack from "./src/routes/recipeFormStack";
 
 // Stacks

@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Modal } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { getAuth } from "firebase/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import UserProfileImage from "./userProfileImage";
+import UserProfileImage from "../recipeUpload/userProfileImage";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { BallIndicator } from 'react-native-indicators';

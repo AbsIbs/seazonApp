@@ -1,12 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useContext, useRef } from "react";
+import { StyleSheet, View } from "react-native";
 import { TabbedHeaderPager } from 'react-native-sticky-parallax-header';
 
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 import RecipePreviewScreenDetails from "./recipePreviewScreenDetails";
 import RecipePreviewScreenIngredients from './recipePreviewScreenIngredients'
-import RecipePreviewScreenSteps from "./recipePreviewScreenSteps";
 
 const RecipePreview = () => {
 
@@ -19,9 +18,6 @@ const RecipePreview = () => {
     },
     {
       title: 'Ingredients'
-    },
-    {
-      title: 'Steps'
     }
   ]
 
@@ -43,13 +39,12 @@ const RecipePreview = () => {
           tabWrapperStyle={{ borderBottomColor: '#2B303C', borderBottomWidth: 1 }}
           tabTextStyle={{ fontFamily: 'Poppins-Light', fontSize: 12, paddingVertical: 5 }}
           tabTextActiveStyle={{ fontFamily: 'Poppins-Regular', fontSize: 12, paddingVertical: 5 }}
-          tabTextContainerActiveStyle={{backgroundColor: '#000000'}}
+          tabTextContainerActiveStyle={{ backgroundColor: '#000000' }}
           tabUnderlineColor={'#E32828'}
           pageContainerStyle={{ flex: 1 }}
           parallaxHeight>
           <RecipePreviewScreenDetails />
           <RecipePreviewScreenIngredients />
-          <RecipePreviewScreenSteps />
         </TabbedHeaderPager>
       </View>
     </>

@@ -82,12 +82,6 @@ const RecipeFormStack = () => {
             }
           }} />
         <Stack.Screen
-          name="Add Video Link"
-          component={RecipeAddVideoLink}
-          options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-          }} />
-        <Stack.Screen
           name="Add Ingredient"
           component={RecipeAddIngredient}
           options={{

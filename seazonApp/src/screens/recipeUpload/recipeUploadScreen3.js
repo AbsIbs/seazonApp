@@ -39,7 +39,7 @@ const styles = () => StyleSheet.create({
   },
   sectionSubheader: {
     fontSize: 14,
-    paddingBottom: 10,
+    paddingBottom: 5,
     color: '#ffffff',
     fontFamily: 'Poppins-Medium'
   },
