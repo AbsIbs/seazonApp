@@ -30,7 +30,7 @@ const RecipeForm = () => {
   const swiperRef = useRef(null);
 
   const nextPageChange = () => {
-    if (progress < 1) {
+    if (index != 5) {
       swiperRef.current.goToNext()
       setProgress(progress + 1 / 6)
       /* navigation.navigate('Preview Recipe') */

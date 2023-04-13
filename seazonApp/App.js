@@ -7,7 +7,6 @@ import { theme, ThemeProvider } from "react-native-design-system";
 
 // Global states
 import { AuthProvider } from "./Global/AuthContext";
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 // Firebase
 import { auth } from './firebase/firebase-config'

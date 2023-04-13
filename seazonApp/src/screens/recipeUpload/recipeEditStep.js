@@ -5,7 +5,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import CustomTagList from "../../components/global/customTagList";
 import ErrorModal from "../../components/global/errorModal";
 import cloneDeep from "lodash.clonedeep";
 
@@ -118,11 +117,7 @@ const RecipeEditStep = (props) => {
               multiline
               textAlignVertical="top" />
           </View>
-          <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
-          <View style={{ paddingTop: 20 }}>
-            <Text style={[styles.title, { paddingBottom: 10 }]}>Utensils</Text>
-            <CustomTagList placeholder={null} setFunction={setStep} target='utensils' maxLength={5} initialArray={step.utensils} />
-          </View>
+          <Text style={[styles.counter, { color: step.instructions.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
         </View>
       </View>
       <ErrorModal Title={'Hold on!'} Desc={'Please enter the instructions for your step.'} visible={confirmErrorModal} setVisible={setConfirmErrorModal} />

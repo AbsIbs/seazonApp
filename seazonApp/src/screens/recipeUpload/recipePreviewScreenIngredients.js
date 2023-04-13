@@ -11,7 +11,7 @@ const RecipePreviewScreenIngredients = () => {
     <View style={styles.container}>
       <ScrollView>
         <View style={{ flexDirection: 'row', paddingTop: 30 }}>
-          <RenderingIngredientArray array={recipe.ingredients} />
+          <RenderingIngredientArray array={recipe.ingredients} servings={recipe.servings} />
         </View>
       </ScrollView>
     </View>
