@@ -4,12 +4,11 @@ import uuid from 'react-native-uuid'
 import Entypo from 'react-native-vector-icons/Entypo'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import SwitchSelector from "react-native-switch-selector";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const RenderingIngredientArray = (props) => {
   const convert = require('convert-units')
   const [servings, setServings] = useState({
-    value: props.servings,
+    value: 1,
     sign: 0
   });
   const [currentUnit, setCurrentUnit] = useState('metric');
@@ -18,13 +17,13 @@ const RenderingIngredientArray = (props) => {
 
   /* Images */
   const recipeImages = {
-    'Cereals and Pulses': require('../../assets/img/recipeType/cerealsAndPulses.png'),
-    'Dairy': require('../../assets/img/recipeType/dairy.png'),
-    'Fruits': require('../../assets/img/recipeType/fruits.png'),
-    'Meat': require('../../assets/img/recipeType/meat.png'),
-    'Spices and Herbs': require('../../assets/img/recipeType/spicesAndHerbs.png'),
-    'Vegetables': require('../../assets/img/recipeType/vegetables.png'),
-    'Seafood': require('../../assets/img/recipeType/seafood.png')
+    'Cereals and Pulses': require('../../../assets/img/recipeType/cerealsAndPulses.png'),
+    'Dairy': require('../../../assets/img/recipeType/dairy.png'),
+    'Fruits': require('../../../assets/img/recipeType/fruits.png'),
+    'Meat': require('../../../assets/img/recipeType/meat.png'),
+    'Spices and Herbs': require('../../../assets/img/recipeType/spicesAndHerbs.png'),
+    'Vegetables': require('../../../assets/img/recipeType/vegetables.png'),
+    'Seafood': require('../../../assets/img/recipeType/seafood.png')
   };
 
   const [updatedObject, setUpdatedObject] = useState(props.array)
@@ -133,10 +132,9 @@ const RenderingIngredientArray = (props) => {
       setUpdatedObject(prevState => {
         const updatedArray = prevState.map((item, index) => {
           const updatedItem = { ...item };
-          /*           if (item.measurement in unitObject.imperial || item.measurement in unitObject.metric) {
-                      updatedItem.amount = Math.round(((item.amount / (servings.value + servings.sign)) * (servings.value)) * 10) / 10;
-                    } */
-          updatedItem.amount = Math.round(((item.amount / (servings.value + servings.sign)) * (servings.value)) * 10) / 10;
+          if (item.measurement in unitObject.imperial || item.measurement in unitObject.metric) {
+            updatedItem.amount = Math.round(((item.amount / (servings.value + servings.sign)) * (servings.value)) * 10) / 10;
+          }
           if (item.alternatives) {
             const updatedAlternatives = item.alternatives.map((alternative) => {
               const updatedAlternative = { ...alternative };
@@ -173,18 +171,12 @@ const RenderingIngredientArray = (props) => {
               </View>
             </View>
             {/* Ingredient Name */}
-            <View style={{ flex: 5, paddingHorizontal: 5 }}>
+            <View style={[{ flex: 5 }]}>
               <Text style={{ fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{props.name}</Text>
             </View>
             {/* Amount and measurement */}
             <View style={{ paddingHorizontal: 10, justifyContent: 'center', flex: 2 }}>
               <Text style={{ fontFamily: 'Poppins-Light', paddingTop: 1.5, paddingBottom: 0, textAlign: 'right' }} >{props.amount} {props.measurement}</Text>
-            </View>
-            {/* Checkbox */}
-            <View style={{ flex: 1 }}>
-              <BouncyCheckbox
-                fillColor="#2B303C"
-                unfillColor="#00000000" />
             </View>
           </View>
           {/* Alternatives */}

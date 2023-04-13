@@ -12,7 +12,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions'
 
 // Components
 import Swiper from 'react-native-web-swiper'
-import RegistrationComplete from '../../components/registrationCompletion';
+import RegistrationComplete from '../../components/signUp/registrationCompletion';
 
 // Import slides
 import SignUpPage0 from './signUpPage0';

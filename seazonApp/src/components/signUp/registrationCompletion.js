@@ -54,25 +54,25 @@ const RegistrationComplete = (props) => {
             'firstWord': 'Welcome',
             'title': ' to the app',
             'desc': 'Your registration process is completed and you can now log in. A confirmation email has been sent to you.',
-            'image': require('../../assets/img/locationIcon.png')
+            'image': require('../../../assets/img/locationIcon.png')
         },
         1: {
             'firstWord': 'Engage',
             'title': ' with our community',
             'desc': 'Interact with contect creators to learn, share and create new recipes from our ever-growing community',
-            'image': require('../../assets/img/groupIcon.png')
+            'image': require('../../../assets/img/groupIcon.png')
         },
         2: {
             'firstWord': 'Maximise',
             'title': ' your fitness',
             'desc': "Whether you're here for food or fitness, we'll cater to your every need. Read through an array of articles, diets and learn more about healthy eating",
-            'image': require('../../assets/img/healthIcon.png')
+            'image': require('../../../assets/img/healthIcon.png')
         },
         3: {
             'firstWord': 'Discover',
             'title': ' global recipes',
             'desc': 'Travel across the globe and discover thousands of recipes',
-            'image': require('../../assets/img/locationIcon.png')
+            'image': require('../../../assets/img/locationIcon.png')
         }
     };
 
@@ -80,7 +80,7 @@ const RegistrationComplete = (props) => {
         <View style={{ flex: 1, backgroundColor: 'black' }}>
             <Image
                 style={{ height: '100%', width: '100%', position: 'absolute', opacity: 0.15 }}
-                source={require('../../assets/img/registrationCompleteImage.png')}
+                source={require('../../../assets/img/registrationCompleteImage.png')}
                 resizeMode='cover' />
             <View style={{ flex: 1, marginTop: 20 }}>
                 <View style={{ flex: 3 }}>

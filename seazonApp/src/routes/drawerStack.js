@@ -2,7 +2,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Settings from "../screens/settings";
 import MainStack from "./mainStack";
-import CustomDrawer from "../components/customDrawer";
+import CustomDrawer from "../components/global/customDrawer";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Drawer = createDrawerNavigator();

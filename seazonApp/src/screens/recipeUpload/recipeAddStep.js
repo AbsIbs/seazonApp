@@ -5,7 +5,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import ErrorModal from "../../components/errorModal";
+import CustomTagList from "../../components/global/customTagList";
+import ErrorModal from "../../components/global/errorModal";
 import uuid from 'react-native-uuid'
 
 const RecipeAddStep = () => {
@@ -20,7 +21,8 @@ const RecipeAddStep = () => {
   const [step, setStep] = useState({
     key: uuid.v4(),
     coverImage: null,
-    instructions: ''
+    instructions: '',
+    utensils: []
   })
 
   const [disabled, setDisabled] = useState(false)
@@ -120,7 +122,11 @@ const RecipeAddStep = () => {
                 multiline
                 textAlignVertical="top" />
             </View>
-            <Text style={[styles.counter, { color: step.instructions.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
+            <Text style={[styles.counter, { color: step.utensils.length == maxInstructionsLength ? 'red' : null }]}>{step.instructions.length}/{maxInstructionsLength}</Text>
+            <View style={{ paddingTop: 20 }}>
+              <Text style={[styles.title, { paddingBottom: 10 }]}>Utensils</Text>
+              <CustomTagList placeholder={'Large Pot'} setFunction={setStep} target='utensils' maxLength={5} initialArray={[]} />
+            </View>
           </ScrollView>
         </View>
       </View>

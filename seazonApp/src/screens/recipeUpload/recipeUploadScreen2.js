@@ -15,7 +15,7 @@ const RecipeUploadScreen2 = () => {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   };
-
+  
   /* Upload image */
   const galleryUploadHandler = () => {
     let options = {

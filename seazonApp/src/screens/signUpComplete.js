@@ -4,7 +4,7 @@ import globalStyle from "../utils/globalStyle";
 import { useNavigation } from '@react-navigation/native';
 
 // components
-import SignUpCompleteBanner from "../components/signUpCompleteBanner";
+import SignUpCompleteBanner from "../components/signUp/signUpCompleteBanner";
 
 const SignUpComplete = () => {
 

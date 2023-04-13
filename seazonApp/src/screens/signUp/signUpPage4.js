@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 //components
-import CookingOften from '../../components/cookingOften';
+import CookingOften from '../../components/signUp/cookingOften';
 
 const SignUpPage4 = (props) => {
     return(

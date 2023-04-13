@@ -13,28 +13,6 @@ const RecipeDifficulty = () => {
     'Advanced': false
   });
 
-  // The rendering of each difficulty
-  const RenderDifficulty = (props) => {
-    return (
-      <>
-        <TouchableOpacity
-          style={[
-            styles.renderDifficulty,
-            {
-              borderWidth: activeIndex[props.name] == true ? 0 : 1,
-              backgroundColor: activeIndex[props.name] == true ? '#ffffff' : '#121212',
-              borderColor: errorRecipe.difficulty ? 'red' : '#2B303C'
-            }
-          ]}
-          onPress={() => toggleColor(props.name)}>
-          <Text style={[{ color: activeIndex[props.name] == true ? '#000000' : '#ffffff' }, styles.difficultyName]}>
-            {props.name}
-          </Text>
-        </TouchableOpacity>
-      </>
-    )
-  };
-
   // Update object state by making a copy rather than mutating the state
   const toggleColor = (difficulty) => {
     setActiveIndex(prevState => {
@@ -57,41 +35,59 @@ const RecipeDifficulty = () => {
   }, [activeIndex]);
 
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.innerContainer}>
-        {Object.keys(activeIndex).map((item, index) => {
-          return (
-            <RenderDifficulty name={item} key={index} />
-          )
-        })}
+    <View style={styles().outerContainer}>
+      <View style={styles().innerContainer}>
+        <View style={styles().difficultContainer}>
+          <TouchableOpacity
+            style={[styles(activeIndex['Simple']).difficulty, { borderColor: errorRecipe.difficulty? 'red': '#2B303C'}]}
+            onPress={() => toggleColor('Simple')}>
+            <Text style={styles(activeIndex['Simple']).difficultyName}>Simple</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles().difficultContainer}>
+          <TouchableOpacity
+            style={[styles(activeIndex['Intermediate']).difficulty, { borderColor: errorRecipe.difficulty? 'red': '#2B303C'}]}
+            onPress={() => toggleColor('Intermediate')}>
+            <Text style={styles(activeIndex['Intermediate']).difficultyName}>Intermediate</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles().difficultContainer}>
+          <TouchableOpacity
+            style={[styles(activeIndex['Advanced']).difficulty, { borderColor: errorRecipe.difficulty? 'red': '#2B303C'}]}
+            onPress={() => toggleColor('Advanced')}>
+            <Text style={styles(activeIndex['Advanced']).difficultyName}>Advanced</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
 };
 
-const styles = StyleSheet.create({
+const styles = (state) => StyleSheet.create({
   outerContainer: {
     alignItems: 'center'
   },
   innerContainer: {
     width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap'
+    alignItems: 'center'
   },
-  difficultyName: {
-    fontSize: 12,
-    fontFamily: 'Poppins'
+  difficultContainer: {
+    flex: 1,
+    alignItems: 'center'
   },
-  renderDifficulty: {
-    borderWidth: 1,
+  difficulty: {
+    width: '95%',
+    borderWidth: state == true ? 0 : 1,
+    backgroundColor: state == true ? '#ffffff' : '#121212',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 30,
-    borderRadius: 30,
-    paddingHorizontal: 20,
-    marginRight: 5,
-    marginBottom: 7.5
+    height: 35,
+    borderRadius: 4
+  },
+  difficultyName: {
+    color: state == true ? '#000000' : '#ffffff',
+    fontSize: 12
   }
 });
 

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 // Components
-import Goals from "../../components/goals";
+import Goals from "../../components/signUp/goals";
 
 const SignUpPage5 = (props) => {
     return (

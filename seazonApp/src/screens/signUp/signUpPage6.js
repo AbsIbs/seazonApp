@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 // Components
-import WhereFindRecipes from "../../components/whereFindRecipes";
+import WhereFindRecipes from "../../components/signUp/whereFindRecipes";
 
 const SignUpPage6 = (props) => {
     return(

@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import RenderingIngredientArray from "../../components/recipeUpload/renderIngredientArray";
 
-const RecipePreviewScreenIngredients = () => {
+const RecipePreviewScreenSteps = () => {
 
   const { recipe } = useContext(AddRecipeContext);
 
@@ -11,8 +10,31 @@ const RecipePreviewScreenIngredients = () => {
     <View style={styles.container}>
       <ScrollView>
         <View style={{ flexDirection: 'row', paddingTop: 30 }}>
-          <RenderingIngredientArray array={recipe.ingredients} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.recipeTitle}>{recipe.title}</Text>
+            <Text style={styles.author} >by Abass Ibrahim</Text>
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
+            <View style={{ backgroundColor: '#2B303C', height: 50, width: 50, borderRadius: 25 }}>
+
+            </View>
+          </View>
         </View>
+        <View style={styles.timingsOuterContainer}>
+          <View>
+            <Text style={styles.timingsHeader}>Prep Time</Text>
+            <Text style={styles.timingsValue}>{recipe.prepTime}mins</Text>
+          </View>
+          <View>
+            <Text style={styles.timingsHeader}>Cooking Time</Text>
+            <Text style={styles.timingsValue}>{recipe.cookingTime}mins</Text>
+          </View>
+          <View>
+            <Text style={styles.timingsHeader}>Servings</Text>
+            <Text style={styles.timingsValue}>{recipe.servings} person(s)</Text>
+          </View>
+        </View>
+        <Text style={styles.chefsNotes}>{recipe.chefsNotes}</Text>
       </ScrollView>
     </View>
   )
@@ -68,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecipePreviewScreenIngredients;
+export default RecipePreviewScreenSteps;

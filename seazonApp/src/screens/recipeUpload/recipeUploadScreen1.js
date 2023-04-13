@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UIManager, View, Text, StyleSheet, ScrollView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import RecipeTiming from "../../components/recipeTiming";
+import RecipeTiming from "../../components/recipeUpload/recipeTiming";
 
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 

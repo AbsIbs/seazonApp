@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 // components
-import GenderList from '../../components/genderList';
+import GenderList from '../../components/signUp/genderList';
 
 const SignUpPage1 = (props) => {
     return (

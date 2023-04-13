@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 // components
-import AgeList from '../../components/ageList';
+import AgeList from '../../components/signUp/ageList';
 
 const SignUpPage2 = (props) => {
     return(

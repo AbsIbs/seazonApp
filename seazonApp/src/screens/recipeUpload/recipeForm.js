@@ -15,7 +15,7 @@ import RecipeUploadScreen5 from "./recipeUploadScreen5";
 import RecipeUploadScreen6 from "./recipeUploadScreen6";
 
 /* Components */
-import ErrorModal from "../../components/errorModal";
+import ErrorModal from "../../components/global/errorModal";
 
 const RecipeForm = () => {
 
@@ -30,9 +30,10 @@ const RecipeForm = () => {
   const swiperRef = useRef(null);
 
   const nextPageChange = () => {
-    if (index != 5) {
+    if (progress < 1) {
       swiperRef.current.goToNext()
       setProgress(progress + 1 / 6)
+      /* navigation.navigate('Preview Recipe') */
     }
     if (index == 5) {
       const tempErrorRecipe = {

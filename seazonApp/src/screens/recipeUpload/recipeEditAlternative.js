@@ -8,7 +8,7 @@ import { Picker } from 'react-native-wheel-pick';
 import Modal from 'react-native-modal'
 import SwitchSelector from "react-native-switch-selector"
 
-import ErrorModal from "../../components/errorModal";
+import ErrorModal from "../../components/global/errorModal";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import { ScrollView } from "react-native-gesture-handler";
 

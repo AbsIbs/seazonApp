@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Pressable, TouchableOpacity } from "react-native";
 import Modal from 'react-native-modal'
 import { Picker } from 'react-native-wheel-pick';
-import { AddRecipeContext } from "../../Global/AddRecipeContext";
+import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 const RecipeTiming = (props) => {
 

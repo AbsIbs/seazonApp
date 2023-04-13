@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
-import RecipeMealType from "../../components/recipeMealType";
-import RecipeDietary from "../../components/recipeDietary";
-import RecipeDifficulty from "../../components/recipeDifficulty";
+import RecipeMealType from "../../components/recipeUpload/recipeMealType";
+import RecipeDietary from "../../components/recipeUpload/recipeDietary";
+import RecipeDifficulty from "../../components/recipeUpload/recipeDifficulty";
 
 const RecipeUploadScreen3 = () => {
 
@@ -39,7 +39,7 @@ const styles = () => StyleSheet.create({
   },
   sectionSubheader: {
     fontSize: 14,
-    paddingBottom: 5,
+    paddingBottom: 10,
     color: '#ffffff',
     fontFamily: 'Poppins-Medium'
   },

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
-import RecipeMacros from "../../components/recipeMacros";
+import RecipeMacros from "../../components/recipeUpload/recipeMacros";
 
 const RecipeUploadScreen6 = () => {
 

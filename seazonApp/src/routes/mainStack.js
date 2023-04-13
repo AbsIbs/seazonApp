@@ -11,7 +11,7 @@ import MealPlan from "../screens/mealPlan";
 import ShoppingPlan from "../screens/shoppingList";
 
 // components
-import DockHeader from "../components/dockHeader";
+import DockHeader from "../components/global/dockHeader";
 
 const Tab = createBottomTabNavigator();
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 //components
-import CookingLevelList from '../../components/cookingLevelList';
+import CookingLevelList from '../../components/signUp/cookingLevelList';
 
 const SignUpPage3 = (props) => {
     return(

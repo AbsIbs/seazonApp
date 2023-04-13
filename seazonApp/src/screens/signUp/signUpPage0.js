@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import SignUpTextField from '../../components/signUpTextField';
+import SignUpTextField from '../../components/signUp/signUpTextField';
 
 const SignUpPage0 = (props) => {
 
