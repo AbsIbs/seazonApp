@@ -1,24 +1,30 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 import RecipeMacros from "../../components/recipeUpload/recipeMacros";
 
 const RecipeUploadScreen6 = () => {
 
-  const {recipe, setRecipe} = useContext(AddRecipeContext)
+  const { setRecipe } = useContext(AddRecipeContext)
+
+  const macrosArray = [
+    { title: 'calories', desc: '(kcal)' },
+    { title: 'protein', desc: '(g)' },
+    { title: 'carbs', desc: '(g)' },
+    { title: 'fats', desc: '(g)' },
+  ]
 
   return (
     <ScrollView>
       <View style={styles.section}>
-        <Text style={styles.nutrientsTitle}>Calories <Text style={styles.nutrientsOptional}>(Optional)</Text> </Text>
-        <RecipeMacros title='Calories' desc='(kcal)' setFunction={setRecipe} />
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.nutrientsTitle}>Macro Nutrients <Text style={styles.nutrientsOptional}>(Optional)</Text> </Text>
-        <RecipeMacros title='Carbs' desc='(g)' setFunction={setRecipe} />
-        <RecipeMacros title='Fat' desc='(g)' setFunction={setRecipe} />
-        <RecipeMacros title='Protein' desc='(g)' setFunction={setRecipe} />
+        {macrosArray.map((item, index) => {
+          return (
+            <View style={{ paddingVertical: 10 }} key={index}>
+              <RecipeMacros title={item.title} desc={item.desc} setFunction={setRecipe} />
+            </View>
+          )
+        })}
       </View>
     </ScrollView>
   )

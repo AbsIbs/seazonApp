@@ -1,71 +1,79 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TextInput, Image } from "react-native";
 
 const RecipeMacros = (props) => {
 
+  const [value, setValue] = useState('')
+
+  const imageSource = {
+    'calories': require('../../../assets/img/macros/calories.png'),
+    'protein': require('../../../assets/img/macros/protein.png'),
+    'fats': require('../../../assets/img/macros/fats.png'),
+    'carbs': require('../../../assets/img/macros/carbs.png')
+  }
+
+  useEffect(() => {
+    props.setFunction(prevState => {
+      return ({
+        ...prevState, macros: { ...prevState.macros, [props.title.toLowerCase()]: value }
+      })
+    })
+  }, [value])
+
   return (
-    <View style={{ alignItems: 'center' }}>
-      <View style={styles().container}>
-        <View style={styles(props.title).contentContianer}>
-          <View style={styles().textContainer}>
-            <View>
-              <Text style={styles().title}>{props.title}</Text>
-              <Text style={styles().desc}>{props.desc}</Text>
-            </View>
-          </View>
-          <View style={styles().inputContainer}>
-            <TextInput
-              placeholder="-"
-              maxLength={5}
-              keyboardType="numeric"
-              clearTextOnFocus={true}
-              onChangeText={(text) => {
-                props.setFunction(prevState => {
-                  return ({
-                    ...prevState, macros: { ...prevState.macros, [props.title.toLowerCase()]: text }
-                  })
-                })
-              }}
-              style={{ color: '#E84A4A', textAlign: 'right', flex: 1, fontFamily: 'Poppins-Medium' }}
-              placeholderTextColor='#E84A4A' />
-          </View>
+    <View style={styles.container}>
+      <View style={{ justifyContent: 'center', flex: 8 }} >
+        <Text style={styles.title} >{props.title} {props.desc}</Text>
+        <TextInput
+          style={styles.input}
+          value={value}
+          placeholder="500"
+          maxLength={10}
+          keyboardType="numeric"
+          clearTextOnFocus={true}
+          onChangeText={(text) => {
+            setValue(text.replace(/\,/g, ''))
+          }} />
+      </View>
+      <View style={{ flex: 2, justifyContent: 'center' }}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ height: 30, width: 30 }}
+            source={imageSource[props.title]} />
         </View>
       </View>
     </View>
   )
 };
 
-const styles = (title) => StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    height: 60,
-    flexDirection: 'row'
-  },
-  contentContianer: {
-    borderTopWidth: 1,
-    borderBottomWidth: title == 'Protein' ? 1 : 0,
-    borderColor: '#ffffff20',
+    height: 85,
+    backgroundColor: '#121212',
+    borderRadius: 6,
+    paddingHorizontal: 20,
     flexDirection: 'row',
-    width: '100%'
-  },
-  textContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1
-  },
-  inputContainer: {
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    flex: 1,
+    borderColor: '#2B303C',
+    borderWidth: 0.5
   },
   title: {
-    fontSize: 13,
-    color: '#ffffff',
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: 'white'
   },
-  desc: {
-    fontSize: 11,
-    fontFamily: 'Poppins-ExtraLight'
+  input: {
+    fontFamily: 'Poppins-bold',
+    fontSize: 30,
+    padding: 0,
+    color: 'red'
+  },
+  imageContainer: {
+    height: 60,
+    width: 60,
+    borderRadius: 8,
+    backgroundColor: '#D9D9D9',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
