@@ -94,6 +94,15 @@ const RecipeAddIngredient = () => {
   const [tempMeasurementValue, setTempMeasurementValue] = useState('ml');
   const [measurementModalActive, setMeasurementModalActive] = useState(false);
 
+  /* Amount */
+  const [amount, setAmount] = useState('')
+
+  useEffect(() => {
+    setIngredient(prevState => {
+      return ({ ...prevState, amount: amount })
+    })
+  }, [amount])
+
   // Alternative Ingredients UI
   const AlternativeIngredient = (props) => {
     return (
@@ -177,9 +186,8 @@ const RecipeAddIngredient = () => {
                   keyboardType={'numeric'}
                   maxLength={maxAmountLength}
                   placeholder={'50'}
-                  onChangeText={(text) => setIngredient(prevState => {
-                    return ({ ...prevState, amount: text })
-                  })} />
+                  value={amount}
+                  onChangeText={(text) => setAmount(text.replace(/\,/g, ''))} />
               </View>
               {/* Unit component */}
               <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>

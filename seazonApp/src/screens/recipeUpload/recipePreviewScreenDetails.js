@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import RecipePreviewSteps from './recipePreviewScreenSteps'
+import MentionHashtagTextView from "react-native-mention-hashtag-text";
 
 const RecipePreviewScreenDetails = () => {
   const { recipe } = useContext(AddRecipeContext);
@@ -29,6 +30,8 @@ const RecipePreviewScreenDetails = () => {
     )
   };
 
+  const tagsArray = [recipe['difficulty']].concat(recipe.mealType, recipe.dietary)
+
   return (
     <>
       <View style={styles.container}>
@@ -37,9 +40,8 @@ const RecipePreviewScreenDetails = () => {
             <Text style={styles.recipeTitle}>{/* {recipe.title} */}Spaghetti and rice with some pasta</Text>
             <Text style={styles.author} >by Abass Ibrahim</Text>
           </View>
-          <View style={{ justifyContent: 'center', alignItems: 'flex-end' }}>
-            <View style={{ backgroundColor: '#2B303C', height: 50, width: 50, borderRadius: 25 }}>
-            </View>
+          <View style={{ justifyContent: 'center' }}>
+            {/* Profile image */}
           </View>
         </View>
         <View>
@@ -61,17 +63,21 @@ const RecipePreviewScreenDetails = () => {
             </View>
           </View>
         </View>
-        <Text style={styles.chefsNotes}>{recipe.chefsNotes}
+        <MentionHashtagTextView
+          mentionHashtagColor={"#E32828"}
+          style={styles.chefsNotes}>
           We know, spaghetti and meatballs is a classic for a reason, but sometimes you want to upgrade your usual weeknight dinner. Whether you're preparing for a fancy date night or a dinner party night amongst friends, we've got all the ways you can liven up your spaghetti game.
-
-          When there are so many classic Italian pasta dishes, it can be hard to choose. Especially when that means you could have pasta puttanesca, carbonara, and or spaghetti Bolognese. Whatever you choose, don't skimp on the Parmesan cheese.
-
-          Maybe you're craving the more cheesy side of the pasta spectrum, and we 100% support that. In that case, it doesn't get any better than our lemon ricotta pasta, creamy three-cheese spaghetti, brie spaghetti, and of course, cacio e pepe. Our best pro-tip no matter how you dress your spaghetti: Save that pasta water! The starchiness of the pasta water, when tossed with your spaghetti, allows for the sauce to slick every noodle.
-
-          And hey, we won't knock you if you want to just curl up with a bowl of spaghetti and meatballs. We've got plenty of recipes for the best homemade spaghetti sauce, best jarred pasta sauces you can find at the store, and even how to properly cook pasta and make homemade pasta dough. And please don't forget the meatballs.
-
-          Looking for more pasta recipes? Try these baked pasta recipes, our favorite summer pasta dishes, and all the best pasta salad recipes.
-        </Text>
+          When there are so many classic Italian pasta dishes, it can be hard to choose. #GodHelpMe #AppDevelopment
+        </MentionHashtagTextView>
+        <View style={{flexWrap: 'wrap', flexDirection: 'row'}} >
+          {tagsArray.map((item, index) => {
+            return (
+              <View style={styles.tagContainer} key={index}>
+                <Text style={styles.tag}>{item}</Text>
+              </View>
+            )
+          })}
+        </View>
       </View>
       <Modal isVisible={stepsModal} style={{ justifyContent: 'flex-end', margin: 0 }} >
         <RecipePreviewSteps setStepsModal={setStepsModal} steps={recipe.steps} />
@@ -89,6 +95,22 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
     fontFamily: 'Poppins-Medium'
+  },
+  tagContainer: {
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30,
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    marginRight: 5,
+    marginBottom: 7.5,
+    backgroundColor: '#2B303C',
+  },
+  tag: {
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    color: 'white'
   },
   author: {
     fontFamily: 'Poppins-Light',
@@ -138,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E32828',
-    borderRadius: 4,
+    borderRadius: 4
   }
 });
 

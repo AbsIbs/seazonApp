@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 
 import RecipeMacros from "../../components/recipeUpload/recipeMacros";
@@ -12,12 +12,13 @@ const RecipeUploadScreen6 = () => {
     { title: 'calories', desc: '(kcal)' },
     { title: 'protein', desc: '(g)' },
     { title: 'carbs', desc: '(g)' },
-    { title: 'fats', desc: '(g)' },
+    { title: 'fat', desc: '(g)' },
   ]
 
   return (
     <ScrollView>
       <View style={styles.section}>
+        <Text style={styles.macrosTitle}>Macros (optional)</Text>
         {macrosArray.map((item, index) => {
           return (
             <View style={{ paddingVertical: 10 }} key={index}>
@@ -46,6 +47,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     color: '#ffffff'
+  },
+  macrosTitle: {
+    fontSize: 12,
+    color: '#ffffff',
+    paddingTop: 10,
+    fontFamily: 'Poppins-Medium'
   }
 });
 

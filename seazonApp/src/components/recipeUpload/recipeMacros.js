@@ -8,7 +8,7 @@ const RecipeMacros = (props) => {
   const imageSource = {
     'calories': require('../../../assets/img/macros/calories.png'),
     'protein': require('../../../assets/img/macros/protein.png'),
-    'fats': require('../../../assets/img/macros/fats.png'),
+    'fat': require('../../../assets/img/macros/fat.png'),
     'carbs': require('../../../assets/img/macros/carbs.png')
   }
 
@@ -27,7 +27,7 @@ const RecipeMacros = (props) => {
         <TextInput
           style={styles.input}
           value={value}
-          placeholder="500"
+          placeholder="100"
           maxLength={10}
           keyboardType="numeric"
           clearTextOnFocus={true}

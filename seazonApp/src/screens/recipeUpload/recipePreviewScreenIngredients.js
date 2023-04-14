@@ -66,6 +66,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginHorizontal: 5
   },
+  macrosContainer: {
+    height: 100,
+    width: 70,
+    borderRadius: 8,
+    backgroundColor: '#2B303C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+  },
+  macrosValue: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 18,
+    color: 'white'
+  },
+  macrosTitle: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 12,
+    color: 'white'
+  },
+  macrosDesc: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#d3d3d3'
+  }
 });
 
 export default RecipePreviewScreenIngredients;

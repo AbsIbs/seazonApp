@@ -117,7 +117,7 @@ const RecipeEditAlternative = (props) => {
                   maxLength={maxAmountLength}
                   value={ingredient.amount}
                   onChangeText={(text) => setIngredient(prevState => {
-                    return ({ ...prevState, amount: text })
+                    return ({ ...prevState, amount: text.replace(/\,/g, '') })
                   })} />
               </View>
               {/* Unit component */}

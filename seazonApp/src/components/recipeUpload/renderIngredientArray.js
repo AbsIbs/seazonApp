@@ -38,14 +38,12 @@ const RenderingIngredientArray = (props) => {
     'imperial': {
       'ml': 'cup',
       'l': 'gal',
-      'g': 'lb',
-      'kg': 'st'
+      'g': 'lb'
     },
     'metric': {
       'cup': 'ml',
       'gal': 'l',
-      'lb': 'g',
-      'st': 'kg'
+      'lb': 'g'
     }
   };
 

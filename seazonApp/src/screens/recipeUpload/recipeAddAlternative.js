@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Pressable } from "react-native";
 import uuid from 'react-native-uuid'
 import { useNavigation } from "@react-navigation/native";
@@ -64,6 +64,15 @@ const RecipeAddAlternative = () => {
     }
   };
 
+  /* Amount */
+  const [amount, setAmount] = useState('')
+
+  useEffect(() => {
+    setIngredient(prevState => {
+      return ({ ...prevState, amount: amount })
+    })
+  }, [amount])
+
   const [tempMeasurementValue, setTempMeasurementValue] = useState('ml');
   const [measurementModalActive, setMeasurementModalActive] = useState(false);
 
@@ -118,9 +127,8 @@ const RecipeAddAlternative = () => {
                   keyboardType={'numeric'}
                   maxLength={maxAmountLength}
                   placeholder={'50'}
-                  onChangeText={(text) => setIngredient(prevState => {
-                    return ({ ...prevState, amount: text })
-                  })} />
+                  value={amount}
+                  onChangeText={(text) => setAmount(text.replace(/\,/g, ''))} />
               </View>
               {/* Unit component */}
               <View style={[{ flex: 1 }, { paddingLeft: 5 }]}>

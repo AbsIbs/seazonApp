@@ -27,8 +27,8 @@ const AddRecipeProvider = ({ children }) => {
   });
 
   const units = {
-    'imperial': ['cup', 'gal', 'lb', 'st', 'units', 'tsp', 'Tbsp'],
-    'metric': ['ml', 'l', 'g', 'kg', 'units', 'tsp', 'Tbsp']
+    'imperial': ['cup', 'gal', 'lb', 'units', 'tsp', 'Tbsp'],
+    'metric': ['ml', 'l', 'g', 'units', 'tsp', 'Tbsp']
   };
 
   const [errorRecipe, setErrorRecipe] = useState({
