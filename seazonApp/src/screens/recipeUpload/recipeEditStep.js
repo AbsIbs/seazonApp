@@ -58,10 +58,6 @@ const RecipeEditStep = (props) => {
     })
   };
 
-  useEffect(() => {
-    console.log(step)
-  }, [step])
-
   return (
     <>
       <View style={styles.container}>

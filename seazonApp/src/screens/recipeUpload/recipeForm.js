@@ -57,13 +57,12 @@ const RecipeForm = () => {
 
       const someTruthy = Object.values(tempErrorRecipe).some(val => val === true)
       setErrorRecipe(tempErrorRecipe)
-      navigation.navigate('Preview Recipe')
 
-      /*       if (someTruthy) {
-              setErrorModal(true)
-            } else {
-              navigation.navigate('Preview Recipe')
-            } */
+      if (someTruthy) {
+        setErrorModal(true)
+      } else {
+        navigation.navigate('Preview Recipe')
+      }
     };
     console.log(recipe)
   };
@@ -127,7 +126,7 @@ const RecipeForm = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ErrorModal Title={'Hold on!'} Desc={'Please go back and fill out the missing information.'} visible={errorModal} setVisible={setErrorModal} />
+      <ErrorModal Title={'Hold on!'} Desc={'Please go back and fill out the missing information. You also need at least one ingredient and one step.'} visible={errorModal} setVisible={setErrorModal} />
     </View>
   )
 };

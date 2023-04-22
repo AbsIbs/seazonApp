@@ -6,46 +6,46 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const FoodFeed = () => {
 
-    const navigation = useNavigation()
+  const navigation = useNavigation()
 
-    const Icon = (props) => {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <MaterialCommunityIcons
-                    name={props.name}
-                    size={15}
-                    color={'white'} />
-            </View>
-        )
-    };
-
-    const actions = [{
-        text: "Recipe",
-        icon: <Icon name='note-plus' />,
-        name: 'Recipe Form',
-        position: 1,
-        color: '#E84A4A'
-    }];
-
+  const Icon = (props) => {
     return (
-        <View style={styles.container}>
-            <FloatingAction
-                actions={actions}
-                onPressItem={name => {
-                    navigation.navigate(name);
-                }}
-                color='#E84A4A'
-                distanceToEdge={{vertical: 100, horizontal: 20}}
-            />
-        </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <MaterialCommunityIcons
+          name={props.name}
+          size={15}
+          color={'white'} />
+      </View>
     )
+  };
+
+  const actions = [{
+    text: "Recipe",
+    icon: <Icon name='note-plus' />,
+    name: 'Recipe Form Stack',
+    position: 1,
+    color: '#E84A4A'
+  }];
+
+  return (
+    <View style={styles.container}>
+      <FloatingAction
+        actions={actions}
+        onPressItem={name => {
+          navigation.navigate(name);
+        }}
+        color='#E84A4A'
+        distanceToEdge={{ vertical: 100, horizontal: 20 }}
+        overlayColor='#00000000' />
+    </View>
+  )
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'black'
-    }
+  container: {
+    flex: 1,
+    backgroundColor: 'black'
+  }
 });
 
 export default FoodFeed

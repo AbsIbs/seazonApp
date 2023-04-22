@@ -61,6 +61,9 @@ const RecipeUploadScreen2 = () => {
         /* Save the video */
         if (response.assets[0].duration <= options.durationLimit) {
           setVideoUri({ uri: response.assets[0].uri })
+          setRecipe(prevState => {
+            return ({ ...prevState, coverVideo: { uri: response.assets[0].uri } })
+          })
         } else {
           setVideoLengthError(true)
         }

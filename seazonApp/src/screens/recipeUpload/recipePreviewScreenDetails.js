@@ -1,16 +1,19 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import RecipePreviewSteps from './recipePreviewScreenSteps'
 import MentionHashtagTextView from "react-native-mention-hashtag-text";
 
-const RecipePreviewScreenDetails = () => {
-  const { recipe } = useContext(AddRecipeContext);
-  const navigation = useNavigation();
+//Firebase
+import { getAuth } from "firebase/auth";
 
+const RecipePreviewScreenDetails = () => {
+  const auth = getAuth();
+  const user = auth.currentUser
+
+  const { recipe } = useContext(AddRecipeContext);
   const [stepsModal, setStepsModal] = useState(false)
 
   const Info = (props) => {
@@ -37,8 +40,8 @@ const RecipePreviewScreenDetails = () => {
       <View style={styles.container}>
         <View style={{ flexDirection: 'row', paddingTop: 30 }}>
           <View style={{ flex: 1 }}>
-            <Text style={styles.recipeTitle}>{/* {recipe.title} */}Spaghetti and rice with some pasta</Text>
-            <Text style={styles.author} >by Abass Ibrahim</Text>
+            <Text style={styles.recipeTitle}>{recipe.title}</Text>
+            <Text style={styles.author} >{user.displayName}</Text>
           </View>
           <View style={{ justifyContent: 'center' }}>
             {/* Profile image */}
@@ -66,8 +69,7 @@ const RecipePreviewScreenDetails = () => {
         <MentionHashtagTextView
           mentionHashtagColor={"#E32828"}
           style={styles.chefsNotes}>
-          We know, spaghetti and meatballs is a classic for a reason, but sometimes you want to upgrade your usual weeknight dinner. Whether you're preparing for a fancy date night or a dinner party night amongst friends, we've got all the ways you can liven up your spaghetti game.
-          When there are so many classic Italian pasta dishes, it can be hard to choose. #GodHelpMe #AppDevelopment
+          {recipe.chefsNotes}
         </MentionHashtagTextView>
         <View style={{flexWrap: 'wrap', flexDirection: 'row'}} >
           {tagsArray.map((item, index) => {

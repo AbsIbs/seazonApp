@@ -11,7 +11,7 @@ const AddRecipeProvider = ({ children }) => {
     cookingTime: null,
     servings: null,
     coverImage: null,
-    video: null,
+    coverVideo: null,
     difficulty: null,
     mealType: null,
     dietary: [],

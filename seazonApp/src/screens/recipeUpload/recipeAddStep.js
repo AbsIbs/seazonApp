@@ -61,10 +61,6 @@ const RecipeAddStep = () => {
     })
   };
 
-  useEffect(() => {
-    console.log(step)
-  }, [step])
-
   return (
     <>
       <View style={styles.container}>

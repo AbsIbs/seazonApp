@@ -16,6 +16,7 @@ import RecipeAddAlternative from "../screens/recipeUpload/recipeAddAlternative";
 import RecipeEditAlternative from "../screens/recipeUpload/recipeEditAlternative";
 import RecipePreview from "../screens/recipeUpload/recipePreview";
 
+
 const RecipeFormStack = () => {
 
   const Stack = createStackNavigator();
@@ -59,7 +60,7 @@ const RecipeFormStack = () => {
           options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             title: 'Preview Recipe',
-            headerShown: true,
+            headerShown: false,
             headerTitle: 'Preview recipe',
             headerBackImage: () => {
               return (
