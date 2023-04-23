@@ -45,8 +45,13 @@ const RecipePreview = () => {
   const uploadRecipeHandler = async () => {
     setLoading(true)
     try {
+      // Create a copy of the recipe object
+      const newData = { ...recipe }
+      delete newData.tempAlternatives
+      newData.steps = []
+
       // Upload image to Firebase
-      const coverImageDirectory = `recipes/${key}/coverImage`
+      const coverImageDirectory = `recipes/${key}/coverImage.jpg`
       const coverImageStorageRef = ref(storage, coverImageDirectory)
       const response = await fetch(recipe.coverImage.uri)
       const blob = await response.blob()
@@ -55,9 +60,15 @@ const RecipePreview = () => {
       }
       await uploadBytes(coverImageStorageRef, blob, 'data_url', metadata)
 
+      // Wait for the upload to complete and download the URL
+      const imageURL = await getDownloadURL(ref(storage, `recipes/${key}/coverImage.jpg`));
+
+      // Create a new document in a Cloud Firestore Collection with the cover image URL as a field
+      newData['coverImage'] = imageURL
+
       // Upload video to Firebase if it exists
       if (recipe.coverVideo != null) {
-        const coverVideoDirectory = `recipes/${key}/coverVideo`
+        const coverVideoDirectory = `recipes/${key}/coverVideo.mp4`
         const coverVideoStorageRef = ref(storage, coverVideoDirectory)
         const response = await fetch(recipe.coverVideo.uri)
         const blob = await response.blob()
@@ -67,18 +78,34 @@ const RecipePreview = () => {
         await uploadBytes(coverVideoStorageRef, blob, 'data_url', metadata)
       }
 
-      // Wait for the upload to complete and download the URL
-      const imageURL = await getDownloadURL(ref(storage, `recipes/${key}/coverImage`));
-
-      // Create a new document in a Cloud Firestore Collection with the cover image URL as a field
-      const newData = { ...recipe }
-      delete newData.tempAlternatives
-      newData['coverImage'] = imageURL
-
       // Create a new document in a Cloud Firestore Collection with the cover video URL as a field
       if (recipe.coverVideo != null) {
-        const videoURL = await getDownloadURL(ref(storage, `recipes/${key}/coverVideo`))
+        const videoURL = await getDownloadURL(ref(storage, `recipes/${key}/coverVideo.mp4`))
         newData['coverVideo'] = videoURL
+      }
+
+      // Images in steps
+      // Loop through each step and upload the step data
+      for (let i = 0; i < recipe.steps.length; i++) {
+        const step = recipe.steps[i];
+
+        // Upload the step image
+        const stepImageRef = ref(storage, `recipes/${key}/steps/${i}.jpg`);
+        const response = await fetch(step.coverImage.uri);
+        const blob = await response.blob();
+        const metadata = {
+          contentType: 'image/jpeg'
+        };
+        await uploadBytes(stepImageRef, blob, metadata);
+
+        // Get the step image download URL
+        const imageUrl = await getDownloadURL(stepImageRef);
+
+        // Add to recipe object copy
+        newData['steps'].push({
+          coverImage: imageURL,
+          instructions: step.instructions
+        })
       }
 
       // Add recipe document

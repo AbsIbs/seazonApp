@@ -57,7 +57,7 @@ const RecipeForm = () => {
 
       const someTruthy = Object.values(tempErrorRecipe).some(val => val === true)
       setErrorRecipe(tempErrorRecipe)
-
+      /* navigation.navigate('Preview Recipe') */
       if (someTruthy) {
         setErrorModal(true)
       } else {
