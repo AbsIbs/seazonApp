@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, StyleSheet } from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import { useNavigation } from "@react-navigation/native";
+import Octicons from 'react-native-vector-icons/Octicons'
 
 // screens
 import Explore from "../screens/explore";
@@ -18,29 +18,30 @@ const Tab = createBottomTabNavigator();
 const dockLabels = (focused, iconName) => {
   return (
     <View style={styles().container}>
-      <FontAwesome5
-        name={iconName}
-        color={focused ? 'white' : '#555'}
-        size={20}
-      />
+      {iconName == 'home' ?
+        <Octicons
+          name={iconName}
+          color={focused ? '#E84A4A' : 'white'}
+          size={20}
+        /> :
+        <FontAwesome5
+          name={iconName}
+          color={focused ? '#E84A4A' : 'white'}
+          size={20}
+        />}
     </View>
   )
 };
 
 function MainStack() {
 
-  const navigation = useNavigation();
-
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: '#191919',
-          bottom: 20,
-          position: 'absolute',
-          marginHorizontal: 20,
-          borderRadius: 12,
+          backgroundColor: '#000000',
+          paddingHorizontal: 10,
           height: 60,
           borderTopWidth: 0
         }
@@ -60,14 +61,14 @@ function MainStack() {
         name="Food Feed"
         component={FoodFeed}
         options={{
-          tabBarIcon: ({ focused }) => dockLabels(focused, 'search', 'Food Feed'),
+          tabBarIcon: ({ focused }) => dockLabels(focused, 'th-large', 'Food Feed'),
           header: () => {
             return (
               <DockHeader name='Food Feed' />
             )
           }
         }} />
-      <Tab.Screen
+      {/*       <Tab.Screen
         name="Meal Plan"
         component={MealPlan}
         options={{
@@ -77,12 +78,12 @@ function MainStack() {
               <DockHeader name='Meal Plan' />
             )
           }
-        }} />
+        }} /> */}
       <Tab.Screen
         name="Shopping Plan"
         component={ShoppingPlan}
         options={{
-          tabBarIcon: ({ focused }) => dockLabels(focused, 'list-alt', 'Shopping List'),
+          tabBarIcon: ({ focused }) => dockLabels(focused, 'tasks', 'Shopping List'),
           header: () => {
             return (
               <DockHeader name='Shopping Plan' />

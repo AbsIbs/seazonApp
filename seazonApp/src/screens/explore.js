@@ -55,7 +55,7 @@ const Explore = () => {
             navigation.navigate(name);
           }}
           color='#E84A4A'
-          distanceToEdge={{ vertical: 100, horizontal: 20 }}
+          distanceToEdge={{ vertical: 20, horizontal: 20 }}
           overlayColor='#00000000' />
       </View>
     </>
@@ -65,7 +65,7 @@ const Explore = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: '#000000'
   },
   text: {
     color: 'white'
