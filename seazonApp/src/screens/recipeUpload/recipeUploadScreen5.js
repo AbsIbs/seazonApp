@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Pressable, ScrollView, Image } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -21,16 +21,16 @@ const RecipeUploadScreen5 = () => {
     await setRecipe(prevState => {
       return ({ ...prevState, steps: [...prevState.steps.filter((_, index) => index !== indexToRemove)] })
     })
-    setDeleteConfirmModal({state: false})
+    setDeleteConfirmModal({ state: false })
   };
 
   const renderItem = ({ item, drag, getIndex, isActive }) => {
     return (
-      <View style={{ borderBottomColor: '#ffffff20', borderBottomWidth: 1, paddingVertical: 10 }} >
+      <View style={{ borderBottomColor: '#2B303C', borderBottomWidth: 1, paddingVertical: 20 }} >
         <View style={styles.itemHeaderContainer}>
           <View style={{ flex: 1 }}>
             <View style={styles.itemIndexContainer}>
-              <Text>{getIndex() + 1}</Text>
+              <Text style={{ color: '#000000' }} >{getIndex() + 1}</Text>
             </View>
           </View>
           <View style={{ flex: 1, justifyContent: 'flex-end', flexDirection: 'row' }}>
@@ -55,42 +55,15 @@ const RecipeUploadScreen5 = () => {
             </Pressable>
           </View>
         </View>
-        <View style={styles.itemContainer}>
-          <View style={styles.itemImageContainer}>
-            {item.coverImage != null ?
-              <View style={styles.itemImage}>
-                <Image
-                  source={item.coverImage}
-                  style={{ height: '100%', width: '100%', borderRadius: 4 }}
-                />
-              </View>
-              :
-              <View style={styles.itemDefaultImage}>
-                <MaterialCommunityIcons
-                  name='camera-image'
-                  color='#ffffff'
-                  size={35}
-                />
-              </View>
-            }
-          </View>
-          <View style={{ flex: 4 }}>
-            <ScrollView style={styles.itemDescriptionContainer}>
-              <Text style={styles.itemDescription}>{item.instructions}</Text>
-            </ScrollView>
-          </View>
-        </View>
-        {/* Utensils */}
-        <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
-          {item.utensils ?
-            item.utensils.map((utensil) => {
-              const key = uuid.v4()
-              return (
-                <View key={key} style={styles.stepUtensilsContainer}>
-                  <Text style={{ fontSize: 12, alignSelf: 'center', padding: 1.5, fontFamily: 'Poppins-Light' }}>{utensil}</Text>
-                </View>
-              )
-            }) : null
+        <View style={{ paddingTop: 20 }}>
+          <Text style={styles.itemInstructions}>{item.instructions}</Text>
+          {item.coverImage != null ?
+            <View style={{ height: 150, paddingTop: 10 }} >
+              <Image
+                source={item.coverImage}
+                style={{ height: '100%', width: '100%', borderRadius: 4 }} />
+            </View>
+            : null
           }
         </View>
       </View>
@@ -126,7 +99,9 @@ const RecipeUploadScreen5 = () => {
           name={'plus'}
           size={20}
           color={'white'} />
-        <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>Add a step</Text>
+        <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Poppins-Regular', paddingTop: 5 }}>
+          Add a step
+        </Text>
       </TouchableOpacity>
 
       {/* Edit Modal */}
@@ -221,7 +196,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 15
   },
   header: {
     height: 60,
@@ -236,63 +212,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14
   },
-  stepUtensilsContainer: {
-    alignItems: 'center',
-    borderColor: '#2B303C',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-    marginVertical: 10,
-    marginHorizontal: 5
-  },
   itemHeaderContainer: {
     flexDirection: 'row'
   },
   itemIndexContainer: {
     height: 30,
     width: 30,
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
+    backgroundColor: '#ffffff',
     borderRadius: 15,
-    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  itemContainer: {
-    flexDirection: 'row',
-    height: 125,
-    width: '100%',
-    marginTop: 10
-  },
-  itemImageContainer: {
-    flex: 1,
-    paddingRight: 20
-  },
-  itemImage: {
-    height: 75,
-    width: 75
-  },
-  itemDefaultImage: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderWidth: 0,
-    height: 75,
-    width: 75,
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  itemDescriptionContainer: {
-    backgroundColor: '#121212',
-    borderColor: '#2B303C',
-    borderRadius: 6,
-    borderWidth: 0.5,
-    padding: 10
-  },
-  itemDescription: {
+  itemInstructions: {
     fontSize: 12,
     color: '#ffffff',
     fontFamily: 'Poppins-Regular'

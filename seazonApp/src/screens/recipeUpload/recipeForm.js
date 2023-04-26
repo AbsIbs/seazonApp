@@ -50,11 +50,18 @@ const RecipeForm = () => {
       }
 
       for (const [key, value] of Object.entries(tempErrorRecipe)) {
-        if (!recipe[key] || ((Array.isArray(recipe[key]) && recipe[key].length === 0))) {
-          tempErrorRecipe[key] = true
+        if (key == 'prepTime' || key == 'cookingTime') {
+          if (recipe[key] == null) {
+            tempErrorRecipe[key] = true
+          }
+        } else {
+          if (!recipe[key] || ((Array.isArray(recipe[key]) && recipe[key].length === 0))) {
+            tempErrorRecipe[key] = true
+          }
         }
-      }
+      };
 
+      // We search the object to see if any key is missing a value
       const someTruthy = Object.values(tempErrorRecipe).some(val => val === true)
       setErrorRecipe(tempErrorRecipe)
       /* navigation.navigate('Preview Recipe') */

@@ -48,7 +48,7 @@ const LandingPage = () => {
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: 'center', paddingVertical: 25 }}>
-            <Text style={{ fontSize: 12 }}>Terms and Conditions</Text>
+            <Text style={{ fontSize: 12, color: '#ffffff', fontFamily: 'Poppins-Light' }}>Terms and Conditions</Text>
           </View>
         </View>
       </ImageBackground>
@@ -121,7 +121,9 @@ const styles = (button) => StyleSheet.create({
   },
   desc: {
     fontSize: 14,
-    lineHeight: 25
+    lineHeight: 25,
+    color: '#ffffff',
+    fontFamily: 'Poppins'
   },
   imageContainer: {
     height: 80,

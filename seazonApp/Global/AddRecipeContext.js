@@ -1,10 +1,16 @@
 import React, { useState, createContext } from "react";
+import { Auth, getAuth } from "firebase/auth";
 
 const AddRecipeContext = createContext();
 
 const AddRecipeProvider = ({ children }) => {
 
+  const auth = getAuth();
+  const user = auth.currentUser;
   const [recipe, setRecipe] = useState({
+    author: user.displayName,
+    profileImageURL: user.photoURL,
+    userID: user.uid,
     title: null,
     chefsNotes: null,
     prepTime: null,

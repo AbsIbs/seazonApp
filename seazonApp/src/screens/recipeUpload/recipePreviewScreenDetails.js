@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ImageBackground } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Modal from "react-native-modal";
 import RecipePreviewSteps from './recipePreviewScreenSteps'
 import MentionHashtagTextView from "react-native-mention-hashtag-text";
+import UserProfileImage from "../../components/global/userProfileImage";
 
 //Firebase
 import { getAuth } from "firebase/auth";
@@ -45,6 +46,7 @@ const RecipePreviewScreenDetails = () => {
           </View>
           <View style={{ justifyContent: 'center' }}>
             {/* Profile image */}
+            <UserProfileImage height={50} width={50} />
           </View>
         </View>
         <View>
@@ -71,7 +73,7 @@ const RecipePreviewScreenDetails = () => {
           style={styles.chefsNotes}>
           {recipe.chefsNotes}
         </MentionHashtagTextView>
-        <View style={{flexWrap: 'wrap', flexDirection: 'row'}} >
+        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }} >
           {tagsArray.map((item, index) => {
             return (
               <View style={styles.tagContainer} key={index}>
@@ -92,6 +94,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: '5%'
+  },
+  profileImage: {
+    height: 45,
+    width: 45
   },
   recipeTitle: {
     fontSize: 24,

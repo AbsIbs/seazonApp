@@ -16,7 +16,7 @@ import { BallIndicator } from 'react-native-indicators';
 // Firebase Storage
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // Firebase Firestore
-import { doc, setDoc, collection, getDocs } from "firebase/firestore/lite";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore/lite";
 import { db } from "../../../firebase/firebase-config";
 
 const RecipePreview = () => {
@@ -106,7 +106,10 @@ const RecipePreview = () => {
           coverImage: imageURL,
           instructions: step.instructions
         })
-      }
+
+        // Add timestamp
+        newData['timestamp'] = serverTimestamp()
+      };
 
       // Add recipe document
       await setDoc(doc(db, "recipes", key), newData);

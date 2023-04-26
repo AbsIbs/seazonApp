@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, ImageBackground, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { FloatingAction } from "react-native-floating-action";
 import MentionHashtagTextView from "react-native-mention-hashtag-text";
-import uuid from 'react-native-uuid'
 import { FlashList } from '@shopify/flash-list';
 
+// Icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+
+// Firebase Firestore
+import { collection, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore/lite";
+import { db } from '../../firebase/firebase-config';
 
 const FoodFeed = () => {
 
@@ -49,8 +53,8 @@ const FoodFeed = () => {
         <View style={styles.cardTopContainer}>
           <ImageBackground
             style={styles.cardProfileContainer}
-            source={props.profileImage}
-            imageStyle={{ borderRadius: 45 }}>
+            source={{uri: props.profileImageURL}}
+            coverImageStyle={{ borderRadius: 45 }}>
           </ImageBackground>
           <View style={styles.cardTitleAuthorContainer}>
             <Text
@@ -68,10 +72,10 @@ const FoodFeed = () => {
               color={'white'} />
           </Pressable>
         </View>
-        {/* Recipe image */}
+        {/* Recipe coverImage */}
         <Pressable style={styles.cardRecipeImageContainer} >
           <ImageBackground
-            source={props.image}
+            source={{ uri: props.coverImage }}
             style={{ width: '100%', height: '100%' }}>
           </ImageBackground>
         </Pressable>
@@ -134,100 +138,132 @@ const FoodFeed = () => {
               name={'timer'}
               size={20}
               color={'white'} />
-            <Text style={styles.cardInfoText}>{props.timing}</Text>
+            <Text style={styles.cardInfoText}>{props.cookingTime}</Text>
           </View>
         </View>
         {/* Comment section */}
         <MentionHashtagTextView
           mentionHashtagColor={"#E32828"}
-          style={styles.description}
+          style={styles.chefsNotes}
           numberOfLines={3}>
-          {props.description}
+          {props.chefsNotes}
         </MentionHashtagTextView>
       </View>
     )
   };
 
-  const DATA = [
+  /// Recipe Retrieval
+  // Refresh Control
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  // Recipes
+  const [recipes, setRecipes] = useState([]);
+  const [lastPost, setLastPost] = useState(null);
+
+  //Get initial recipes
+  const getInitialPosts = async () => {
+    const recipesRef = collection(db, 'recipes')
+    // We initially load only 5 recipes.
+    const q = query(recipesRef, orderBy('timestamp'), limit(3))
+    const querySnapshot = await getDocs(q)
+    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setRecipes(data);
+    if (querySnapshot.docs.length > 0) {
+      setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    } else {
+      setLastPost(null);
+    }
+  };
+
+  // When the user gets to the bottom of the page, we load 5 more recipes
+  const getMorePosts = async () => {
+    // We put this here to prevent an endless loop of refreshing posts.
+    if (lastPost === null) return;
+    const recipesRef = collection(db, 'recipes')
+    const q = query(recipesRef, orderBy('timestamp'), startAfter(lastPost), limit(3))
+    const querySnapshot = await getDocs(q)
+    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setRecipes(prevState => {
+      return ([...prevState, ...data])
+    })
+    if (querySnapshot.docs.length > 0) {
+      setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    } else {
+      setLastPost(null);
+    }
+  };
+
+  // On refresh posts
+  const refreshPosts = async () => {
+    setRefreshing(true);
+    const recipesRef = collection(db, 'recipes')
+    const q = query(recipesRef, orderBy('timestamp'), limit(3))
+    const querySnapshot = await getDocs(q)
+    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setRecipes(data);
+    if (querySnapshot.docs.length > 0) {
+      setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    } else {
+      setLastPost(null);
+    }
+    setRefreshing(false)
+  }
+
+  // For offline testing of UI
+  const testData = [
     {
       title: 'Original Turkey-style shish',
       author: 'TheRock',
-      profileImage: require('../../assets/img/temp/man.png'),
-      image: require('../../assets/img/temp/meal1.png'),
+      profileImageURL: require('../../assets/img/temp/man.png'),
+      coverImage: require('../../assets/img/temp/meal1.png'),
       difficulty: 'Simple',
       servings: 2,
-      timing: '1h 10m',
-      description: 'Yum yum dim sum. This is just so incredible. #Tasty. Thiofjaois fioasd nfiosda nfoidas nfoidas nfio sdanfio dasnoofjsda oif dasoi fsdao'
+      cookingTime: '1h 10m',
+      chefsNotes: 'Yum yum dim sum. This is just so incredible. #Tasty. Thiofjaois fioasd nfiosda nfoidas nfoidas nfio sdanfio dasnoofjsda oif dasoi fsdao'
     },
     {
       title: 'Mediterranean salad with chicken strips and pesto',
       author: 'TheRock',
-      profileImage: require('../../assets/img/temp/man.png'),
-      image: require('../../assets/img/temp/meal2.png'),
+      profileImageURL: require('../../assets/img/temp/man.png'),
+      coverImage: require('../../assets/img/temp/meal2.png'),
       difficulty: 'Intermediate',
       servings: 3,
-      timing: '50m',
-      description: "Alright, this is just too damn tasty. I can't even put it in words."
+      cookingTime: '50m',
+      chefsNotes: "Alright, this is just too damn tasty. I can't even put it in words."
     }
   ];
 
-  // Refresh Control
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
 
   return (
     <>
       {/* Content */}
       <View style={styles.container}>
         <FlashList
-          data={DATA}
+          data={recipes}
           estimatedItemSize={500}
-          onEndReached={() => console.log('end reached')}
+          onEndReached={() => getMorePosts()}
           onEndReachedThreshold={0.5}
-          refreshContro={
+          refreshControl={
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={onRefresh} />
+              onRefresh={() => refreshPosts()} />
           }
           renderItem={({ item, index }) => {
-            const key = uuid.v4()
             return (
               <FoodFeedCard
-                key={key}
                 index={index}
+                key={item.id}
                 title={item.title}
                 author={item.author}
-                profileImage={item.profileImage}
-                image={item.image}
+                profileImage={item.profileImageURL}
+                coverImage={item.coverImage}
                 difficulty={item.difficulty}
                 servings={item.servings}
-                timing={item.timing}
-                description={item.description} />
+                cookingTime={item.cookingTime}
+                chefsNotes={item.chefsNotes} />
             )
           }}
         />
-        {/*         {queryResult.map((recipe, index) => {
-          const key = uuid.v4()
-          return (
-            <FoodFeedCard
-              key={key}
-              index={index}
-              title={recipe.title}
-              author={recipe.author}
-              profileImage={recipe.profileImage}
-              image={recipe.image}
-              difficulty={recipe.difficulty}
-              servings={recipe.servings}
-              timing={recipe.timing}
-              description={recipe.description} />
-          )
-        })} */}
       </View>
       {/* Floating action button */}
       <FloatingAction
@@ -312,7 +348,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white'
   },
-  description: {
+  chefsNotes: {
     fontSize: 12,
     paddingBottom: 5,
     lineHeight: 25,
