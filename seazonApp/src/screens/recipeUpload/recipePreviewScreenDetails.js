@@ -46,7 +46,7 @@ const RecipePreviewScreenDetails = () => {
           </View>
           <View style={{ justifyContent: 'center' }}>
             {/* Profile image */}
-            <UserProfileImage height={50} width={50} />
+            <UserProfileImage height={50} width={50} borderWidth={0} source={{ uri: user.photoURL }} />
           </View>
         </View>
         <View>

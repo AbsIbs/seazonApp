@@ -88,7 +88,7 @@ const RecipeEditStep = (props) => {
                 color='#ffffff'
                 size={35}
               />
-              <Text style={[styles.multimediaUploadTitle, { borderWidth: 1.5 }]}>Upload an image</Text>
+              <Text style={[styles.multimediaUploadTitle]}>Upload an image</Text>
             </TouchableOpacity>
             :
             <TouchableOpacity
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#121212',
     borderColor: '#2B303C',
+    borderWidth: 1.5,
     height: 250,
     width: '100%',
     justifyContent: 'center',

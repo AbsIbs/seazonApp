@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
   itemInstructions: {
     fontSize: 12,
     color: '#ffffff',
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Regular',
+    lineHeight: 25
   },
   editModalContainer: {
     paddingVertical: 10,

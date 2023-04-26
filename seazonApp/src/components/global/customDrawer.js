@@ -4,21 +4,21 @@ import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawe
 import { getAuth } from "firebase/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import UserProfileImage from "./userProfileImage";
-import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { BallIndicator } from 'react-native-indicators';
 
 const CustomDrawer = (props) => {
 
 	const auth = getAuth();
+	const user = auth.currentUser
 
 	const [loading, setLoading] = useState(false);
 
 	return (
 		<View style={styles.container}>
 			<View style={[styles.profileSection]}>
-				<UserProfileImage height={90} width={90} />
-				<Text style={styles.displayName}>{auth.currentUser.displayName}</Text>
+				<UserProfileImage height={90} width={90} borderWidth={0} source={{ uri: user.photoURL }} />
+				<Text style={styles.displayName}>{user.displayName}</Text>
 			</View>
 			<View style={styles.listContainer}>
 				<DrawerContentScrollView>

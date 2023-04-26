@@ -61,10 +61,10 @@ const RecipePreview = () => {
       await uploadBytes(coverImageStorageRef, blob, 'data_url', metadata)
 
       // Wait for the upload to complete and download the URL
-      const imageURL = await getDownloadURL(ref(storage, `recipes/${key}/coverImage.jpg`));
+      const coverImageURL = await getDownloadURL(ref(storage, `recipes/${key}/coverImage.jpg`));
 
       // Create a new document in a Cloud Firestore Collection with the cover image URL as a field
-      newData['coverImage'] = imageURL
+      newData['coverImage'] = coverImageURL
 
       // Upload video to Firebase if it exists
       if (recipe.coverVideo != null) {
@@ -89,23 +89,31 @@ const RecipePreview = () => {
       for (let i = 0; i < recipe.steps.length; i++) {
         const step = recipe.steps[i];
 
-        // Upload the step image
-        const stepImageRef = ref(storage, `recipes/${key}/steps/${i}.jpg`);
-        const response = await fetch(step.coverImage.uri);
-        const blob = await response.blob();
-        const metadata = {
-          contentType: 'image/jpeg'
-        };
-        await uploadBytes(stepImageRef, blob, metadata);
+        // Upload the step image if it exists in the step
+        if (step.coverImage != null) {
+          const stepImageRef = ref(storage, `recipes/${key}/steps/${i}.jpg`);
+          const response = await fetch(step.coverImage.uri);
+          const blob = await response.blob();
+          const metadata = {
+            contentType: 'image/jpeg'
+          };
+          await uploadBytes(stepImageRef, blob, metadata);
 
-        // Get the step image download URL
-        const imageUrl = await getDownloadURL(stepImageRef);
+          // Get the step image download URL
+          const stepImageURL = await getDownloadURL(stepImageRef);
 
-        // Add to recipe object copy
-        newData['steps'].push({
-          coverImage: imageURL,
-          instructions: step.instructions
-        })
+          // Add to recipe object copy
+          newData['steps'].push({
+            id: step['key'],
+            coverImage: stepImageURL,
+            instructions: step.instructions
+          })
+        } else {
+          newData['steps'].push({
+            id: step['key'],
+            instructions: step.instructions
+          })
+        }
 
         // Add timestamp
         newData['timestamp'] = serverTimestamp()
@@ -232,14 +240,15 @@ const styles = StyleSheet.create({
   postContainer: {
     position: 'absolute',
     right: '5%',
-    backgroundColor: 'white',
+    backgroundColor: '#E32828',
     paddingVertical: 5,
     paddingHorizontal: 12.5,
     borderRadius: 4
   },
   post: {
     textAlign: 'left',
-    color: '#E84A4A'
+    color: '#ffffff',
+    fontSize: 12
   },
   modalContainer: {
     flex: 1,

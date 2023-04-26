@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FloatingAction } from "react-native-floating-action";
 import MentionHashtagTextView from "react-native-mention-hashtag-text";
 import { FlashList } from '@shopify/flash-list';
+import UserProfileImage from '../components/global/userProfileImage';
 
 // Icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 // Firebase Firestore
 import { collection, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore/lite";
 import { db } from '../../firebase/firebase-config';
+import { Timestamp, serverTimestamp } from 'firebase/firestore/lite';
 
 const FoodFeed = () => {
 
@@ -47,21 +49,37 @@ const FoodFeed = () => {
     // Toggle like icon
     const [like, setLike] = useState(false);
 
+    // Caclulate how much time has passed since the recipe was posted
+    const GetTimeSincePost = () => {
+      const originalTimestamp = (new Date(props.timestamp.toDate()));
+      const currentTimestamp = Timestamp.now().toMillis();
+
+      // Difference in hours
+      const hourDifference = (currentTimestamp - originalTimestamp) / 3600000
+
+      switch (true) {
+        case hourDifference < 1:
+          /* Return e.g., 9m */
+          return `${Math.floor(hourDifference * 60)}m`
+        case hourDifference >= 1 && hourDifference <= 24:
+          /* Return e.g., 9h */
+          return `${Math.floor(hourDifference)}h`
+        case hourDifference > 24:
+          return `${Math.floor(hourDifference / 24)}d`
+      }
+    };
+
     return (
       <View style={styles.cardContainer}>
         {/* Top area */}
         <View style={styles.cardTopContainer}>
-          <ImageBackground
-            style={styles.cardProfileContainer}
-            source={{uri: props.profileImageURL}}
-            coverImageStyle={{ borderRadius: 45 }}>
-          </ImageBackground>
+          <UserProfileImage height={40} width={40} borderWidth={0} source={{ uri: props.profileImageURL }} />
           <View style={styles.cardTitleAuthorContainer}>
             <Text
               numberOfLines={2}
               style={styles.cardTitle}>{props.title}
             </Text>
-            <Text style={styles.cardAuthor}>{props.author} | 2h </Text>
+            <Text style={styles.cardAuthor}>{props.author} • <GetTimeSincePost /> </Text>
           </View>
           <Pressable
             style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -128,17 +146,17 @@ const FoodFeed = () => {
           </View>
           <View style={styles.cardInfo}>
             <MaterialCommunityIcons
-              name={'account-multiple'}
-              size={20}
-              color={'white'} />
-            <Text style={[styles.cardInfoText, { paddingLeft: 5 }]}>{props.servings}</Text>
-          </View>
-          <View style={styles.cardInfo}>
-            <MaterialCommunityIcons
               name={'timer'}
               size={20}
               color={'white'} />
             <Text style={styles.cardInfoText}>{props.cookingTime}</Text>
+          </View>
+          <View style={styles.cardInfo}>
+            <MaterialCommunityIcons
+              name={'account-multiple'}
+              size={20}
+              color={'white'} />
+            <Text style={[styles.cardInfoText, { paddingLeft: 5 }]}>{props.servings}</Text>
           </View>
         </View>
         {/* Comment section */}
@@ -233,7 +251,6 @@ const FoodFeed = () => {
     }
   ];
 
-
   return (
     <>
       {/* Content */}
@@ -255,12 +272,13 @@ const FoodFeed = () => {
                 key={item.id}
                 title={item.title}
                 author={item.author}
-                profileImage={item.profileImageURL}
+                profileImageURL={item.profileImageURL}
                 coverImage={item.coverImage}
                 difficulty={item.difficulty}
                 servings={item.servings}
                 cookingTime={item.cookingTime}
-                chefsNotes={item.chefsNotes} />
+                chefsNotes={item.chefsNotes}
+                timestamp={item.timestamp} />
             )
           }}
         />
@@ -297,7 +315,8 @@ const styles = StyleSheet.create({
   },
   cardProfileContainer: {
     height: 45,
-    width: 45
+    width: 45,
+    borderRadius: 40
   },
   cardTitleAuthorContainer: {
     justifyContent: 'center',
@@ -306,7 +325,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 13,
+    fontSize: 14,
     color: 'white'
   },
   cardAuthor: {

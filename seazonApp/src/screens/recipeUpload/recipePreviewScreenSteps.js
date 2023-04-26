@@ -39,13 +39,14 @@ const RecipePreviewSteps = (props) => {
   const Page = (pageProps) => {
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ width: '100%', height: '50%' }}>
-          <ImageBackground
-            source={pageProps.coverImage}
-            resizeMode='cover'
-            style={{ height: '100%', width: '100%' }}>
-          </ImageBackground>
-        </View>
+        {pageProps.coverImage != null ?
+          <View style={{ width: '100%', height: '50%' }}>
+            <ImageBackground
+              source={pageProps.coverImage}
+              resizeMode='cover'
+              style={{ height: '100%', width: '100%' }}>
+            </ImageBackground>
+          </View> : null}
         <ScrollView style={styles.contentContainer}>
           {/* Direction container*/}
           <View>
@@ -62,7 +63,7 @@ const RecipePreviewSteps = (props) => {
   };
 
   const nextHandler = () => {
-    if (index+1 == steps.length) {
+    if (index + 1 == steps.length) {
       props.setStepsModal(false)
     } else {
       swiperRef.current.goToNext();
@@ -93,7 +94,6 @@ const RecipePreviewSteps = (props) => {
           nextPos: false
         }}
         ref={swiperRef}
-        gesturesEnabled={() => false}
         onIndexChanged={index => setIndex(index)}>
         {steps.map((step, index) => {
           const key = uuid.v4()
