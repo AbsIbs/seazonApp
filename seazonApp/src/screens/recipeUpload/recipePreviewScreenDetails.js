@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Modal from "react-native-modal";
-import RecipePreviewSteps from './recipePreviewScreenSteps'
+import LetsCookIt from "../global/recipeViewer/letsCookIt";
 import MentionHashtagTextView from "react-native-mention-hashtag-text";
 import UserProfileImage from "../../components/global/userProfileImage";
 
@@ -27,14 +27,14 @@ const RecipePreviewScreenDetails = () => {
             color={'white'} />
         </View>
         <View style={{ paddingVertical: 2.5, paddingLeft: 10 }} >
-          <Text style={styles.infoTitle} >{props.title}{props.time ? 'mins' : ''} {props.serving ? (recipe.servings > 1 ? 'people' : 'person') : ''}</Text>
+          <Text style={styles.infoTitle} >{props.title} {props.time ? 'mins' : ''} {props.serving ? (recipe.servings > 1 ? 'people' : 'person') : ''}</Text>
           <Text style={styles.infoDesc} >{props.desc}</Text>
         </View>
       </View>
     )
   };
 
-  const tagsArray = [recipe['difficulty']].concat(recipe.mealType, recipe.dietary)
+  const tagsArray = [recipe['difficulty']].concat(recipe.mealType, recipe.dietary).filter(tag => tag !== undefined)
 
   return (
     <>
@@ -84,7 +84,7 @@ const RecipePreviewScreenDetails = () => {
         </View>
       </View>
       <Modal isVisible={stepsModal} style={{ justifyContent: 'flex-end', margin: 0 }} >
-        <RecipePreviewSteps setStepsModal={setStepsModal} steps={recipe.steps} />
+        <LetsCookIt setStepsModal={setStepsModal} steps={recipe.steps} />
       </Modal>
     </>
   )

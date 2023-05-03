@@ -83,6 +83,11 @@ const RecipeAddAlternative = () => {
     { label: 'imperial', value: 'imperial' }
   ];
 
+  // When we toggle between imperial and metric, the default unit of measurement will change as well e.g., from ml to cup
+  useEffect(() => {
+    setTempMeasurementValue(units[measurement][0])
+  }, [measurement])
+
   return (
     <>
       <View style={[styles.modalContainer, { flex: 1 }]}>

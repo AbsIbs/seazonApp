@@ -6,7 +6,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import uuid from 'react-native-uuid'
 import Modal from 'react-native-modal'
 
 const RecipeUploadScreen5 = () => {

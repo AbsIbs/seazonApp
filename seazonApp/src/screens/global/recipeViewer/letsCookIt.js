@@ -6,7 +6,7 @@ import { Bar } from 'react-native-progress'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import uuid from 'react-native-uuid'
 
-const RecipePreviewSteps = (props) => {
+const LetsCookIt = (props) => {
   const steps = props.steps
   const windowWidth = Dimensions.get('window').width;
 
@@ -188,4 +188,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RecipePreviewSteps;
+export default LetsCookIt;

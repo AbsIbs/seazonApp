@@ -9,10 +9,10 @@ const RecipeUploadScreen6 = () => {
   const { setRecipe } = useContext(AddRecipeContext)
 
   const macrosArray = [
-    { title: 'calories', desc: '(kcal)' },
-    { title: 'protein', desc: '(g)' },
-    { title: 'carbs', desc: '(g)' },
-    { title: 'fat', desc: '(g)' },
+    { title: 'calories', desc: '( kcal )' },
+    { title: 'protein', desc: '( g )' },
+    { title: 'carbs', desc: '( g )' },
+    { title: 'fat', desc: '( g )' },
   ]
 
   return (

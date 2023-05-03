@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import RenderingIngredientArray from "../../components/recipeUpload/renderIngredientArray";
+import RenderingIngredientArray from "../../components/recipeUpload/renderIngredientArray WIP";
 
 const RecipePreviewScreenIngredients = () => {
 

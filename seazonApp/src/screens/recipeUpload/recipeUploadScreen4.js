@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import uuid from 'react-native-uuid'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -14,16 +14,6 @@ const RecipeUploadScreen4 = () => {
 
   const [editModal, setEditModal] = useState({ state: false });
   const [deleteConfirmModal, setDeleteConfirmModal] = useState({ state: false });
-
-  const recipeImages = {
-    'Cereals and Pulses': require('../../../assets/img/recipeType/cerealsAndPulses.png'),
-    'Dairy': require('../../../assets/img/recipeType/dairy.png'),
-    'Fruits': require('../../../assets/img/recipeType/fruits.png'),
-    'Meat': require('../../../assets/img/recipeType/meat.png'),
-    'Spices and Herbs': require('../../../assets/img/recipeType/spicesAndHerbs.png'),
-    'Vegetables': require('../../../assets/img/recipeType/vegetables.png'),
-    'Seafood': require('../../../assets/img/recipeType/seafood.png')
-  };
 
   const deleteIngredient = async (indexToRemove) => {
     await setRecipe(prevState => {
@@ -42,14 +32,6 @@ const RecipeUploadScreen4 = () => {
       }}>
         <View style={styles.ingredientInnerContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            {/* Image */}
-            <View style={[styles.ingredientImages, { flex: 1.5 }]}>
-              <View style={styles.ingredientTypeImageContainer}>
-                <Image
-                  source={recipeImages[props.type]}
-                  style={{ height: 30, width: 30 }} />
-              </View>
-            </View>
             {/* Ingredient Name */}
             <View style={[{ flex: 5 }]}>
               <Text style={{ fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{props.name}</Text>
@@ -100,7 +82,6 @@ const RecipeUploadScreen4 = () => {
                   key={item.uuid}
                   amount={item.amount}
                   measurement={item.measurement}
-                  image={item.image}
                   type={item.type}
                   alternatives={item.alternatives}
                   index={index} />

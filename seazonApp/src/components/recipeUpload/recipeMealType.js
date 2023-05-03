@@ -12,7 +12,8 @@ const RecipeMealType = () => {
       'Dinner': false,
       'Dessert': false,
       'Beverages': false,
-      'Soups': false
+      'Soups': false,
+      'Sides': false
     });
   
     // The rendering of each difficulty

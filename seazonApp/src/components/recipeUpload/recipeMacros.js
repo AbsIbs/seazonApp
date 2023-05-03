@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, Image } from "react-native";
+import { View, Text, StyleSheet, TextInput } from "react-native";
 
 const RecipeMacros = (props) => {
 
   const [value, setValue] = useState('')
-
-  const imageSource = {
-    'calories': require('../../../assets/img/macros/calories.png'),
-    'protein': require('../../../assets/img/macros/protein.png'),
-    'fat': require('../../../assets/img/macros/fat.png'),
-    'carbs': require('../../../assets/img/macros/carbs.png')
-  }
 
   useEffect(() => {
     props.setFunction(prevState => {
@@ -22,24 +15,20 @@ const RecipeMacros = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ justifyContent: 'center', flex: 8 }} >
-        <Text style={styles.title} >{props.title} {props.desc}</Text>
-        <TextInput
-          style={styles.input}
-          value={value}
-          placeholder="100"
-          maxLength={10}
-          keyboardType="numeric"
-          clearTextOnFocus={true}
-          onChangeText={(text) => {
-            setValue(text.replace(/\,/g, ''))
-          }} />
-      </View>
-      <View style={{ flex: 2, justifyContent: 'center' }}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={{ height: 30, width: 30 }}
-            source={imageSource[props.title]} />
+      <View style={{ justifyContent: 'center', flex: 1 }} >
+        <Text style={styles.title} >{props.title}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}} >
+          <TextInput
+            style={styles.input}
+            value={value}
+            placeholder="100"
+            maxLength={10}
+            keyboardType="numeric"
+            clearTextOnFocus={true}
+            onChangeText={(text) => {
+              setValue(text.replace(/\,/g, ''))
+            }} />
+          <Text style={styles.desc} >{props.desc}</Text>
         </View>
       </View>
     </View>
@@ -65,15 +54,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-bold',
     fontSize: 30,
     padding: 0,
-    color: 'red'
+    color: '#ffffff',
+    flex: 1
   },
-  imageContainer: {
-    height: 60,
-    width: 60,
-    borderRadius: 8,
-    backgroundColor: '#D9D9D9',
-    justifyContent: 'center',
-    alignItems: 'center'
+  desc: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 14,
+    color: '#ffffff'
   }
 });
 

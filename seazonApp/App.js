@@ -20,6 +20,9 @@ import RecipeFormStack from "./src/routes/recipeFormStack";
 // Stacks
 import DrawerStack from "./src/routes/drawerStack";
 
+// Other screens
+import RecipeViewer from "./src/screens/global/recipeViewer/recipeViewer";
+
 const Stack = createStackNavigator()
 
 function App() {
@@ -57,7 +60,15 @@ function App() {
                   component={RecipeFormStack}
                   options={{
                     headerShown: false,
-                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+                  }}
+                />
+                <Stack.Screen
+                  name='Recipe Viewer'
+                  component={RecipeViewer}
+                  options={{
+                    headerShown: false,
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                   }}
                 />
               </Stack.Group>

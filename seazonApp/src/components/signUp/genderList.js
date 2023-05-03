@@ -6,8 +6,8 @@ const GenderList = (props) => {
 
     // states
     const [activeIndex, setActiveIndex] = useState({
-        'Male': false,
-        'Female': false,
+        'Man': false,
+        'Woman': false,
         'Other': false
     });
 
@@ -37,28 +37,28 @@ const GenderList = (props) => {
         <View style={styles.container}>
             <View style={styles.buttonConatainer}>
                 <TouchableOpacity
-                 style={[styles.button, { backgroundColor: activeIndex['Male']? 'white': null, borderColor: activeIndex['Male']? '': '#979797', borderWidth: activeIndex['Male']? 0: 1 }]}
-                 onPress={() => toggleColor('Male')}>
+                 style={[styles.button, { backgroundColor: activeIndex['Man']? 'white': null, borderColor: activeIndex['Man']? '': '#979797', borderWidth: activeIndex['Man']? 0: 1 }]}
+                 onPress={() => toggleColor('Man')}>
                     <Ionicons 
                      name='male-outline'
                      size={50}
-                     color={ activeIndex['Male']? 'black': null }/>
+                     color={ activeIndex['Man']? 'black': null }/>
                 </TouchableOpacity>
                 <View style={styles.textContainer}>
-                    <Text style={[{fontWeight: activeIndex['Male']? 'bold': 'normal', color: activeIndex['Male']? 'white': '#ffffff87'}]}>Man</Text>
+                    <Text style={[{fontWeight: activeIndex['Man']? 'bold': 'normal', color: activeIndex['Man']? 'white': '#ffffff87'}]}>Man</Text>
                 </View>
             </View>
             <View style={styles.buttonConatainer}>
                 <TouchableOpacity
-                 style={[styles.button, { backgroundColor: activeIndex['Female']? 'white': null, borderColor: activeIndex['Female']? '': '#979797', borderWidth: activeIndex['Female']? 0: 1 }]}
-                 onPress={() => toggleColor('Female')}>
+                 style={[styles.button, { backgroundColor: activeIndex['Woman']? 'white': null, borderColor: activeIndex['Woman']? '': '#979797', borderWidth: activeIndex['Woman']? 0: 1 }]}
+                 onPress={() => toggleColor('Woman')}>
                     <Ionicons 
                      name='female-outline'
                      size={50}
-                     color={ activeIndex['Female']? 'black': null }/>
+                     color={ activeIndex['Woman']? 'black': null }/>
                 </TouchableOpacity>
                 <View style={styles.textContainer}>
-                    <Text style={[{fontWeight: activeIndex['Female']? 'bold': 'normal', color: activeIndex['Female']? 'white': '#ffffff87' }]}>Woman</Text>
+                    <Text style={[{fontWeight: activeIndex['Woman']? 'bold': 'normal', color: activeIndex['Woman']? 'white': '#ffffff87' }]}>Woman</Text>
                 </View>
             </View>
             <View style={styles.buttonConatainer}>

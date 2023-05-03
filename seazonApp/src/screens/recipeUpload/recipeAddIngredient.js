@@ -17,19 +17,15 @@ const RecipeAddIngredient = () => {
   const navigation = useNavigation();
   const { recipe, setRecipe, units } = useContext(AddRecipeContext);
 
-  const typeArray = ['Dairy', 'Cereals and Pulses', 'Fruits', 'Meat', 'Spices and Herbs', 'Vegetables', 'Seafood']
-
   const [ingredient, setIngredient] = useState({
     uuid: uuid.v4(),
     name: '',
     alternatives: [],
-    type: null,
     amount: '',
     measurement: null
   });
 
   const [nameError, setNameError] = useState()
-  const [typeError, setTypeError] = useState()
   const [amountError, setAmountError] = useState()
   const [measurementError, setMeasurementError] = useState()
 
@@ -44,10 +40,8 @@ const RecipeAddIngredient = () => {
     { label: 'imperial', value: 'imperial' }
   ];
 
-
   const errorObject = {
     'name': setNameError,
-    'type': setTypeError,
     'amount': setAmountError,
     'measurement': setMeasurementError
   };
@@ -87,9 +81,6 @@ const RecipeAddIngredient = () => {
       console.log('it changed')
     }
   }, [recipe.tempAlternatives])
-
-  const [tempTypeValue, setTempTypeValue] = useState('Dairy');
-  const [typeModalActive, setTypeModalActive] = useState(false);
 
   const [tempMeasurementValue, setTempMeasurementValue] = useState('ml');
   const [measurementModalActive, setMeasurementModalActive] = useState(false);
@@ -172,15 +163,6 @@ const RecipeAddIngredient = () => {
                   })} />
             </View>
             <Text style={[styles.counter, { color: ingredient.name.length == maxNameLength ? 'red' : null }]}>{ingredient.name.length}/{maxNameLength}</Text>
-            {/* Type of ingredient component */}
-            <View style={{ paddingTop: 20 }}>
-              <Text style={[styles.modalTitle]}>Type of ingredient</Text>
-              <TouchableOpacity style={[styles.modalTextInput, { justifyContent: 'center', borderColor: typeError ? 'red' : '#2B303C' }]} onPress={() => setTypeModalActive(true)}>
-                {ingredient.type == null ?
-                  <Text style={{ color: '#ffffff80', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>Dairy</Text>
-                  : <Text style={{ color: '#ffffff', fontFamily: 'Poppins-Regular', paddingTop: 1.5, paddingBottom: 0 }}>{ingredient.type}</Text>}
-              </TouchableOpacity>
-            </View>
             {/* Amount and unit container */}
             <View style={{ paddingTop: 20, flexDirection: 'row' }}>
               {/* Amount component */}
@@ -246,49 +228,6 @@ const RecipeAddIngredient = () => {
           </ScrollView>
         </View>
       </View>
-
-      {/* Type Modal */}
-      <Modal
-        isVisible={typeModalActive}
-        onBackdropPress={() => setTypeModalActive(false)}
-        backdropTransitionOutTiming={0}
-        style={{ justifyContent: 'flex-end', margin: 0 }}
-        useNativeDriver
-        hideModalContentWhileAnimating>
-        <View style={styles.modalPickerContainer}>
-          <View style={styles.modalPickerSection}>
-            <Pressable
-              style={styles.modalPickerCloseButton}
-              onPress={() => setTypeModalActive(false)}
-              hitSlop={10}>
-            </Pressable>
-          </View>
-          <Text style={styles.modalPickerTitle}>Type</Text>
-          <Text style={styles.modalPickerDesc}>Please select the type of ingredient</Text>
-          <View style={styles.pickersContainer}>
-            <Picker
-              textColor="#d3d3d3"
-              textSize={20}
-              style={{ backgroundColor: '#00000000', width: 250 }}
-              selectedValue={tempTypeValue}
-              pickerData={typeArray}
-              onValueChange={value => setTempTypeValue(value)} />
-          </View>
-          <View style={styles.modalPickerSection}>
-            <TouchableOpacity
-              style={styles.modalPickerSaveButton}
-              onPress={() => {
-                setIngredient(prevState => {
-                  return ({ ...prevState, type: tempTypeValue })
-                })
-                setTypeModalActive(false)
-              }}
-              hitSlop={10}>
-              <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
 
       {/* Unit Modal */}
       <Modal
@@ -491,14 +430,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 5
-  },
-  ingredientTypeImageContainer: {
-    height: 45,
-    width: 45,
-    borderRadius: 8,
-    backgroundColor: '#D9D9D9',
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   modalPickerContainer: {
     width: '100%',

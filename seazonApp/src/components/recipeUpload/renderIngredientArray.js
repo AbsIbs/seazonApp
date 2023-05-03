@@ -126,6 +126,7 @@ const RenderingIngredientArray = (props) => {
     }
   }, [currentUnit])
 
+  /* Changing the ingredients amount when we change the servings value */
   useEffect(() => {
     if (initialServingsChange.current) {
       setUpdatedObject(prevState => {

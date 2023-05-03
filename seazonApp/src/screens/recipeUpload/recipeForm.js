@@ -63,13 +63,13 @@ const RecipeForm = () => {
 
       // We search the object to see if any key is missing a value
       const someTruthy = Object.values(tempErrorRecipe).some(val => val === true)
-      setErrorRecipe(tempErrorRecipe)
-      /* navigation.navigate('Preview Recipe') */
-      if (someTruthy) {
+      /* setErrorRecipe(tempErrorRecipe) */
+      navigation.navigate('Preview Recipe')
+/*       if (someTruthy) {
         setErrorModal(true)
       } else {
         navigation.navigate('Preview Recipe')
-      }
+      } */
     };
     console.log(recipe)
   };

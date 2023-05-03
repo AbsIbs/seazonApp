@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const Goals = (props) => {
@@ -15,51 +15,51 @@ const Goals = (props) => {
     // Update object state
     const toggleColor = (text) => {
         setActiveIndex(prevState => {
-            return({...prevState, [text]: !activeIndex[text]})
+            return ({ ...prevState, [text]: !activeIndex[text] })
         })
     };
-    
-    useEffect(()=> {
+
+    useEffect(() => {
         props.setUserData(prevState => {
-            return({...prevState, goals: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key)})
+            return ({ ...prevState, goals: Object.keys(activeIndex).filter(key => activeIndex[key] === true).map(key => key) })
         })
     }, [activeIndex])
 
-    return(
+    return (
         <View>
             <View style={styles().buttonContainer}>
-                <TouchableOpacity 
-                style={styles(activeIndex['Promoting my business']).button}
-                onPress={() => toggleColor('Promoting my business')}>
-                    <Text style={styles(activeIndex['Promoting my business']).text}>Promoting my business</Text>
+                <TouchableOpacity
+                    style={styles(activeIndex['Learn how to cook']).button}
+                    onPress={() => toggleColor('Learn how to cook')}>
+                    <Text style={styles(activeIndex['Learn how to cook']).text}>Learn how to cook</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
-                <TouchableOpacity 
-                style={styles(activeIndex['Find cost effective meals']).button}
-                onPress={() => toggleColor('Find cost effective meals')}>
-                    <Text style={styles(activeIndex['Find cost effective meals']).text}>Find cost effective meals</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles().buttonContainer}>
-                <TouchableOpacity 
-                style={styles(activeIndex['Sharing my recipes']).button}
-                onPress={() => toggleColor('Sharing my recipes')}>
+                <TouchableOpacity
+                    style={styles(activeIndex['Sharing my recipes']).button}
+                    onPress={() => toggleColor('Sharing my recipes')}>
                     <Text style={styles(activeIndex['Sharing my recipes']).text}>Sharing my recipes</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
-                <TouchableOpacity 
-                style={styles(activeIndex['Eat cleaner']).button}
-                onPress={() => toggleColor('Eat cleaner')}>
+                <TouchableOpacity
+                    style={styles(activeIndex['Eat cleaner']).button}
+                    onPress={() => toggleColor('Eat cleaner')}>
                     <Text style={styles(activeIndex['Eat cleaner']).text}>Eat cleaner</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles().buttonContainer}>
-                <TouchableOpacity 
-                style={styles(activeIndex['Learn how to cook']).button}
-                onPress={() => toggleColor('Learn how to cook')}>
-                    <Text style={styles(activeIndex['Learn how to cook']).text}>Learn how to cook</Text>
+                <TouchableOpacity
+                    style={styles(activeIndex['Find cost effective meals']).button}
+                    onPress={() => toggleColor('Find cost effective meals')}>
+                    <Text style={styles(activeIndex['Find cost effective meals']).text}>Find cost effective meals</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles().buttonContainer}>
+                <TouchableOpacity
+                    style={styles(activeIndex['Promoting my business']).button}
+                    onPress={() => toggleColor('Promoting my business')}>
+                    <Text style={styles(activeIndex['Promoting my business']).text}>Promoting my business</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -77,11 +77,11 @@ const styles = (color) => StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 20,
         borderColor: '#ffffff50',
-        borderWidth: color? 0: 1,
-        backgroundColor: color? '#ffffff': '#00000000'
+        borderWidth: color ? 0 : 1,
+        backgroundColor: color ? '#ffffff' : '#00000000'
     },
     text: {
-        color: color? '#000000': '#ffffff',
+        color: color ? '#000000' : '#ffffff',
         fontSize: 12
     }
 });

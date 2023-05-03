@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, ImageBackground, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -91,39 +91,45 @@ const FoodFeed = () => {
           </Pressable>
         </View>
         {/* Recipe coverImage */}
-        <Pressable style={styles.cardRecipeImageContainer} >
+        <Pressable
+          style={styles.cardRecipeImageContainer}
+          onPress={() => {
+            navigation.navigate('Recipe Viewer', {
+              /* recipe: props */
+              id: props.id
+            })
+          }}>
           <ImageBackground
             source={{ uri: props.coverImage }}
             style={{ width: '100%', height: '100%' }}>
           </ImageBackground>
         </Pressable>
         {/* Interactive Container */}
-        <View style={styles.interactiveContainer} >
+        <View style={styles.interactiveContainer}>
           {/* Like button */}
           {like ?
-            <Pressable onPress={() => setLike(!like)} >
+            <Pressable onPress={() => setLike(!like)}>
               <Fontisto
                 name='heart'
                 size={27}
                 color='#E84A4A' />
             </Pressable>
             :
-            <Pressable onPress={() => setLike(!like)} >
+            <Pressable onPress={() => setLike(!like)}>
               <Fontisto
                 name='heart-alt'
                 size={27}
                 color='white' />
-            </Pressable>
-          }
+            </Pressable>}
           {/* Comment button */}
-          <Pressable style={{ paddingLeft: 15 }} >
+          <Pressable style={{ paddingLeft: 15 }}>
             <Fontisto
               name='comment'
               size={27}
               color='white' />
           </Pressable>
           {/* Share button */}
-          <Pressable style={{ paddingLeft: 15 }} >
+          <Pressable style={{ paddingLeft: 15 }}>
             <Fontisto
               name='share-a'
               size={27}
@@ -140,7 +146,7 @@ const FoodFeed = () => {
           </View>
         </View>
         {/* Info */}
-        <View style={styles.cardInfoContainer} >
+        <View style={styles.cardInfoContainer}>
           <View style={styles.cardInfo}>
             <Text style={styles.cardInfoText}>{props.difficulty}</Text>
           </View>
@@ -182,7 +188,7 @@ const FoodFeed = () => {
   const getInitialPosts = async () => {
     const recipesRef = collection(db, 'recipes')
     // We initially load only 5 recipes.
-    const q = query(recipesRef, orderBy('timestamp'), limit(3))
+    const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(3))
     const querySnapshot = await getDocs(q)
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setRecipes(data);
@@ -198,7 +204,7 @@ const FoodFeed = () => {
     // We put this here to prevent an endless loop of refreshing posts.
     if (lastPost === null) return;
     const recipesRef = collection(db, 'recipes')
-    const q = query(recipesRef, orderBy('timestamp'), startAfter(lastPost), limit(3))
+    const q = query(recipesRef, orderBy('timestamp', 'desc'), startAfter(lastPost), limit(3))
     const querySnapshot = await getDocs(q)
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setRecipes(prevState => {
@@ -215,7 +221,7 @@ const FoodFeed = () => {
   const refreshPosts = async () => {
     setRefreshing(true);
     const recipesRef = collection(db, 'recipes')
-    const q = query(recipesRef, orderBy('timestamp'), limit(3))
+    const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(3))
     const querySnapshot = await getDocs(q)
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setRecipes(data);
@@ -269,7 +275,7 @@ const FoodFeed = () => {
             return (
               <FoodFeedCard
                 index={index}
-                key={item.id}
+                id={item.id}
                 title={item.title}
                 author={item.author}
                 profileImageURL={item.profileImageURL}
@@ -281,7 +287,7 @@ const FoodFeed = () => {
                 timestamp={item.timestamp} />
             )
           }}
-        />
+        />   
       </View>
       {/* Floating action button */}
       <FloatingAction
