@@ -4,7 +4,6 @@ import { View, Text, StyleSheet } from "react-native";
 const ShoppingList = () => {
     return(
         <View style={styles.container}>
-            <Text style={styles.text}>Hello world</Text>
         </View>
     )
 };

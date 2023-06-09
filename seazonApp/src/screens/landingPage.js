@@ -11,16 +11,20 @@ const LandingPage = () => {
 
   const ModalOption = (props) => {
     return (
-      <TouchableOpacity style={styles().modalOption} onPress={() => {
-        bottomSheetRef.current?.snapTo(0)
-        navigation.navigate(props.destination)
-      }}>
+      <TouchableOpacity
+        style={styles().modalOption}
+        onPress={() => {
+          bottomSheetRef.current?.snapTo(0)
+          navigation.navigate(props.destination)
+        }}>
         <MaterialCommunityIcons
           name={props.icon}
           color={'#ffffff'}
           size={22.5}
           style={{ marginLeft: '7.5%', position: 'absolute' }} />
-        <Text style={{ flex: 1, textAlign: 'center', fontSize: 12, fontWeight: 'bold' }}>Continue with {props.text}</Text>
+        <Text style={{ flex: 1, textAlign: 'center', fontSize: 12, fontWeight: 'bold' }}>
+          Continue with {props.text}
+        </Text>
       </TouchableOpacity>
     )
   };
@@ -43,7 +47,9 @@ const LandingPage = () => {
               onPress={() => navigation.navigate('Sign In')}>
               <Text style={styles('login').buttonText}>Login</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles('').button} onPress={() => bottomSheetRef.current?.snapTo(1)}>
+            <TouchableOpacity
+              style={styles('').button}
+              onPress={() => bottomSheetRef.current?.snapTo(1)}>
               <Text style={styles().buttonText}>Sign Up</Text>
             </TouchableOpacity>
           </View>

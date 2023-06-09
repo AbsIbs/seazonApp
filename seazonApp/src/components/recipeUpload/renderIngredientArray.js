@@ -218,6 +218,7 @@ const RenderingIngredientArray = (props) => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }} >
+        {/* Button */}
         <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }} >
           <SwitchSelector
             options={measurementOptions}
@@ -231,6 +232,7 @@ const RenderingIngredientArray = (props) => {
             fontSize={12}
             backgroundColor={'#121212'} />
         </View>
+        {/* Description */}
         <View style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end' }} >
           <View style={{ flexDirection: 'row', paddingVertical: 10 }} >
             <View style={styles.changeServingsContainer}>
@@ -244,7 +246,9 @@ const RenderingIngredientArray = (props) => {
                   color='red'
                   size={20} />
               </Pressable>
-              <Text style={{ fontWeight: 'bold', color: 'white' }} >{servings.value} <Text style={{ fontSize: 12, fontWeight: 'normal' }} >{servings.value == 1 ? 'person' : 'people'}</Text></Text>
+              <Text style={{ fontWeight: 'bold', color: 'white' }} >
+                {servings.value}<Text style={{ fontSize: 12, fontWeight: 'normal' }} >{servings.value == 1 ? 'person' : 'people'}</Text>
+              </Text>
               <Pressable
                 hitSlop={10}
                 onPress={() => {
@@ -259,6 +263,7 @@ const RenderingIngredientArray = (props) => {
           </View>
         </View>
       </View>
+      {/* Amount */}
       {updatedObject.map((item, index) => {
         const key = uuid.v4()
         return (
@@ -292,12 +297,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   ingredientOuterContainer: {
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderBottomColor: '#ffffff20',
     borderBottomWidth: 1
   },
   ingredientInnerContainer: {
-    minHeight: 50,
+    minHeight: 25,
     width: '100%',
     paddingVertical: 10
   },

@@ -4,7 +4,7 @@ import { Auth, getAuth } from "firebase/auth";
 const AddRecipeContext = createContext();
 
 const AddRecipeProvider = ({ children }) => {
-
+  
   const auth = getAuth();
   const user = auth.currentUser;
   const [recipe, setRecipe] = useState({

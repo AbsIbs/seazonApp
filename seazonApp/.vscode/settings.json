@@ -9,5 +9,6 @@
     "amplify/backend/awscloudformation": true
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "prompt"
+  "typescript.updateImportsOnFileMove.enabled": "prompt",
+  "editor.tabSize": 2
 }

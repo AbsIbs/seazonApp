@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
+import React, { useRef, useEffect, useState } from "react";
+import { View, StyleSheet, Pressable, Text, ScrollView, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Swiper from 'react-native-swiper'
 
 import { BallIndicator } from "react-native-indicators";
 
 // Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import Fontisto from 'react-native-vector-icons/Fontisto'
 
 // Firebase Firestore
 import { doc, getDoc } from "firebase/firestore/lite";
@@ -23,7 +22,9 @@ const RecipeViewer = (props) => {
 
 	const navigation = useNavigation();
 	const recipe = props.route.params.recipe
-	const [like, setLike] = useState(false)
+	const swiperRef = useRef(null)
+	const isMounted = useRef(true)
+	const [currentIndex, setCurrentIndex] = useState(0)
 
 	/* 	const [recipe, setRecipe] = useState(null)
 		const recipeID = props.route.params.id */
@@ -56,66 +57,97 @@ const RecipeViewer = (props) => {
 	const HeaderBar = () => {
 		return (
 			<View style={styles.header}>
-				{/* Left side */}
-				<View style={{ position: 'absolute', left: '5%' }}>
-					{/* Back button */}
-					<Pressable
-						onPress={() => navigation.goBack()}
-						hitSlop={10}>
-						<MaterialIcons
-							name="arrow-back-ios"
-							size={20}
-							color={'white'} />
-					</Pressable>
-				</View>
-				{/* Right Side */}
-				<View style={{ position: 'absolute', right: '5%', flexDirection: 'row' }}>
-					{/* Add button */}
-					<Pressable
-						hitSlop={10}
-						onPressIn={() => console.log('press')}>
-						<Fontisto
-							name={like ? 'heart' : 'heart-alt'}
-							size={25}
-							color={like ? '#E84A4A' : 'white'} />
-					</Pressable>
-					{/* Bookmark button */}
-					<Pressable
-						hitSlop={10}
-						style={{ paddingHorizontal: 10 }}>
-						<Ionicons
-							name='bookmark-outline'
-							size={25}
-							color={'white'} />
-					</Pressable>
-					{/* Options button */}
-					<Pressable
-						hitSlop={10}>
-						<SimpleLineIcons
-							name='options'
-							size={25}
-							color={'white'} />
-					</Pressable>
-				</View>
+				<Pressable
+					style={{ position: 'absolute', left: '5%' }}
+					onPress={() => navigation.goBack()}
+					hitSlop={10}>
+					<MaterialIcons
+						name="arrow-back-ios"
+						size={20}
+						color={'white'} />
+				</Pressable>
+				<Pressable
+					style={styles.optionsContainer}
+					hitSlop={10}>
+					<SimpleLineIcons
+						name='options'
+						size={25}
+						color={'white'} />
+				</Pressable>
 			</View>
 		)
 	};
 
+	const Tab = (props) => {
+		return (
+			<Pressable
+				onPress={() => {
+					if (props.index > currentIndex) {
+						swiperRef.current.scrollBy(props.index - currentIndex)
+					} else if (props.index < currentIndex) {
+						swiperRef.current.scrollBy((currentIndex - props.index) * -1)
+					}
+				}}
+				style={[
+					styles.tabLabelContainer,
+					{ borderBottomColor: props.index == currentIndex ? '#E32828' : '#000000' }]}>
+				<Text style={{
+					color: props.index == currentIndex ? '#ffffff' : '#ffffff90',
+					fontSize: 12,
+					fontFamily: 'Poppins-Medium'
+				}}>
+					{props.tab}
+				</Text>
+			</Pressable>
+		)
+	};
+
+	const tabAarray = ['Details', 'Ingredients', 'Comments']
+
+	useEffect(() => {
+		return () => {
+			// Clean up any resources that are being used by the component
+			swiperRef.current = null;
+			isMounted.current = false;
+		};
+	}, []);
+
 	return (
-		<View style={{ flex: 1, backgroundColor: 'black' }} >
+		<View style={{ flex: 1, backgroundColor: 'black', overflow: 'hidden' }} >
 			{/* Header */}
 			<HeaderBar />
 			<View style={{ flex: 1 }} >
-				<ScrollView style={{ backgroundColor: 'black' }}>
+				<ScrollView
+					style={{ backgroundColor: 'black' }}
+					stickyHeaderIndices={[1]}>
 					{/* Cover image */}
 					<ImageBackground
 						source={{ uri: recipe.coverImage }}
-						style={{ height: 500, width: '100%' }} >
+						style={{ height: 400, width: '100%' }} >
 					</ImageBackground>
-					{/* Components */}
-					<RecipeViewerDetails recipe={recipe} />
-					<RecipeViewerIngredients recipe={recipe} />
-					<RecipeViewerComments recipe={recipe} />
+					{/* Tab */}
+					<View>
+						<View style={styles.tabContainer}>
+							{tabAarray.map((tab, index) => {
+								return (
+									<Tab key={index} tab={tab} index={index} />
+								)
+							})}
+						</View>
+					</View>
+					{/* Swiper and components */}
+					<Swiper
+						height={'100%'}
+						showsPagination={false}
+						ref={swiperRef}
+						removeClippedSubviews={false}
+						onIndexChanged={(index) => setCurrentIndex(index)}
+						loop={false}
+						scrollEnabled={false}>
+						<RecipeViewerDetails recipe={recipe} />
+						<RecipeViewerIngredients recipe={recipe} />
+						<RecipeViewerComments recipe={recipe} />
+					</Swiper>
 				</ScrollView>
 			</View>
 		</View>
@@ -145,6 +177,24 @@ const styles = StyleSheet.create({
 		backgroundColor: '#00000090',
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	// Tab
+	tabContainer: {
+		width: '100%',
+		height: 50,
+		backgroundColor: '#000000',
+		flexDirection: 'row',
+		justifyContent: 'space-evenly',
+		alignItems: 'center',
+		borderBottomColor: '#2B303C',
+		borderBottomWidth: 1
+	},
+	tabLabelContainer: {
+		justifyContent: 'center',
+		flex: 1,
+		alignItems: 'center',
+		height: '100%',
+		borderBottomWidth: 2
 	},
 	// Modal
 	modal: {

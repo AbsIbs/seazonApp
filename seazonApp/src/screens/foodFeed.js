@@ -95,8 +95,8 @@ const FoodFeed = () => {
           style={styles.cardRecipeImageContainer}
           onPress={() => {
             navigation.navigate('Recipe Viewer', {
-              /* recipe: props */
-              id: props.id
+              recipe: props
+              /* id: props.id */
             })
           }}>
           <ImageBackground
@@ -107,20 +107,12 @@ const FoodFeed = () => {
         {/* Interactive Container */}
         <View style={styles.interactiveContainer}>
           {/* Like button */}
-          {like ?
-            <Pressable onPress={() => setLike(!like)}>
-              <Fontisto
-                name='heart'
-                size={27}
-                color='#E84A4A' />
-            </Pressable>
-            :
-            <Pressable onPress={() => setLike(!like)}>
-              <Fontisto
-                name='heart-alt'
-                size={27}
-                color='white' />
-            </Pressable>}
+          <Pressable onPress={() => setLike(!like)}>
+            <Fontisto
+              name={like ? 'heart' : 'heart-alt'}
+              size={27}
+              color={like? '#E84A4A': 'white'} />
+          </Pressable>
           {/* Comment button */}
           <Pressable style={{ paddingLeft: 15 }}>
             <Fontisto
@@ -284,10 +276,13 @@ const FoodFeed = () => {
                 servings={item.servings}
                 cookingTime={item.cookingTime}
                 chefsNotes={item.chefsNotes}
-                timestamp={item.timestamp} />
+                timestamp={item.timestamp}
+                ingredients={item.ingredients}
+                steps={item.steps}
+                dietary={item.dietary} />
             )
           }}
-        />   
+        />
       </View>
       {/* Floating action button */}
       <FloatingAction

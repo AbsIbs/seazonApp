@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   ingredientOuterContainer: {
-    paddingVertical: 10,
+    paddingVertical: 2.5,
     borderBottomColor: '#ffffff20',
     borderBottomWidth: 1
   },
