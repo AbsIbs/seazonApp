@@ -7,8 +7,6 @@ import { BallIndicator } from "react-native-indicators";
 // Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import Fontisto from 'react-native-vector-icons/Fontisto'
 
 // Firebase Firestore
 import { doc, getDoc } from "firebase/firestore/lite";
@@ -23,7 +21,6 @@ const RecipeViewer = (props) => {
 
 	const navigation = useNavigation();
 	const recipe = props.route.params.recipe
-	const [like, setLike] = useState(false)
 
 	/* 	const [recipe, setRecipe] = useState(null)
 		const recipeID = props.route.params.id */
@@ -65,35 +62,6 @@ const RecipeViewer = (props) => {
 						<MaterialIcons
 							name="arrow-back-ios"
 							size={20}
-							color={'white'} />
-					</Pressable>
-				</View>
-				{/* Right Side */}
-				<View style={{ position: 'absolute', right: '5%', flexDirection: 'row' }}>
-					{/* Add button */}
-					<Pressable
-						hitSlop={10}
-						onPressIn={() => console.log('press')}>
-						<Fontisto
-							name={like ? 'heart' : 'heart-alt'}
-							size={25}
-							color={like ? '#E84A4A' : 'white'} />
-					</Pressable>
-					{/* Bookmark button */}
-					<Pressable
-						hitSlop={10}
-						style={{ paddingHorizontal: 10 }}>
-						<Ionicons
-							name='bookmark-outline'
-							size={25}
-							color={'white'} />
-					</Pressable>
-					{/* Options button */}
-					<Pressable
-						hitSlop={10}>
-						<SimpleLineIcons
-							name='options'
-							size={25}
 							color={'white'} />
 					</Pressable>
 				</View>

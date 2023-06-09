@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import Entypo from 'react-native-vector-icons/Entypo'
 
 // Firebase Firestore
 import { collection, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore/lite";
@@ -111,7 +112,7 @@ const FoodFeed = () => {
             <Fontisto
               name={like ? 'heart' : 'heart-alt'}
               size={27}
-              color={like? '#E84A4A': 'white'} />
+              color={like ? '#E84A4A' : 'white'} />
           </Pressable>
           {/* Comment button */}
           <Pressable style={{ paddingLeft: 15 }}>
@@ -120,18 +121,18 @@ const FoodFeed = () => {
               size={27}
               color='white' />
           </Pressable>
-          {/* Share button */}
+          {/* Add button */}
           <Pressable style={{ paddingLeft: 15 }}>
-            <Fontisto
-              name='share-a'
+            <Entypo
+              name='add-to-list'
               size={27}
               color='white' />
           </Pressable>
-          {/* Bookmark */}
+          {/* Share */}
           <View style={{ alignItems: 'flex-end', flex: 1 }}>
             <Pressable>
-              <Ionicons
-                name='bookmark-outline'
+              <Fontisto
+                name='share-a'
                 size={27}
                 color='white' />
             </Pressable>

@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Pressable } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Modal from "react-native-modal";
 import UserProfileImage from "../../../components/global/userProfileImage";
 import LetsCookIt from "./letsCookIt";
 import CollapsibleTextView from "../../../components/global/collapsibleTextView";
 
+/* Icons */
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Fontisto from 'react-native-vector-icons/Fontisto'
+import Entypo from 'react-native-vector-icons/Entypo'
 
 const RecipeViewerDetails = (props) => {
 
 	const recipe = props.recipe
 	const [stepsModal, setStepsModal] = useState(false)
+	const [like, setLike] = useState(false)
 	const [iMadeIt, setImadeIt] = useState(false)
+	const [following, setFollowing] = useState(false)
 
 	const Info = (props) => {
 		return (
@@ -36,18 +43,64 @@ const RecipeViewerDetails = (props) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={[{ flexDirection: 'row' }, styles.section]}>
-				<View style={{ flex: 1 }}>
-					<Text style={styles.recipeTitle}>{recipe.title}</Text>
-					<Text style={styles.author} >{recipe.author}</Text>
-				</View>
-				<View style={{ justifyContent: 'center' }}>
+			<View style={[styles.section, { flex: 1 }]}>
+				<Text style={styles.recipeTitle}>{recipe.title}</Text>
+				<View style={{ flexDirection: 'row', paddingTop: 10 }}>
 					{/* Profile image */}
-					<UserProfileImage
-						height={50}
-						width={50}
-						borderWidth={0}
-						source={{ uri: recipe.profileImageURL }} />
+					<View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }} >
+						<UserProfileImage
+							height={35}
+							width={35}
+							borderWidth={0}
+							source={{ uri: recipe.profileImageURL }} />
+						<Text style={[styles.author, { paddingLeft: 10 }]} >{recipe.author}</Text>
+					</View>
+					<View style={{ alignItems: 'flex-end' }} >
+						<TouchableOpacity
+							style={[
+								styles.followButton,
+								{ backgroundColor: following ? '#2B303C' : 'white' }
+							]}
+							onPress={() => setFollowing(!following)}>
+							<Text style={{ color: following ? 'white' : 'black' }}>{following ? 'Following' : 'Follow'}</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+				<View style={{ flex: 1, flexDirection: 'row', flex: 1, paddingTop: 30, justifyContent: 'center' }}>
+					{/* Like button */}
+					<Pressable
+						onPressIn={() => setLike(!like)}
+						style={styles.actionsContainer}>
+						<Fontisto
+							name={like ? 'heart' : 'heart-alt'}
+							size={25}
+							color={like ? '#E84A4A' : 'white'} />
+						<Text style={styles.label}>Like</Text>
+					</Pressable>
+					{/* Add button */}
+					<Pressable style={styles.actionsContainer}>
+						<Entypo
+							name='add-to-list'
+							size={25}
+							color={'white'} />
+						<Text style={styles.label}>Add</Text>
+					</Pressable>
+					{/* Share */}
+					<Pressable style={styles.actionsContainer}>
+						<Fontisto
+							name='share-a'
+							size={25}
+							color='white' />
+						<Text style={styles.label}>Share</Text>
+					</Pressable>
+					{/* Report */}
+					<Pressable style={{ alignItems: 'center', paddingHorizontal: 25 }}>
+						<Ionicons
+							name='flag-outline'
+							size={25}
+							color='white' />
+						<Text style={styles.label}>Report</Text>
+					</Pressable>
 				</View>
 			</View>
 			<View style={styles.section}>
@@ -64,19 +117,19 @@ const RecipeViewerDetails = (props) => {
 						<TouchableOpacity
 							style={styles.cookIt}
 							onPress={() => setStepsModal(true)}>
-							<Text style={styles.buttonLabel}>Let's cook it!</Text>
+							<Text style={[styles.buttonLabel, { color: 'white' }]}>Let's cook it!</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={[
 								styles.iMadeIt,
-								{
-									borderColor: iMadeIt ? null : '#2B303C',
-									borderWidth: iMadeIt ? 0 : 2,
-									backgroundColor: iMadeIt ? '#2B303C' : null
-								}
+								{ backgroundColor: iMadeIt ? '#2B303C' : 'white' }
 							]}
 							onPress={() => setImadeIt(!iMadeIt)}>
-							<Text style={styles.buttonLabel}>{iMadeIt ? "You've made this!" : "I made it!"}</Text>
+							<Text style={[
+								styles.buttonLabel,
+								{ color: iMadeIt ? 'white' : 'black' }]}>
+								{iMadeIt ? "You've made this!" : "I made it!"}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -92,7 +145,7 @@ const RecipeViewerDetails = (props) => {
 				</ScrollView> */}
 			<View style={styles.section}>
 				<Text style={styles.subHeader} >Chef's Notes</Text>
-				<CollapsibleTextView text={recipe.chefsNotes} maxLines={2} />
+				<CollapsibleTextView text={recipe.chefsNotes} maxLines={3} />
 			</View>
 			<Modal isVisible={stepsModal} style={{ justifyContent: 'flex-end', margin: 0 }} >
 				<LetsCookIt setStepsModal={setStepsModal} steps={recipe.steps} />
@@ -115,6 +168,24 @@ const styles = StyleSheet.create({
 		paddingRight: 5,
 		color: 'white',
 		fontFamily: 'Poppins-Medium'
+	},
+	actionsContainer: {
+		borderRightWidth: 1,
+		borderColor: '#2B303C',
+		alignItems: 'center',
+		paddingHorizontal: 25
+	},
+	label: {
+		fontFamily: 'Poppins-Light',
+		fontSize: 12,
+		paddingTop: 5
+	},
+	followButton: {
+		paddingHorizontal: 10,
+		paddingVertical: 5,
+		borderRadius: 4,
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	tagContainer: {
 		justifyContent: 'center',
@@ -221,8 +292,7 @@ const styles = StyleSheet.create({
 	},
 	buttonLabel: {
 		fontFamily: 'Poppins-Medium',
-		fontSize: 12.5,
-		color: 'white'
+		fontSize: 12.5
 	}
 });
 

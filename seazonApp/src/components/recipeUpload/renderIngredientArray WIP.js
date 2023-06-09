@@ -129,7 +129,7 @@ const RenderingIngredientArray = (props) => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-        <Text style={styles.header}>Ingredients for:</Text>
+        <Text style={styles.header}>Ingredients</Text>
         {/* Servings button */}
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row' }}>
@@ -182,8 +182,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    fontFamily: 'Poppins',
-    fontSize: 14,
+    fontFamily: 'Poppins-Medium',
+    fontSize: 15,
     flex: 1,
     color: 'white'
   },

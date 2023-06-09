@@ -24,7 +24,7 @@ const CollapsibleTextView = (props) => {
       {/* If the total text length is greater than the max preview length then display the see more option */}
       {lengthMore && expand == false ?
         <Pressable onPress={() => setExpand(true)} hitSlop={10} >
-          <Text>See more</Text>
+          <Text style={styles.seeMore} >See more</Text>
         </Pressable> : null
       }
     </>
@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 25,
     fontFamily: 'Poppins-Regular',
+  },
+  seeMore: {
+    fontFamily: 'Poppins',
+    fontSize: 12,
+    color: '#E32828'
   }
 });
 

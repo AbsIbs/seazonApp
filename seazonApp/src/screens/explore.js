@@ -3,7 +3,6 @@ import { View, StyleSheet, ScrollView, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FloatingAction } from "react-native-floating-action";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import CollapsibleTextView from "../components/global/collapsibleTextView";
 
 // Firebase
 import { sendEmailVerification } from "firebase/auth";
@@ -59,10 +58,6 @@ const Explore = () => {
   return (
     <>
       <View style={styles.container}>
-        <CollapsibleTextView maxLines={2} text='hello my name is afod nfa nsf nasf naslf ndajks fndjklas 
-        dfnajks fjfiadsn fs a fafmio;d dfnajks fjfiadsn fs a fafmio;d dfnajks fjfiadsn fs a fafmio;d
-        dfnajks fjfiadsn fs a fafmio;d dfnajks fjfiadsn fs a fafmio;d dfnajks fjfiadsn fs a fafmio;d
-        dfnajks fjfiadsn fs a fafmio;d dfnajks fjfiadsn fs a fafmio;d dfnajks fjfiadsn fs a fafmio;d' />
         <FloatingAction
           actions={actions}
           onPressItem={name => {
