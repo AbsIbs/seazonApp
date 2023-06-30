@@ -16,6 +16,7 @@ import LandingPage from "./src/screens/landingPage";
 import SignInPage from "./src/screens/signInPage";
 import SignUpPage from "./src/screens/signUp/SignUpPage";
 import RecipeFormStack from "./src/routes/recipeFormStack";
+import RecipeAddComment from "./src/screens/global/recipeViewer/recipeAddComment";
 
 // Stacks
 import DrawerStack from "./src/routes/drawerStack";
@@ -69,6 +70,23 @@ function App() {
                   options={{
                     headerShown: false,
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                  }}
+                />
+                <Stack.Screen
+                  name='Recipe Add Comments'
+                  component={RecipeAddComment}
+                  options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                    headerTitle: 'Comments',
+                    headerStyle: {
+                      backgroundColor: '#121212'
+                    },
+                    headerTitleStyle: {
+                      fontSize: 16,
+                      color: 'white',
+                      fontWeight: 'bold'
+                    },
+                    headerTintColor: '#ffffff'
                   }}
                 />
               </Stack.Group>

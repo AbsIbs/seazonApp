@@ -16,7 +16,7 @@ import { BallIndicator } from 'react-native-indicators';
 // Firebase Storage
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // Firebase Firestore
-import { doc, setDoc, serverTimestamp } from "firebase/firestore/lite";
+import { doc, setDoc, serverTimestamp, collection } from "firebase/firestore/lite";
 import { db } from "../../../firebase/firebase-config";
 
 const RecipePreview = () => {
@@ -47,6 +47,7 @@ const RecipePreview = () => {
     try {
       // Create a copy of the recipe object
       const newData = { ...recipe }
+      newData['recipeID'] = key
       delete newData.tempAlternatives
       newData.steps = []
 
@@ -122,6 +123,7 @@ const RecipePreview = () => {
       // Add recipe document
       await setDoc(doc(db, "recipes", key), newData);
       console.log('Recipe Posted!')
+
     } catch (error) {
       // Catch any errors
       console.log(error)

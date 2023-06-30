@@ -18,7 +18,10 @@ const RecipeViewerIngredients = (props) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: '5%'
+		paddingHorizontal: '5%',
+		borderBottomWidth: 1,
+		paddingBottom: 30,
+		borderBottomColor: '#2B303C'
 	},
 	recipeTitle: {
 		fontSize: 24,

@@ -11,11 +11,10 @@ import UserProfileImage from '../components/global/userProfileImage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 
 // Firebase Firestore
-import { collection, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore/lite";
+import { doc, collection, getDoc, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore/lite";
 import { db } from '../../firebase/firebase-config';
 import { Timestamp, serverTimestamp } from 'firebase/firestore/lite';
 
@@ -131,8 +130,8 @@ const FoodFeed = () => {
           {/* Share */}
           <View style={{ alignItems: 'flex-end', flex: 1 }}>
             <Pressable>
-              <Fontisto
-                name='share-a'
+              <Entypo
+                name='share-alternative'
                 size={27}
                 color='white' />
             </Pressable>
@@ -213,10 +212,21 @@ const FoodFeed = () => {
   // On refresh posts
   const refreshPosts = async () => {
     setRefreshing(true);
+    /* Retrieve recipes */
     const recipesRef = collection(db, 'recipes')
     const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(3))
     const querySnapshot = await getDocs(q)
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    /* Retrieve User details */
+    for (let i = 0; i < data.length; i++) {
+      const targetRecipe = data[i]
+      const docRef = doc(db, 'users', targetRecipe.userID)
+      const docSnap = await getDoc(docRef)
+      const tempData = docSnap.data();
+      targetRecipe.author = tempData.displayName
+      targetRecipe.profileImageURL = tempData.profileImageURL
+    }
     setRecipes(data);
     if (querySnapshot.docs.length > 0) {
       setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
@@ -268,7 +278,7 @@ const FoodFeed = () => {
             return (
               <FoodFeedCard
                 index={index}
-                id={item.id}
+                recipeID={item.id}
                 title={item.title}
                 author={item.author}
                 profileImageURL={item.profileImageURL}
@@ -276,6 +286,7 @@ const FoodFeed = () => {
                 difficulty={item.difficulty}
                 servings={item.servings}
                 cookingTime={item.cookingTime}
+                prepTime={item.prepTime}
                 chefsNotes={item.chefsNotes}
                 timestamp={item.timestamp}
                 ingredients={item.ingredients}

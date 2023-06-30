@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -6,7 +6,6 @@ import { BallIndicator } from "react-native-indicators";
 
 // Icons
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
 // Firebase Firestore
 import { doc, getDoc } from "firebase/firestore/lite";

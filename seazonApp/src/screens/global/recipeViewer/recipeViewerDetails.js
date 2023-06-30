@@ -7,7 +7,6 @@ import LetsCookIt from "./letsCookIt";
 import CollapsibleTextView from "../../../components/global/collapsibleTextView";
 
 /* Icons */
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -87,8 +86,8 @@ const RecipeViewerDetails = (props) => {
 					</Pressable>
 					{/* Share */}
 					<Pressable style={styles.actionsContainer}>
-						<Fontisto
-							name='share-a'
+						<Entypo
+							name='share-alternative'
 							size={25}
 							color='white' />
 						<Text style={styles.label}>Share</Text>
