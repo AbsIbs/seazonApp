@@ -5,13 +5,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
 import { AddRecipeContext } from "../../../Global/AddRecipeContext";
-import CustomTagList from "../../components/global/customTagList";
 import ErrorModal from "../../components/global/errorModal";
 import uuid from 'react-native-uuid'
 
 const RecipeAddStep = () => {
 
-  const { recipe, setRecipe } = useContext(AddRecipeContext);
+  const { setRecipe } = useContext(AddRecipeContext);
   const maxInstructionsLength = 500;
 
   const navigation = useNavigation();

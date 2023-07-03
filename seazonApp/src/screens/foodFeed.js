@@ -14,9 +14,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import Entypo from 'react-native-vector-icons/Entypo'
 
 // Firebase Firestore
-import { doc, collection, getDoc, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore/lite";
+import { doc, collection, getDoc, getDocs, query, limit, startAfter, orderBy, Timestamp } from "firebase/firestore/lite";
 import { db } from '../../firebase/firebase-config';
-import { Timestamp, serverTimestamp } from 'firebase/firestore/lite';
 
 const FoodFeed = () => {
 

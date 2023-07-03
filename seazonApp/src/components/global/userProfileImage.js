@@ -1,11 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { getAuth } from "firebase/auth";
 import FastImage from "react-native-fast-image";
 
 const UserProfileImage = (props) => {
-
-	const auth = getAuth();
 
 	return (
 		<FastImage

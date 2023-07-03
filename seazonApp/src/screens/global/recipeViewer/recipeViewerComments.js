@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import UserProfileImage from "../../../components/global/userProfileImage";
 
+import Comment from "../../../components/global/comment";
+
 const RecipeViewerComments = (props) => {
 
 	const recipe = props.recipe
@@ -17,11 +19,11 @@ const RecipeViewerComments = (props) => {
 	const CommentInput = () => {
 		return (
 			<View style={{ flexDirection: 'row', flex: 1 }}>
-				{/* 				<UserProfileImage
+				<UserProfileImage
 					height={35}
 					width={35}
 					borderWidth={0}
-					source={{ uri: user.photoURL }} /> */}
+					source={{ uri: user.photoURL }} />
 				<Pressable
 					style={styles.inputContainer}
 					onPress={() =>
@@ -35,58 +37,6 @@ const RecipeViewerComments = (props) => {
 		)
 	};
 
-	const Comment = (props) => {
-		return (
-			<View style={{ flexDirection: 'row' }}>
-				<UserProfileImage
-					height={35}
-					width={35}
-					borderWidth={0}
-					source={{ uri: props.imageURL }} />
-				<View style={{ flex: 1, marginLeft: 15 }} >
-					<View style={{ flexDirection: 'row', flex: 1, paddingBottom: 5 }} >
-						<Text style={styles.author}>{props.author}</Text>
-						<Text>10 hrs ago</Text>
-					</View>
-					<Text>{props.comment}</Text>
-				</View>
-			</View>
-		)
-	};
-
-	/* 
-	comments: [
-		{
-			commentID: some_uid,
-			timestamp: timestamp,
-			author: author,
-			authorID: authorID,
-			profileImageURL: url,
-			comment: someText,
-			imageURL: url
-			replies: [
-				{
-				commentID: some_uid,
-				timestamp: timestamp,
-				author: author,
-				authorID: authorID,
-				profileImageURL: url,
-				comment: someText,
-				imageURL: url
-			},
-			{
-				commentID: some_uid,
-				timestamp: timestamp,
-				author: author,
-				authorID: authorID,
-				profileImageURL: url,
-				comment: someText,
-				imageURL: url
-			}
-			]
-		}
-	]
-	*/
 	return (
 		<View style={styles.container}>
 			<View style={{ flexDirection: 'row' }} >
@@ -105,7 +55,7 @@ const RecipeViewerComments = (props) => {
 				<CommentInput />
 				{/* Comments */}
 				<View style={{ paddingTop: 30 }} >
-					<Comment author='SomeDude' imageURL={user.photoURL} comment='Yoooo. Sigggggyyy. Phidoooooo' />
+					
 				</View>
 			</View>
 		</View>
