@@ -6,7 +6,7 @@ import uuid from 'react-native-uuid'
 import { FlashList } from "@shopify/flash-list";
 
 // Firebase Firestore
-import { doc, getDoc, getDocs, addDoc, serverTimestamp, collection, query, limit, orderBy } from "firebase/firestore/lite";
+import { doc, getDoc, getDocs, setDoc, serverTimestamp, query, limit, orderBy, collection, where } from "firebase/firestore/lite";
 import { db } from "../../../../firebase/firebase-config";
 // Firebase Storage
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -44,8 +44,8 @@ const RecipeAddComment = (props) => {
   // Loading screen
   const [loading, setLoading] = useState(false)
 
-  // Comment database
-  const commentsCollectionRef = collection(doc(db, "recipes", recipeID), 'comments')
+  // Comment Collection
+  const commentsRef = doc(db, "comments", commentID)
 
   // Upload comment
   const addComment = async () => {
@@ -55,7 +55,8 @@ const RecipeAddComment = (props) => {
       commentID: commentID,
       timestamp: serverTimestamp(),
       userID: user.uid,
-      comment: comment
+      comment: comment,
+      recipeID: recipeID
     }
 
     if (imageURI != null) {
@@ -74,7 +75,7 @@ const RecipeAddComment = (props) => {
     }
 
     // Upload doc
-    await addDoc(commentsCollectionRef, commentData)
+    await setDoc(commentsRef, commentData)
 
     // Refresh comments
     refreshComments()
@@ -108,7 +109,12 @@ const RecipeAddComment = (props) => {
   const refreshComments = async () => {
     setRefreshing(true);
     /* Retrieve comments */
-    const q = query(commentsCollectionRef, orderBy('timestamp', 'desc'), limit(5))
+    const q = query(
+      collection(db, 'comments'),
+      where('recipeID', '==', recipeID),
+      orderBy('timestamp', 'desc'),
+      limit(5)
+    )
     const querySnapshot = await getDocs(q)
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
@@ -142,7 +148,7 @@ const RecipeAddComment = (props) => {
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={() => refreshComments()} />
+              onRefresh={() => refreshComments()}/>
           }
           renderItem={({ item, index }) => {
             return (
@@ -155,7 +161,7 @@ const RecipeAddComment = (props) => {
                 profileImageURL={item.profileImageURL}
                 commentID={item.commentID}
                 comment={item.comment}
-                imageURL={item.imageURI} />
+                coverImageURL={item.coverImageURL} />
             )
           }}
         />
