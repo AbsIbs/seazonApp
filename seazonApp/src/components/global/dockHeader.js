@@ -30,7 +30,7 @@ const DockHeader = (props) => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 60,
+        height: 56,
         backgroundColor: '#000000',
         justifyContent: 'center',
         alignItems: 'center'

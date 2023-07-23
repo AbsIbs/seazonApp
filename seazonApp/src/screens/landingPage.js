@@ -59,7 +59,7 @@ const LandingPage = () => {
         </View>
       </ImageBackground>
       <BottomSheet
-        keyboardAware
+        
         //bottomSheerColor="#121212"
         ref={bottomSheetRef}
         initialPosition={'0%'} //200, 300

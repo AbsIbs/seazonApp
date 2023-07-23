@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import { BottomSheetModal, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-
 import GetTimeSincePost from "./getTimeSincePost";
 import UserProfileImage from "./userProfileImage";
 
 import uuid from 'react-native-uuid'
 
 import CollapsibleTextView from "./collapsibleTextView";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-// Firebase Auth
-import { getAuth } from "firebase/auth";
+//Bottom Sheet
+const bottomSheetModalRef = useRef(null)
+const snapPoints = useMemo(() => ['25%', '50%'], []);
+// callbacks
+const handlePresentModalPress = useCallback(() => {
+  bottomSheetModalRef.current?.present();
+}, []);
+const handleSheetChanges = useCallback(() => {
+  console.log('handleSheetChanges', index);
+}, []);
 
 // Firebase Firestore
 import { doc, setDoc, serverTimestamp, collection, getDoc, getDocs, deleteDoc } from "firebase/firestore/lite";
@@ -22,69 +28,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
 const Comment = (props) => {
-
-  // OPTIONS FOR COMMENTS. WE CREATE A BOTTOMSHEET FOR THIS
-  //Bottom Sheet
-  const bottomSheetModalRef = useRef(null)
-  // Bottom Sheet backdrop
-  const RenderBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        {...props}
-      />
-    ),
-    []
-  );
-  // Modal Options
-  const CommentOptions = (modalProps) => {
-    return (
-      <Pressable
-        onPress={modalProps.function}
-        style={styles.modalOption}>
-        <MaterialCommunityIcons
-          name={modalProps.icon}
-          color={modalProps.icon == 'delete' ? '#800000' : '#ffffff'}
-          size={25}
-          style={{ paddingLeft: '10%' }} />
-        <Text style={[styles.text, { color: modalProps.icon == 'delete' ? '#800000' : '#ffffff' }]}>
-          {modalProps.text}
-        </Text>
-      </Pressable>
-    )
-  };
-
-  // 1) REPORT A COMMENT IF IT DOES NOT BELONG TO THE USER WHO IS LOGGED IN
-  // Modal Body
-  const ReportBody = () => {
-    return (
-      <>
-        <CommentOptions text={'Report User'} icon={'flag-variant'} function />
-      </>
-    )
-  };
-
-  // 2) EDIT OR DELETE COMMENT IF IT BELONGS TO THE USER WHO IS LOGGED IN
-  // Modal Body
-  const EditDeleteCommentBody = () => {
-    return (
-      <>
-        <CommentOptions text={'Edit comment'} icon={'file-document-edit'} function />
-        <CommentOptions text={'Delete comment'} icon={'delete'} function />
-      </>
-    )
-  };
-
-  // To control which comment option will show, we will check if the userID matches the logged in user's ID
-  const auth = getAuth()
-  const user = auth.currentUser
-  const editable = user.uid === props.userID
-  const snapPoints = useMemo(() => (editable ? [150] : [100]), []);
-  // callbacks
-  const handlePresentModalPress = () => {
-    bottomSheetModalRef.current?.present();
-  };
+  // Unique ID for the like
+  const likeID = uuid.v4()
 
   // CHECKING THE NUMBER OF LIKES A COMMENT HAS
   // ---------------------------------------------------
@@ -103,8 +48,6 @@ const Comment = (props) => {
 
 
   // CHECKING TO SEE IF THE USER HAS LIKED THE COMMENT
-  // Unique ID for the like
-  const likeID = uuid.v4()
   // First, we set our like states to track if a comment has been liked
   const [liked, setLiked] = useState(null)
   // We create a separate reference for the likes subCollection
@@ -123,9 +66,9 @@ const Comment = (props) => {
     }
   };
   // We run this code when a comment is loaded
-  /*   useEffect(() => {
-      checkDocumentExists()
-    }, []) */
+  useEffect(() => {
+    checkDocumentExists()
+  }, [])
 
 
   // TOGGLING A LIKE
@@ -172,7 +115,8 @@ const Comment = (props) => {
           <View style={{ flexDirection: 'row', flex: 1 }} >
             <Text style={styles.author}>{props.author}</Text>
             <Text><GetTimeSincePost timestamp={props.timestamp} /></Text>
-            <Pressable hitSlop={10} onPress={() => handlePresentModalPress()}>
+            <Pressable hitSlop={10} onPress={() => EditDeleteCommentHandler()}>
+            {/* <Pressable hitSlop={10} onPress={() => handlePresentModalPress()}> */}
               <SimpleLineIcons name="options" color='#ffffff' size={20} style={{ paddingLeft: 10 }} />
             </Pressable>
           </View>
@@ -192,21 +136,19 @@ const Comment = (props) => {
           </View>
         </View>
       </View>
-      {/* We give a name to the modal to avoid memory leaks */}
       <BottomSheetModal
-        name="Comment Options"
         ref={bottomSheetModalRef}
-        index={0}
+        index={1}
         snapPoints={snapPoints}
-        backdropComponent={RenderBackdrop}
-        backgroundStyle={{ backgroundColor: '#121212' }}
-        handleIndicatorStyle={{ backgroundColor: '#ffffff' }}>
-        {/* If the comment is editable, then we return the edit/delete modal else, we return the report modal */}
-        {editable ? <EditDeleteCommentBody /> : <ReportBody />}
+        onChange={handleSheetChanges}>
+        <View style={{ flex: 1 }}>
+          <Text>Awesome 🎉</Text>
+        </View>
       </BottomSheetModal>
     </>
   )
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -251,7 +193,7 @@ const styles = StyleSheet.create({
   text: {
     paddingLeft: '10%',
     fontWeight: '400',
-    fontSize: 14,
+    fontSize: 16,
     flex: 1
   }
 });

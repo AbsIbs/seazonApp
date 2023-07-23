@@ -144,7 +144,7 @@ const RecipeViewerDetails = (props) => {
 				</ScrollView> */}
 			<View style={styles.section}>
 				<Text style={styles.subHeader} >Chef's Notes</Text>
-				<CollapsibleTextView text={recipe.chefsNotes} maxLines={3} />
+				<CollapsibleTextView text={recipe.chefsNotes} maxLines={6} />
 			</View>
 			<Modal isVisible={stepsModal} style={{ justifyContent: 'flex-end', margin: 0 }} >
 				<LetsCookIt setStepsModal={setStepsModal} steps={recipe.steps} />

@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import { Auth, getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 const AddRecipeContext = createContext();
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet, Pressable, ScrollView, ImageBackground, TouchableOpacity, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { BallIndicator } from "react-native-indicators";
@@ -40,6 +40,7 @@ const RecipeViewer = (props) => {
 			fetchAndSetRecipe();
 		}, [recipeID])
 	 */
+
 	/* If the recipe hasn't loaded yet */
 	/* 	if (!recipe) {
 			return (
@@ -69,23 +70,25 @@ const RecipeViewer = (props) => {
 	};
 
 	return (
-		<View style={{ flex: 1, backgroundColor: 'black' }} >
-			{/* Header */}
-			<HeaderBar />
-			<View style={{ flex: 1 }} >
-				<ScrollView style={{ backgroundColor: 'black' }}>
-					{/* Cover image */}
-					<ImageBackground
-						source={{ uri: recipe.coverImage }}
-						style={{ height: 500, width: '100%' }} >
-					</ImageBackground>
-					{/* Components */}
-					<RecipeViewerDetails recipe={recipe} />
-					<RecipeViewerIngredients recipe={recipe} />
-					<RecipeViewerComments recipe={recipe} />
-				</ScrollView>
+		<>
+			<View style={{ flex: 1, backgroundColor: 'black' }} >
+				{/* Header */}
+				<HeaderBar />
+				<View style={{ flex: 1 }} >
+					<ScrollView style={{ backgroundColor: 'black' }}>
+						{/* Cover image */}
+						<ImageBackground
+							source={{ uri: recipe.coverImage }}
+							style={{ height: 500, width: '100%' }} >
+						</ImageBackground>
+						{/* Components */}
+						<RecipeViewerDetails recipe={recipe} />
+						<RecipeViewerIngredients recipe={recipe} />
+						<RecipeViewerComments recipe={recipe} />
+					</ScrollView>
+				</View>
 			</View>
-		</View>
+		</>
 	)
 };
 
@@ -113,40 +116,24 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
-	// Modal
-	modal: {
-		width: '85%',
-		backgroundColor: '#121212',
-		borderTopColor: 'red',
-		borderTopWidth: 2
+	/* Comment Options */
+	body: {
+		alignItems: 'center',
+		flex: 1
 	},
-	modalTitle: {
-		fontSize: 24,
-		fontWeight: 'bold'
-	},
-	modalDesc: {
-		fontSize: 12,
-		paddingTop: 10,
-		lineHeight: 25
-	},
-	modalConfirm: {
-		height: 35,
-		width: 100,
-		borderRadius: 5,
-		backgroundColor: 'red',
-		marginTop: 20,
-		justifyContent: 'center',
+	modalOption: {
+		width: '80%',
+		height: 50,
+		borderColor: 'white',
+		borderRadius: 25,
+		flexDirection: 'row',
 		alignItems: 'center'
 	},
-	modalCancel: {
-		height: 35,
-		width: 100,
-		borderRadius: 5,
-		marginTop: 20,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderWidth: 1,
-		borderColor: '#ffffff50'
+	text: {
+		paddingLeft: '10%',
+		fontWeight: '400',
+		fontSize: 16,
+		flex: 1
 	}
 })
 

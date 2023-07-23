@@ -83,7 +83,10 @@ const RecipeViewerComments = (props) => {
 				</View>
 				<Pressable
 					hitSlop={5}
-					onPress={() => navigation.navigate('Recipe Add Comments')} >
+					onPress={() =>
+						navigation.navigate('Recipe Add Comments', {
+							recipe: recipe
+						})} >
 					<Text style={[styles.viewAll]}>View all</Text>
 				</Pressable>
 			</View>
