@@ -139,7 +139,7 @@ const RecipeAddComment = (props) => {
 
   return (
     <>
-    <SimpleHeader title={'Comments'} />
+      <SimpleHeader title={'Comments'} />
       <View style={styles.container}>
         <View style={styles.contentContainer} >
           {/* Render Comments */}
@@ -170,7 +170,7 @@ const RecipeAddComment = (props) => {
           />
         </View>
         {/* Bottom section with add comment component */}
-        <View style={styles.bottomContainer} >
+        <View style={styles.bottomContainer}>
           {imageURI != null ?
             <TouchableWithoutFeedback onPress={() => bottomSheetRef.current?.snapTo(1)} >
               <Image
@@ -181,24 +181,28 @@ const RecipeAddComment = (props) => {
             </TouchableWithoutFeedback>
             : null}
           <View style={styles.bottomRow} >
-            <Pressable onPress={() => imageUploadHandler()} >
-              <Ionicons name='camera-outline' size={30} color={'#E5403E'} />
-            </Pressable>
             <TextInput
               style={styles.commentInput}
               onChangeText={(text) => setComment(text)}
               value={comment}
               multiline
-              placeholder="Leave a comment" />
-            <Pressable hitSlop={10} onPress={() => {
-              if (comment.length > 0) {
-                addComment()
-              }
-              setComment('')
-              Keyboard.dismiss()
-            }} >
-              <Text style={{ color: comment.length > 0 ? '#E5403E' : '#ffffff50' }}>Send</Text>
-            </Pressable>
+              placeholder="Leave a comment..." />
+            <View style={styles.iconsContainer} >
+              <Pressable onPress={() => imageUploadHandler()} >
+                <Ionicons name='camera-outline' size={30} color={'#E5403E'} />
+              </Pressable>
+              <Pressable hitSlop={10} onPress={() => {
+                if (comment.length > 0) {
+                  addComment()
+                }
+                setComment('')
+                Keyboard.dismiss()
+              }} >
+                <Text style={{
+                  color: comment.length > 0 ? '#E5403E' : '#ffffff50'
+                }}>Send</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
@@ -239,27 +243,32 @@ const styles = StyleSheet.create({
   bottomContainer: {
     borderTopColor: '#2B303C',
     borderTopWidth: 1,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    maxHeight: '60%'
   },
   bottomRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingVertical: 5,
+    backgroundColor: '#121212',
+    borderRadius: 8,
+    paddingHorizontal: 20
   },
   commentInput: {
-    flex: 1,
-    backgroundColor: '#121212',
     color: '#ffffff',
-    borderRadius: 8,
-    marginHorizontal: 10,
-    marginVertical: 12.5,
-    paddingHorizontal: 20,
-    fontFamily: 'Poppins-bold'
+    fontFamily: 'Poppins-bold',
+    borderBottomColor: '#ffffff20',
+    borderBottomWidth: 1
   },
   image: {
     height: 150,
     width: 100,
-    marginTop: 15,
-    marginLeft: 40
+    marginVertical: 15,
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 5
   }
 });
 

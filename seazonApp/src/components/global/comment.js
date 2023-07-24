@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { BottomSheetModal, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 
 import GetTimeSincePost from "./getTimeSincePost";
 import UserProfileImage from "./userProfileImage";
@@ -23,8 +24,10 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
 const Comment = (props) => {
 
+  const navigation = useNavigation();
+
   // OPTIONS FOR COMMENTS. WE CREATE A BOTTOMSHEET FOR THIS
-  //Bottom Sheet
+  // Bottom Sheet
   const bottomSheetModalRef = useRef(null)
   // Bottom Sheet backdrop
   const RenderBackdrop = useCallback(
@@ -70,7 +73,15 @@ const Comment = (props) => {
   const EditDeleteCommentBody = () => {
     return (
       <>
-        <CommentOptions text={'Edit comment'} icon={'file-document-edit'} function />
+        <CommentOptions
+          text={'Edit comment'}
+          icon={'file-document-edit'}
+          function={() => {
+            bottomSheetModalRef.current.dismiss()
+            navigation.navigate('Recipe Edit Comment', {
+              commentObject: props
+            })
+          }} />
         <CommentOptions text={'Delete comment'} icon={'delete'} function />
       </>
     )

@@ -83,14 +83,14 @@ function App() {
                         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                       }} />
                     <Stack.Screen
-                      name='Recipe Add Comments'
+                      name='Recipe Add Comment'
                       component={RecipeAddComment}
                       options={{
                         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                         headerShown: false
                       }} />
                     <Stack.Screen
-                      name='Recipe Edit Comments'
+                      name='Recipe Edit Comment'
                       component={RecipeEditComment}
                       options={{
                         cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,

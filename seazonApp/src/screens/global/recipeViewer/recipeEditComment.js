@@ -3,8 +3,6 @@ import { View, StyleSheet, TextInput, Text, Pressable, Keyboard, RefreshControl,
 import Ionicons from "react-native-vector-icons/Ionicons";
 import uuid from 'react-native-uuid'
 
-import BottomSheet from 'react-native-bottomsheet-reanimated';
-
 // Firebase Firestore
 import { doc, getDoc, getDocs, setDoc, serverTimestamp } from "firebase/firestore/lite";
 import { db } from "../../../../firebase/firebase-config";
@@ -13,15 +11,14 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // Firebase Auth
 import { getAuth } from "firebase/auth";
 
-import Comment from "../../../components/global/comment";
 import { launchImageLibrary } from "react-native-image-picker"
 import { BallIndicator } from 'react-native-indicators';
 import EditAndDeleteModal from "../../../components/global/editAndDeleteModal";
 
 const RecipeEditComment = (props) => {
 
-  const recipeID = props.route.params.recipe.recipeID
-  const commentID = props.route.params.recipe.commentID
+  const commentObject = props.route.params.commentObject
+  const commentID = commentObject.commentID
   const bottomSheetRef = useRef(null)
   const confirmDeleteRef = useRef(null)
 
@@ -33,12 +30,8 @@ const RecipeEditComment = (props) => {
   const user = auth.currentUser
 
   // Comment to be posted
-  const [comment, setComment] = useState('')
-  const [imageURI, setImageURI] = useState(null)
-
-  // Comments from database
-  const [comments, setComments] = useState([])
-  const [lastComment, setLastComment] = useState(null);
+  const [comment, setComment] = useState(commentObject.comment)
+  const [imageURI, setImageURI] = useState(commentObject.imageURI)
 
   // Loading screen
   const [loading, setLoading] = useState(false)
@@ -54,8 +47,7 @@ const RecipeEditComment = (props) => {
       commentID: commentID,
       timestamp: serverTimestamp(),
       userID: user.uid,
-      comment: comment,
-      recipeID: recipeID
+      comment: comment
     }
 
     if (imageURI != null) {
@@ -103,19 +95,6 @@ const RecipeEditComment = (props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.contentContainer} >
-        {/* Render Comments */}
-        <Comment
-          index={index}
-          recipeID={recipeID}
-          timestamp={props.timestamp}
-          userID={props.userID}
-          author={props.author}
-          profileImageURL={props.profileImageURL}
-          commentID={props.commentID}
-          comment={props.comment}
-          coverImageURL={props.coverImageURL} />
-      </View>
       {/* Bottom section with add comment component */}
       <View style={styles.bottomContainer} >
         {imageURI != null ?
