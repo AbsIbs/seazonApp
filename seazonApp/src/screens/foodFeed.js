@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, ImageBackground, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,6 +7,9 @@ import MentionHashtagTextView from "react-native-mention-hashtag-text";
 import { FlashList } from '@shopify/flash-list';
 import UserProfileImage from '../components/global/userProfileImage';
 
+// Firebase
+import { getFunctions, httpsCallable } from 'firebase/functions'
+
 // Icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -14,8 +17,11 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import Entypo from 'react-native-vector-icons/Entypo'
 
 // Firebase Firestore
-import { doc, collection, getDoc, getDocs, query, limit, startAfter, orderBy, Timestamp } from "firebase/firestore/lite";
-import { db } from '../../firebase/firebase-config';
+import { Timestamp } from "firebase/firestore/lite";
+import { getRecipes } from '../logic/backendLogic/recipeBackendLogic';
+
+// Logic
+import { GetTimeSincePost } from '../logic/clientLogic/posts';
 
 const FoodFeed = () => {
 
@@ -48,26 +54,6 @@ const FoodFeed = () => {
     // Toggle like icon
     const [like, setLike] = useState(false);
 
-    // Caclulate how much time has passed since the recipe was posted
-    const GetTimeSincePost = () => {
-      const originalTimestamp = (new Date(props.timestamp.toDate()));
-      const currentTimestamp = Timestamp.now().toMillis();
-
-      // Difference in hours
-      const hourDifference = (currentTimestamp - originalTimestamp) / 3600000
-
-      switch (true) {
-        case hourDifference < 1:
-          /* Return e.g., 9m */
-          return `${Math.floor(hourDifference * 60)}m`
-        case hourDifference >= 1 && hourDifference <= 24:
-          /* Return e.g., 9h */
-          return `${Math.floor(hourDifference)}h`
-        case hourDifference > 24:
-          return `${Math.floor(hourDifference / 24)}d`
-      }
-    };
-
     return (
       <View style={styles.cardContainer}>
         {/* Top area */}
@@ -78,7 +64,7 @@ const FoodFeed = () => {
               numberOfLines={2}
               style={styles.cardTitle}>{props.title}
             </Text>
-            <Text style={styles.cardAuthor}>{props.author} • <GetTimeSincePost /> </Text>
+            <Text style={styles.cardAuthor}>{props.author} • <GetTimeSincePost timestamp={props.timestamp.seconds} /> </Text>
           </View>
           <Pressable
             style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -169,95 +155,56 @@ const FoodFeed = () => {
 
   /// Recipe Retrieval
   // Refresh Control
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Recipes
   const [recipes, setRecipes] = useState([]);
-  const [lastPost, setLastPost] = useState(null);
+  const [lastPostID, setLastPostID] = useState(null);
 
-  //Get initial recipes
-  const getInitialPosts = async () => {
-    const recipesRef = collection(db, 'recipes')
-    // We initially load only 5 recipes.
-    const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(3))
-    const querySnapshot = await getDocs(q)
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setRecipes(data);
-    if (querySnapshot.docs.length > 0) {
-      setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
-    } else {
-      setLastPost(null);
-    }
-  };
+  // Cloud functions
+  /* const functions = getFunctions()
+  const getInitialRecipes = httpsCallable(functions, 'recipes-getInitialRecipes')
+  const getMoreRecipes = httpsCallable(functions, 'recipes-getMoreRecipes') */
 
-  // When the user gets to the bottom of the page, we load 5 more recipes
-  const getMorePosts = async () => {
-    // We put this here to prevent an endless loop of refreshing posts.
-    if (lastPost === null) return;
-    const recipesRef = collection(db, 'recipes')
-    const q = query(recipesRef, orderBy('timestamp', 'desc'), startAfter(lastPost), limit(3))
-    const querySnapshot = await getDocs(q)
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setRecipes(prevState => {
-      return ([...prevState, ...data])
-    })
-    if (querySnapshot.docs.length > 0) {
-      setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
-    } else {
-      setLastPost(null);
-    }
-  };
-
-  // On refresh posts
-  const refreshPosts = async () => {
-    setRefreshing(true);
-    /* Retrieve recipes */
-    const recipesRef = collection(db, 'recipes')
-    const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(3))
-    const querySnapshot = await getDocs(q)
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    /* Retrieve User details */
-    for (let i = 0; i < data.length; i++) {
-      const targetRecipe = data[i]
-      const docRef = doc(db, 'users', targetRecipe.userID)
-      const docSnap = await getDoc(docRef)
-      const tempData = docSnap.data();
-      targetRecipe.author = tempData.displayName
-      targetRecipe.profileImageURL = tempData.profileImageURL
-    }
-    setRecipes(data);
-    if (querySnapshot.docs.length > 0) {
-      setLastPost(querySnapshot.docs[querySnapshot.docs.length - 1]);
-    } else {
-      setLastPost(null);
-    }
-    setRefreshing(false)
+  const getRecipesHandler = () => {
+    setRefreshing(true)
+    getRecipes({ lastPostID: lastPostID })
+      .then(result => {
+        setRecipes(result)
+        return result
+      })
+      .then(result => {
+        setLastPostID(result[result.length - 1].id)
+        setRefreshing(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
-  // For offline testing of UI
-  const testData = [
-    {
-      title: 'Original Turkey-style shish',
-      author: 'TheRock',
-      profileImageURL: require('../../assets/img/temp/man.png'),
-      coverImage: require('../../assets/img/temp/meal1.png'),
-      difficulty: 'Simple',
-      servings: 2,
-      cookingTime: '1h 10m',
-      chefsNotes: 'Yum yum dim sum. This is just so incredible. #Tasty. Thiofjaois fioasd nfiosda nfoidas nfoidas nfio sdanfio dasnoofjsda oif dasoi fsdao'
-    },
-    {
-      title: 'Mediterranean salad with chicken strips and pesto',
-      author: 'TheRock',
-      profileImageURL: require('../../assets/img/temp/man.png'),
-      coverImage: require('../../assets/img/temp/meal2.png'),
-      difficulty: 'Intermediate',
-      servings: 3,
-      cookingTime: '50m',
-      chefsNotes: "Alright, this is just too damn tasty. I can't even put it in words."
-    }
-  ];
+  /*   const getMoreRecipesHandler = () => {
+      if (lastPostID === null) return;
+      getMoreRecipes({ lastPostID: lastPostID })
+        .then(result => {
+          setRecipes(prevState => {
+            return ([...prevState, ...result.data])
+          })
+          return result
+        })
+        .then(result => {
+          setLastPostID(result.data[result.data.length -1].id)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    } */
+
+  // Get recipes on load
+  /*  useEffect(() => {
+     getInitialRecipesHandler()
+     console.log('initial load')
+   }, [])
+  */
 
   return (
     <>
@@ -266,12 +213,12 @@ const FoodFeed = () => {
         <FlashList
           data={recipes}
           estimatedItemSize={500}
-          onEndReached={() => getMorePosts()}
+          onEndReached={() => getRecipesHandler()}
           onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={() => refreshPosts()} />
+              onRefresh={() => getRecipesHandler()} />
           }
           renderItem={({ item, index }) => {
             return (
@@ -390,4 +337,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FoodFeed
+export default FoodFeed;

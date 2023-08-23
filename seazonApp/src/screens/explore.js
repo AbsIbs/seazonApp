@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FloatingAction } from "react-native-floating-action";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // Firebase
 import { sendEmailVerification } from "firebase/auth";
 import { getAuth } from "firebase/auth";
+import { getFunctions, httpsCallable } from 'firebase/functions'
 
 // Global state
 import { AuthContext } from '../../Global/AuthContext';
@@ -49,15 +50,24 @@ const Explore = () => {
     return (
       <>
         <Text>Hello world</Text>
+        <TouchableOpacity
+          style={{ height: 100, width: 100, backgroundColor: 'red' }}
+          onPress={() => {
+            console.log(postRecipe())
+          }}>
+        </TouchableOpacity>
       </>
     )
   };
 
-  const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
+  // Cloud functions
+  const functions = getFunctions()
+  const postRecipe = httpsCallable(functions, 'recipes-postRecipe')
 
   return (
     <>
       <View style={styles.container}>
+        <Example />
         <FloatingAction
           actions={actions}
           onPressItem={name => {

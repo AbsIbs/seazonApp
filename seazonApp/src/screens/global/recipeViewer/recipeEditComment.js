@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, TextInput, Text, Pressable, Keyboard, RefreshControl, Image, TouchableWithoutFeedback, Modal } from "react-native";
+import { View, StyleSheet, TextInput, Text, Pressable, Keyboard, Image, TouchableWithoutFeedback, Modal } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import uuid from 'react-native-uuid'
+import { useNavigation } from "@react-navigation/native";
 
 // Firebase Firestore
-import { doc, getDoc, getDocs, setDoc, serverTimestamp } from "firebase/firestore/lite";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore/lite";
 import { db } from "../../../../firebase/firebase-config";
 // Firebase Storage
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -17,7 +17,11 @@ import EditAndDeleteModal from "../../../components/global/editAndDeleteModal";
 
 const RecipeEditComment = (props) => {
 
+  const navigation = useNavigation()
+
   const commentObject = props.route.params.commentObject
+  const edited = commentObject.edited
+  const recipeID = commentObject.recipeID
   const commentID = commentObject.commentID
   const bottomSheetRef = useRef(null)
   const confirmDeleteRef = useRef(null)
@@ -31,7 +35,7 @@ const RecipeEditComment = (props) => {
 
   // Comment to be posted
   const [comment, setComment] = useState(commentObject.comment)
-  const [imageURI, setImageURI] = useState(commentObject.imageURI)
+  const [imageURI, setImageURI] = useState({ uri: commentObject.coverImageURL })
 
   // Loading screen
   const [loading, setLoading] = useState(false)
@@ -47,7 +51,9 @@ const RecipeEditComment = (props) => {
       commentID: commentID,
       timestamp: serverTimestamp(),
       userID: user.uid,
-      comment: comment
+      comment: comment,
+      recipeID: recipeID,
+      edited: true
     }
 
     if (imageURI != null) {
@@ -68,14 +74,14 @@ const RecipeEditComment = (props) => {
     // Upload doc
     await setDoc(commentsRef, commentData)
 
-    // Refresh comments
-    refreshComments()
-    setImageURI(null)
+    // Finish loading screen
+    navigation.goBack()
     setLoading(false)
   }
 
   // Attach image as base64 format
   const imageUploadHandler = () => {
+    console.log(edited)
     const options = {
       storageOption: {
         path: 'images',
@@ -96,7 +102,7 @@ const RecipeEditComment = (props) => {
   return (
     <View style={styles.container}>
       {/* Bottom section with add comment component */}
-      <View style={styles.bottomContainer} >
+      <View style={styles.bottomContainer}>
         {imageURI != null ?
           <TouchableWithoutFeedback onPress={() => bottomSheetRef.current?.snapTo(1)} >
             <Image
@@ -107,24 +113,28 @@ const RecipeEditComment = (props) => {
           </TouchableWithoutFeedback>
           : null}
         <View style={styles.bottomRow} >
-          <Pressable onPress={() => imageUploadHandler()} >
-            <Ionicons name='camera-outline' size={30} color={'#E5403E'} />
-          </Pressable>
           <TextInput
             style={styles.commentInput}
             onChangeText={(text) => setComment(text)}
             value={comment}
             multiline
-            placeholder="Leave a comment" />
-          <Pressable hitSlop={10} onPress={() => {
-            if (comment.length > 0) {
-              addComment()
-            }
-            setComment('')
-            Keyboard.dismiss()
-          }} >
-            <Text style={{ color: comment.length > 0 ? '#E5403E' : '#ffffff50' }}>Send</Text>
-          </Pressable>
+            placeholder="Leave a comment..." />
+          <View style={styles.iconsContainer} >
+            <Pressable onPress={() => imageUploadHandler()} >
+              <Ionicons name='camera-outline' size={30} color={'#E5403E'} />
+            </Pressable>
+            <Pressable hitSlop={10} onPress={() => {
+              if (comment.length > 0) {
+                addComment()
+              }
+              setComment('')
+              Keyboard.dismiss()
+            }} >
+              <Text style={{
+                color: comment.length > 0 ? '#E5403E' : '#ffffff50'
+              }}>Send</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
       <EditAndDeleteModal
@@ -162,27 +172,33 @@ const styles = StyleSheet.create({
   bottomContainer: {
     borderTopColor: '#2B303C',
     borderTopWidth: 1,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    maxHeight: '60%'
   },
   bottomRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingVertical: 5,
+    backgroundColor: '#121212',
+    borderRadius: 8,
+    paddingHorizontal: 20
   },
   commentInput: {
-    flex: 1,
-    backgroundColor: '#121212',
     color: '#ffffff',
-    borderRadius: 8,
-    marginHorizontal: 10,
-    marginVertical: 12.5,
-    paddingHorizontal: 20,
-    fontFamily: 'Poppins-bold'
+    fontFamily: 'Poppins-bold',
+    borderBottomColor: '#ffffff20',
+    borderBottomWidth: 1,
+    lineHeight: 25
   },
   image: {
     height: 150,
     width: 100,
-    marginTop: 15,
-    marginLeft: 40
+    marginVertical: 15,
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 5
   }
 });
 

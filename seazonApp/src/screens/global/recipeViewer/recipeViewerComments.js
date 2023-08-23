@@ -108,7 +108,8 @@ const RecipeViewerComments = (props) => {
 						profileImageURL={item.profileImageURL}
 						commentID={item.commentID}
 						comment={item.comment}
-						coverImageURL={item.coverImageURL} />
+						coverImageURL={item.coverImageURL}
+						edited={item.edited} />
 				)
 			})}
 		</View>

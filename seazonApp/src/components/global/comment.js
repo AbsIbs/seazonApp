@@ -14,8 +14,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // Firebase Auth
 import { getAuth } from "firebase/auth";
 
+/* Firebase */
+import { getFunctions, httpsCallable } from 'firebase/functions'
+
 // Firebase Firestore
 import { doc, setDoc, serverTimestamp, collection, getDoc, getDocs, deleteDoc } from "firebase/firestore/lite";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import { db } from "../../../firebase/firebase-config";
 
 // Icons
@@ -69,6 +73,33 @@ const Comment = (props) => {
   };
 
   // 2) EDIT OR DELETE COMMENT IF IT BELONGS TO THE USER WHO IS LOGGED IN
+  const storage = getStorage();
+  // Delete comment function
+  const functions = getFunctions()
+  const deleteComment = httpsCallable(functions, 'deleteComment')
+  const deleteCommentHandler = () => {
+    /* Set the path for the comment */
+    const commentPath = `comments/${props.commentID}`
+    /* Delete the comment document */
+    deleteComment({ path: commentPath })
+      .then((result) => {
+        console.log('Delete sucess: ' + JSON.stringify(result))
+        /* Then, delete the cover image for the comment */
+        if (props.coverImageURL) {
+          const coverImageRef = ref(storage, `recipes/${props.recipeID}/comments/${props.commentID}/coverImage.jpg`)
+          deleteObject(coverImageRef).then(() => {
+            console.log('Cover image deleted sucessfully')
+          })
+            .catch((error) => {
+              console.log('Problems!' + error)
+            })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  };
+
   // Modal Body
   const EditDeleteCommentBody = () => {
     return (
@@ -77,12 +108,17 @@ const Comment = (props) => {
           text={'Edit comment'}
           icon={'file-document-edit'}
           function={() => {
+            /* Dismiss our modal */
             bottomSheetModalRef.current.dismiss()
+            /* Navigate to the comment edit screen */
             navigation.navigate('Recipe Edit Comment', {
               commentObject: props
             })
           }} />
-        <CommentOptions text={'Delete comment'} icon={'delete'} function />
+        <CommentOptions
+          text={'Delete comment'}
+          icon={'delete'}
+          function={() => deleteCommentHandler()} />
       </>
     )
   };
@@ -130,13 +166,12 @@ const Comment = (props) => {
       // If they have liked the commnet, then set the liked variable to true
       setLiked(true)
     } else {
-      console.log('Document does not exist');
     }
   };
   // We run this code when a comment is loaded
-  /*   useEffect(() => {
-      checkDocumentExists()
-    }, []) */
+  useEffect(() => {
+    checkDocumentExists()
+  }, [])
 
 
   // TOGGLING A LIKE
@@ -181,8 +216,8 @@ const Comment = (props) => {
           source={{ uri: props.profileImageURL }} />
         <View style={{ flex: 1, marginLeft: 15 }} >
           <View style={{ flexDirection: 'row', flex: 1 }} >
-            <Text style={styles.author}>{props.author}</Text>
-            <Text><GetTimeSincePost timestamp={props.timestamp} /></Text>
+            <Text style={[styles.author, { flex: 1 }]}>{props.author}</Text>
+            <Text style={styles.author}><GetTimeSincePost timestamp={props.timestamp} /> {props.edited ? '(edited)' : null} </Text>
             <Pressable hitSlop={10} onPress={() => handlePresentModalPress()}>
               <SimpleLineIcons name="options" color='#ffffff' size={20} style={{ paddingLeft: 10 }} />
             </Pressable>
@@ -228,8 +263,7 @@ const styles = StyleSheet.create({
   author: {
     fontFamily: 'Poppins-Light',
     fontSize: 12,
-    color: '#ffffff',
-    flex: 1
+    color: '#ffffff'
   },
   comment: {
     fontFamily: 'Poppins',

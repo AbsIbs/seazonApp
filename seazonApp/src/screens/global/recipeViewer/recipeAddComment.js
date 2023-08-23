@@ -164,7 +164,8 @@ const RecipeAddComment = (props) => {
                   profileImageURL={item.profileImageURL}
                   commentID={item.commentID}
                   comment={item.comment}
-                  coverImageURL={item.coverImageURL} />
+                  coverImageURL={item.coverImageURL}
+                  edited={item.edited} />
               )
             }}
           />
@@ -255,9 +256,9 @@ const styles = StyleSheet.create({
   },
   commentInput: {
     color: '#ffffff',
-    fontFamily: 'Poppins-bold',
     borderBottomColor: '#ffffff20',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    lineHeight: 25
   },
   image: {
     height: 150,
