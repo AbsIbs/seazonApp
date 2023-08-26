@@ -20,6 +20,18 @@ const retrieveUserInfo = async (recipesArray) => {
   }
 };
 
+// A function to retrieve the number of comments for the recipe
+const getNumberOfComments = async (recipeID) => {
+  const commentsRef = collection(db, 'comments')
+  const q = query(
+    commentsRef,
+    where('recipeID', '==', recipeID)
+  );
+  const commentsSnapshot = await getDocs(q)
+  const size = commentsSnapshot.size()
+  return size
+};
+
 // Get invididual recipes
 export const getRecipe = async (props) => {
   const recipeID = props.recipeID
@@ -27,6 +39,8 @@ export const getRecipe = async (props) => {
   try {
     const snapshot = await getDoc(recipeRef)
     const recipe = snapshot.data()
+    const size = getNumberOfComments(props.recipeID)
+    recipe['numComments'] = size
     return recipe
   } catch (error) {
     throw new console.error('error occured when loading recipe', error);
@@ -50,7 +64,7 @@ export const getRecipes = async (props) => {
       return recipes;
     } else {
       // If there is no last post then retrieve the first 5 initial recipe
-      const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(5));
+      const q = query(recipesRef, orderBy('timestamp', 'desc'), limit(1));
       const recipesSnapshot = await getDocs(q)
       const rawRecipes = recipesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       const recipes = await retrieveUserInfo(rawRecipes)

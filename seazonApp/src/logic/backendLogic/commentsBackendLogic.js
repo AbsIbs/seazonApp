@@ -1,18 +1,30 @@
-import { getFirestore, collection, getDoc, getDocs, where, orderBy, limit, query, orderBy, limit, startAfter } from "firebase/firestore/lite";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  where,
+  limit,
+  query,
+  orderBy,
+  startAfter
+} from "firebase/firestore/lite";
 
 const db = getFirestore();
 const commentsRef = collection(db, 'comments');
 
 // A function to retrieve the user info per comments and store it 
 const retrieveUserInfo = async (commentsArray) => {
-  const newArray = [...commentsArray]
+  const newArray = []
   try {
-    for (const comments of newArray) {
-      const userRef = collection(db, 'users', comments.userID);
+    for (const comment of commentsArray) {
+      const userRef = doc(db, 'users', comment.userID);
       const docSnap = await getDoc(userRef);
       const tempData = docSnap.data();
-      comments.author = tempData.displayName;
-      comments.profileImageURL = tempData.profileImageURL;
+      comment['author'] = tempData.displayName;
+      comment['profileImageURL'] = tempData.profileImageURL;
+      newArray.push(comment)
     }
     return newArray;
   } catch (error) {
@@ -20,8 +32,27 @@ const retrieveUserInfo = async (commentsArray) => {
   }
 };
 
-// Get Comments for feed
-const getComments = async (props) => {
+// A function to retrieve the number of likes per comment
+const getNumberOfLikes = async (commentArray) => {
+  const newArray = [];
+
+  try {
+    for (const comment of commentArray) {
+      const subCollectionRef = collection(db, 'comments', comment.id, 'likes');
+      const snapshot = await getDocs(subCollectionRef);
+      const likes = snapshot.size;
+      comment['numLikes'] = likes;
+      newArray.push(comment); // Add the modified comment to the newArray
+    }
+    return newArray;
+  } catch (error) {
+    console.error('Error in getNumberOfLikes:', error);
+    throw error;
+  }
+};
+
+// Get Comments for recipes
+export const getComments = async (props) => {
   const lastPostID = props.lastPostID;
   const recipeID = props.recipeID
   try {
@@ -40,8 +71,9 @@ const getComments = async (props) => {
       );
       const commentsSnapshot = await getDocs(q)
       const rawComments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const comments = retrieveUserInfo(rawComments)
-      return comments;
+      const comments = await retrieveUserInfo(rawComments)
+      const commentsLikes = await getNumberOfLikes(comments)
+      return commentsLikes;
     } else {
       // If there is no last post then retrieve the first 3 comments
       const q = query(
@@ -50,10 +82,18 @@ const getComments = async (props) => {
         where('recipeID', '==', recipeID),
         limit(3)
       );
+      console.log('started')
       const commentsSnapshot = await getDocs(q)
-      const rawComments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const comments = retrieveUserInfo(rawComments)
-      return comments;
+      console.log(commentsSnapshot)
+      if (commentsSnapshot.size > 0) {
+        const rawComments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const comments = await retrieveUserInfo(rawComments)
+        console.log('normal comments work')
+        const commentsLikes = await getNumberOfLikes(comments)
+        console.log('commentsLikes worked')
+        console.log(commentsLikes[0]['numLikes'])
+        return commentsLikes;
+      }
     }
   } catch (error) {
     throw new console.error('internal', 'An error occurred while fetching more comments.');;
@@ -62,15 +102,14 @@ const getComments = async (props) => {
 
 // Editing Comments
 export const updateRecipe = async (props) => {
-  const commentID = props.commentsID
   const data = props.data
-  const docRef = doc(db, 'comments', commentID)
+  const docRef = doc(db, 'comments', data.commentID)
   return updateDoc(docRef, data)
 };
 
 // Delete Comments
 export const deleteRecipe = async (props) => {
-  const commentsID = props.commentsID
+  const commentID = props.commentsID
   const docRef = doc(db, 'comments', commentID)
   return deleteDoc(docRef)
 };

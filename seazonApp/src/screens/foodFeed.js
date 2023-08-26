@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, ImageBackground, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native';
 
 import { FloatingAction } from "react-native-floating-action";
 import MentionHashtagTextView from "react-native-mention-hashtag-text";
 import { FlashList } from '@shopify/flash-list';
 import UserProfileImage from '../components/global/userProfileImage';
-
-// Firebase
-import { getFunctions, httpsCallable } from 'firebase/functions'
 
 // Icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -17,11 +15,10 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import Entypo from 'react-native-vector-icons/Entypo'
 
 // Firebase Firestore
-import { Timestamp } from "firebase/firestore/lite";
 import { getRecipes } from '../logic/backendLogic/recipeBackendLogic';
 
 // Logic
-import { GetTimeSincePost } from '../logic/clientLogic/posts';
+import { GetTimeSincePost } from '../logic/clientLogic/postsLogic';
 
 const FoodFeed = () => {
 
@@ -153,21 +150,17 @@ const FoodFeed = () => {
     )
   };
 
-  /// Recipe Retrieval
   // Refresh Control
-  const [refreshing, setRefreshing] = useState(false);
+  const [topRefreshing, setTopRefreshing] = useState(false);
+  const [bottomRefreshing, setBottomRefreshing] = useState(false);
 
   // Recipes
   const [recipes, setRecipes] = useState([]);
   const [lastPostID, setLastPostID] = useState(null);
 
-  // Cloud functions
-  /* const functions = getFunctions()
-  const getInitialRecipes = httpsCallable(functions, 'recipes-getInitialRecipes')
-  const getMoreRecipes = httpsCallable(functions, 'recipes-getMoreRecipes') */
-
+  // Get Recipes
   const getRecipesHandler = () => {
-    setRefreshing(true)
+    setTopRefreshing(true)
     getRecipes({ lastPostID: lastPostID })
       .then(result => {
         setRecipes(result)
@@ -175,36 +168,32 @@ const FoodFeed = () => {
       })
       .then(result => {
         setLastPostID(result[result.length - 1].id)
-        setRefreshing(false)
+        setTopRefreshing(false)
       })
       .catch(error => {
         console.log(error)
       })
-  }
+  };
 
-  /*   const getMoreRecipesHandler = () => {
-      if (lastPostID === null) return;
-      getMoreRecipes({ lastPostID: lastPostID })
-        .then(result => {
-          setRecipes(prevState => {
-            return ([...prevState, ...result.data])
-          })
-          return result
+  // Get more recipes
+  const getMoreRecipesHandler = () => {
+    if (!lastPostID) return;
+    setBottomRefreshing(true)
+    getRecipes({ lastPostID: lastPostID })
+      .then(result => {
+        setRecipes(prevState => {
+          return ([...prevState, ...result])
         })
-        .then(result => {
-          setLastPostID(result.data[result.data.length -1].id)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    } */
-
-  // Get recipes on load
-  /*  useEffect(() => {
-     getInitialRecipesHandler()
-     console.log('initial load')
-   }, [])
-  */
+        return result
+      })
+      .then(result => {
+        setLastPostID(result[result.length - 1].id)
+        setBottomRefreshing(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  };
 
   return (
     <>
@@ -213,11 +202,18 @@ const FoodFeed = () => {
         <FlashList
           data={recipes}
           estimatedItemSize={500}
-          onEndReached={() => getRecipesHandler()}
+          onEndReached={() => getMoreRecipesHandler()}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={() => {
+            if (bottomRefreshing) {
+              return (<ActivityIndicator style={{ backgroundColor: '#000' }} />)
+            } else {
+              return(null)
+            }
+          }}
           refreshControl={
             <RefreshControl
-              refreshing={refreshing}
+              refreshing={topRefreshing}
               onRefresh={() => getRecipesHandler()} />
           }
           renderItem={({ item, index }) => {
@@ -237,7 +233,8 @@ const FoodFeed = () => {
                 timestamp={item.timestamp}
                 ingredients={item.ingredients}
                 steps={item.steps}
-                dietary={item.dietary} />
+                dietary={item.dietary}
+                numComments={item.numComments} />
             )
           }}
         />

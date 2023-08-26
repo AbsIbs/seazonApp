@@ -1,17 +1,13 @@
 import React, { useState, useRef } from "react";
 import { View, StyleSheet, TextInput, Text, Pressable, Keyboard, RefreshControl, Image, TouchableWithoutFeedback, Modal } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import uuid from 'react-native-uuid'
+import { ActivityIndicator } from 'react-native';
 
 import { FlashList } from "@shopify/flash-list";
 
 // Firebase Firestore
-import { doc, getDoc, getDocs, setDoc, serverTimestamp, query, limit, orderBy, collection, where } from "firebase/firestore/lite";
-import { db } from "../../../../firebase/firebase-config";
-// Firebase Storage
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-// Firebase Auth
-import { getAuth } from "firebase/auth";
+import { getComments } from "../../../logic/backendLogic/commentsBackendLogic";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 import Comment from "../../../components/global/comment";
 import { launchImageLibrary } from "react-native-image-picker"
@@ -25,63 +21,45 @@ const RecipeAddComment = (props) => {
   const bottomSheetRef = useRef(null)
   const confirmDeleteRef = useRef(null)
 
-  // Create a root reference
-  const storage = getStorage();
-
-  // User details
-  const auth = getAuth();
-  const user = auth.currentUser
-
-  const commentID = uuid.v4()
-
   // Comment to be posted
   const [comment, setComment] = useState('')
   const [imageURI, setImageURI] = useState(null)
+  const [displayImageURI, setDisplayImageURI] = useState(null)
 
   // Comments from database
   const [comments, setComments] = useState([])
-  const [lastComment, setLastComment] = useState(null);
+  const [lastPostID, setLastPostID] = useState(null);
 
   // Loading screen
   const [loading, setLoading] = useState(false)
 
-  // Comment Collection
-  const commentsRef = doc(db, "comments", commentID)
+  // Cloud functions
+  const functions = getFunctions()
+  const createComment = httpsCallable(functions, 'comments-postComment')
 
   // Upload comment
   const addComment = async () => {
     setLoading(true)
     // Form the comment document to be uploaded
     const commentData = {
-      commentID: commentID,
-      timestamp: serverTimestamp(),
-      userID: user.uid,
       comment: comment,
-      recipeID: recipeID
+      recipeID: recipeID,
+      coverImage: imageURI
     }
-
-    if (imageURI != null) {
-      // Upload image to Firebase
-      const coverImageDirectory = `recipes/${recipeID}/comments/${commentID}/coverImage.jpg`
-      const coverImageStorageRef = ref(storage, coverImageDirectory)
-      const response = await fetch(imageURI.uri)
-      const blob = await response.blob()
-      const metadata = {
-        contentType: 'image/jpeg'
-      }
-      await uploadBytes(coverImageStorageRef, blob, 'data_url', metadata)
-      // Wait for the upload to complete and download the URL
-      const coverImageURL = await getDownloadURL(ref(storage, `recipes/${recipeID}/comments/${commentID}/coverImage.jpg`));
-      commentData['coverImageURL'] = coverImageURL
-    }
-
-    // Upload doc
-    await setDoc(commentsRef, commentData)
-
-    // Refresh comments
-    refreshComments()
-    setImageURI(null)
-    setLoading(false)
+    createComment(commentData)
+      .then(() => {
+        // Refresh comments
+        refreshComments()
+      }).then(() => {
+        // Clear the picture
+        setDisplayImageURI(null)
+      })
+      .then(() => {
+        setImageURI(null)
+      })
+      .then(() => {
+        setLoading(false)
+      })
   }
 
   // Attach image as base64 format
@@ -91,51 +69,64 @@ const RecipeAddComment = (props) => {
         path: 'images',
         mediaType: 'photo',
       },
-      includeBase64: false
+      includeBase64: true
     };
     launchImageLibrary(options, response => {
       if (response.didCancel) {
         null
       } else {
         /* Save the image */
-        setImageURI({ uri: response.assets[0].uri })
+        setImageURI({ uri: response.assets[0].base64 })
+        return response
       }
+    }).then((response) => {
+      setDisplayImageURI({ uri: response.assets[0].uri })
     });
   };
 
   // Refresh control
   const [refreshing, setRefreshing] = useState(false);
+  const [bottomRefreshing, setBottomRefreshing] = useState(false);
 
   // On refresh comments
-  const refreshComments = async () => {
+  const refreshCommentsHandler = async () => {
     setRefreshing(true);
-    /* Retrieve comments */
-    const q = query(
-      collection(db, 'comments'),
-      where('recipeID', '==', recipeID),
-      orderBy('timestamp', 'desc'),
-      limit(5)
-    )
-    const querySnapshot = await getDocs(q)
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    getComments({ recipeID: recipeID })
+      .then((result) => {
+        if (result) {
+          setComments(result)
+          return result
+        }
+      }).then((result) => {
+        if (result.length > 0) {
+          setLastPostID(result[result.length - 1]);
+        } else {
+          setLastPostID(null);
+        }
+      }).then(() => {
+        setRefreshing(false)
+      })
+  };
 
-    /* Retrieve User details */
-    for (let i = 0; i < data.length; i++) {
-      const targetRecipe = data[i]
-      const docRef = doc(db, 'users', targetRecipe.userID)
-      const docSnap = await getDoc(docRef)
-      const tempData = docSnap.data();
-      targetRecipe.author = tempData.displayName
-      targetRecipe.profileImageURL = tempData.profileImageURL
-    }
-    setComments(data);
-    if (querySnapshot.docs.length > 0) {
-      setLastComment(querySnapshot.docs[querySnapshot.docs.length - 1]);
-    } else {
-      setLastComment(null);
-    }
-    setRefreshing(false)
-  }
+  // Get more comments
+  const getMoreCommentsHandler = () => {
+    if (!lastPostID) return;
+    setBottomRefreshing(true)
+    getRecipes({ lastPostID: lastPostID })
+      .then(result => {
+        setComments(prevState => {
+          return ([...prevState, ...result])
+        })
+        return result
+      })
+      .then(result => {
+        setLastPostID(result[result.length - 1].id)
+        setBottomRefreshing(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  };
 
   return (
     <>
@@ -146,12 +137,19 @@ const RecipeAddComment = (props) => {
           <FlashList
             data={comments}
             estimatedItemSize={500}
-            /* onEndReached={() => getMoreComments()} */
+            onEndReached={() => getMoreCommentsHandler()}
             onEndReachedThreshold={0.5}
+            ListFooterComponent={() => {
+              if (bottomRefreshing) {
+                return (<ActivityIndicator style={{ backgroundColor: '#000' }} />)
+              } else {
+                return (null)
+              }
+            }}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
-                onRefresh={() => refreshComments()} />
+                onRefresh={() => refreshCommentsHandler()} />
             }
             renderItem={({ item, index }) => {
               return (
@@ -172,10 +170,10 @@ const RecipeAddComment = (props) => {
         </View>
         {/* Bottom section with add comment component */}
         <View style={styles.bottomContainer}>
-          {imageURI != null ?
+          {displayImageURI != null ?
             <TouchableWithoutFeedback onPress={() => bottomSheetRef.current?.snapTo(1)} >
               <Image
-                source={imageURI}
+                source={displayImageURI}
                 borderRadius={8}
                 style={styles.image}
               />
@@ -214,7 +212,7 @@ const RecipeAddComment = (props) => {
         bottomSheetRef={bottomSheetRef}
         confirmDeleteRef={confirmDeleteRef}
         deleteFunction={() => {
-          setImageURI(null)
+          setDisplayImageURI(null)
           confirmDeleteRef.current?.snapTo(0)
         }}
         editFunction={() => {

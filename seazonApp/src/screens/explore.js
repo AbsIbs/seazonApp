@@ -49,13 +49,6 @@ const Explore = () => {
   const Example = () => {
     return (
       <>
-        <Text>Hello world</Text>
-        <TouchableOpacity
-          style={{ height: 100, width: 100, backgroundColor: 'red' }}
-          onPress={() => {
-            console.log(postRecipe())
-          }}>
-        </TouchableOpacity>
       </>
     )
   };

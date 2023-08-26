@@ -7,16 +7,14 @@ import uuid from 'react-native-uuid'
 import { getAuth } from "firebase/auth";
 import UserProfileImage from "../../../components/global/userProfileImage";
 
-// Firebase Firestore
-import { doc, getDoc, where, getDocs, collection, query, limit, orderBy } from "firebase/firestore/lite";
-import { db } from "../../../../firebase/firebase-config";
+// Backend Logic
+import { getComments } from "../../../logic/backendLogic/commentsBackendLogic";
 
+// UI components
 import Comment from "../../../components/global/comment";
 
 const RecipeViewerComments = (props) => {
-
 	const recipe = props.recipe
-
 	const navigation = useNavigation();
 
 	const auth = getAuth();
@@ -24,6 +22,7 @@ const RecipeViewerComments = (props) => {
 
 	// Store comments from database
 	const [comments, setComments] = useState([])
+	const [lastPostID, setLastPostID] = useState(null)
 
 	const CommentInput = () => {
 		return (
@@ -45,33 +44,19 @@ const RecipeViewerComments = (props) => {
 		)
 	};
 
-	// Load comments
-	const retrieveComments = async () => {
-		/* Retrieve comments */
-		const q = query(
-			collection(db, 'comments'),
-			where('recipeID', '==', recipe.recipeID),
-			orderBy('timestamp', 'desc'),
-			limit(5)
-		)
-		const querySnapshot = await getDocs(q)
-		const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-		/* Retrieve User details */
-		for (let i = 0; i < data.length; i++) {
-			const targetRecipe = data[i]
-			const docRef = doc(db, 'users', targetRecipe.userID)
-			const docSnap = await getDoc(docRef)
-			const tempData = docSnap.data();
-			targetRecipe.author = tempData.displayName
-			targetRecipe.profileImageURL = tempData.profileImageURL
-		}
-		setComments(data);
-	}
-
-	/* Retrieve Comments on page load */
+	// Retrieve Comments on page load
 	useEffect(() => {
-		retrieveComments()
+		getComments({
+			recipeID: recipe.recipeID,
+			lastPostID: lastPostID
+		})
+			.then((result) => {
+				if (result) {
+					setComments(result)
+					return result
+				}
+			})
+			.then((result) => console.log(result))
 	}, [])
 
 	return (
@@ -79,7 +64,11 @@ const RecipeViewerComments = (props) => {
 			<View style={{ flexDirection: 'row' }} >
 				<View style={{ flex: 1 }} >
 					<Text style={styles.header}>Comments</Text>
-					<Text style={styles.placeholder} >20 comments</Text>
+					{/* Render if there are no comments loaded */}
+					{comments.length > 0 ? (
+						<Text style={styles.placeholder} >{recipe.numComments}</Text>
+					) : null
+					}
 				</View>
 				<Pressable
 					hitSlop={5}
@@ -106,9 +95,9 @@ const RecipeViewerComments = (props) => {
 						userID={item.userID}
 						author={item.author}
 						profileImageURL={item.profileImageURL}
-						commentID={item.commentID}
+						id={item.id}
 						comment={item.comment}
-						coverImageURL={item.coverImageURL}
+						coverImage={item.coverImage}
 						edited={item.edited} />
 				)
 			})}

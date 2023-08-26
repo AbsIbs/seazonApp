@@ -79,14 +79,14 @@ const Comment = (props) => {
   const deleteComment = httpsCallable(functions, 'deleteComment')
   const deleteCommentHandler = () => {
     /* Set the path for the comment */
-    const commentPath = `comments/${props.commentID}`
+    const commentPath = `comments/${props.id}`
     /* Delete the comment document */
     deleteComment({ path: commentPath })
       .then((result) => {
         console.log('Delete sucess: ' + JSON.stringify(result))
         /* Then, delete the cover image for the comment */
         if (props.coverImageURL) {
-          const coverImageRef = ref(storage, `recipes/${props.recipeID}/comments/${props.commentID}/coverImage.jpg`)
+          const coverImageRef = ref(storage, `recipes/${props.recipeID}/comments/${props.id}/coverImage.jpg`)
           deleteObject(coverImageRef).then(() => {
             console.log('Cover image deleted sucessfully')
           })
@@ -135,7 +135,7 @@ const Comment = (props) => {
 
   // CHECKING THE NUMBER OF LIKES A COMMENT HAS
   // ---------------------------------------------------
-  // Create a state the store the number of likes
+/*   // Create a state the store the number of likes
   const [numberOfLikes, setNumberOfLikes] = useState()
   // Create a function to retrieve the number of likes
   const checkNumberOfLikes = async () => {
@@ -146,12 +146,12 @@ const Comment = (props) => {
   // We run the check when a comment is loaded
   useEffect(() => {
     checkNumberOfLikes()
-  }, [])
+  }, []) */
 
 
   // CHECKING TO SEE IF THE USER HAS LIKED THE COMMENT
   // Unique ID for the like
-  const likeID = uuid.v4()
+/*   const likeID = uuid.v4()
   // First, we set our like states to track if a comment has been liked
   const [liked, setLiked] = useState(null)
   // We create a separate reference for the likes subCollection
@@ -171,7 +171,7 @@ const Comment = (props) => {
   // We run this code when a comment is loaded
   useEffect(() => {
     checkDocumentExists()
-  }, [])
+  }, []) */
 
 
   // TOGGLING A LIKE
@@ -179,7 +179,7 @@ const Comment = (props) => {
   // The comment reference that creates a like sub-collection. We do it in this format so we can
   // create our own id for the newly created document using setDoc. The ID will be the userID. If we did not do this, we'd have
   // to use addDoc and that would let firebase create an automatically generated key
-  const userIDcommentDocRef = doc(db, 'comments', props.commentID, 'likes', props.userID)
+ /*  const userIDcommentDocRef = doc(db, 'comments', props.commentID, 'likes', props.userID)
   // Data to put posted in like document
   const likeData = {
     timestamp: serverTimestamp(),
@@ -204,7 +204,7 @@ const Comment = (props) => {
     }
     setLiked(!liked)
     console.log('Like toggled')
-  }
+  } */
 
   return (
     <>
@@ -222,19 +222,19 @@ const Comment = (props) => {
               <SimpleLineIcons name="options" color='#ffffff' size={20} style={{ paddingLeft: 10 }} />
             </Pressable>
           </View>
-          {props.coverImageURL ?
+          {props.coverImage ?
             <Image
               borderRadius={8}
-              source={{ uri: props.coverImageURL }}
+              source={{ uri: props.coverImage }}
               style={styles.image} /> : null}
           <CollapsibleTextView text={props.comment} maxLines={5} />
           <View style={styles.likeContainer}>
-            <Pressable onPress={() => toggleLike()} >
+{/*             <Pressable onPress={() => toggleLike()} >
               {liked ?
                 <FontAwesome name="thumbs-up" color={'#ffffff'} size={17.5} />
                 : <FontAwesome name="thumbs-o-up" color={'#ffffff'} size={17.5} />}
-            </Pressable>
-            <Text style={{ paddingLeft: 5, paddingRight: 20 }}>{numberOfLikes}</Text>
+            </Pressable> */}
+            {/* <Text style={{ paddingLeft: 5, paddingRight: 20 }}>{numberOfLikes}</Text> */}
           </View>
         </View>
       </View>
